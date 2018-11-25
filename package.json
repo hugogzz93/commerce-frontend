@@ -4,8 +4,9 @@
   "private": true,
   "dependencies": {
     "node-sass": "^4.10.0",
-    "react": "^16.6.3",
-    "react-dom": "^16.6.3",
+    "react": "^16.7.0-alpha.2",
+    "react-dom": "^16.7.0-alpha.2",
+    "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.1"
   },
   "scripts": {
@@ -22,5 +23,8 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "babel-plugin-react-html-attrs": "^2.1.0"
+  }
 }
