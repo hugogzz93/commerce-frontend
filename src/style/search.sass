@@ -1,2 +1,31 @@
-.searchBar
-  background: red
+@import 'app'
+@import 'mixins'
+
+.search__container
+  display: flex
+  flex-direction: column
+  align-items: center
+  vertical-align: middle
+
+.search__bar
+  @include responsiveSize(100%, 80%)
+  border: none
+  border-bottom: 1px solid #000
+  font-size: 22px
+  outline: none
+  padding: 1em
+  font-weight: 500
+  transition: all $tempo
+
+  &:hover, &:focus
+    border-bottom-width: 3px
+
+.search__list
+  @include responsiveSize(100%, 70%)
+
+.search__option
+  margin-bottom: 1em
+  box-shadow: 0 3px 6px #0004
+  padding: 16px
+
+

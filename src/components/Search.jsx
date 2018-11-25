@@ -1,15 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import SearchBar from './SearchBar';
 import '../style/search.sass';
 
 export default function Search(props) {
-  const [input, setInput] = useState('');
+  const [productOptions, setProductOptions] = useState(['car', 'dog'])
 
-  function handleSearchInput (event) {
-    setInput(event.target.value);
-  }
+  const productRows = productOptions.map((product, i) => (
+    <div key={i} className='search__option'>
+      {product}
+    </div>
+  ))
+
   return (
-    <div className='searchBar'>
-      <input value={input} onChange={handleSearchInput}/>
+    <div className='search__container'>
+      <SearchBar/>
+      <ol className='search__list'>
+        {productRows}
+      </ol>
     </div>
   )
+}
+
+const useProductOptions = () => {
 }
