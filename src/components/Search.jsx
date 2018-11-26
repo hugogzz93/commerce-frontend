@@ -3,9 +3,12 @@ import SearchBar from './SearchBar';
 import '../style/search.sass';
 import { sendAction } from '../lib/api';
 
-const query = `
+
+const buildQuery = (search) => `
   {
-    products {
+    products(search: {
+      name: "${search}"
+    }) {
       name
     }
   }
@@ -22,8 +25,9 @@ function Search(props) {
   ))
   
   useEffect(() => {
-    sendAction(query, { name: searchInput })
+    sendAction(buildQuery(searchInput))
       .then(res => {
+        console.log('effect')
         setProductOptions(res.products.map(p => p.name))
       })
   }, [searchInput])

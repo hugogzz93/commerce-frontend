@@ -7,6 +7,6 @@ export default function SearchBar(props) {
       <input
         className='search__bar'
         value={input}
-        onChange={inputHandler}/>
+        onChange={(e) => inputHandler(e.target.value)}/>
   )
 }
