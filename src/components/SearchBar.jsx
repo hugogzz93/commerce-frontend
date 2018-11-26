@@ -1,15 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 export default function SearchBar(props) {
-  const [input, setInput] = useState('');
+  const {input, inputHandler} = props;
 
-  function handleSearchInput (event) {
-    setInput(event.target.value);
-  }
   return (
       <input
         className='search__bar'
         value={input}
-        onChange={handleSearchInput}/>
+        onChange={inputHandler}/>
   )
 }
