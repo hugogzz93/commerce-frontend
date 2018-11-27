@@ -7,25 +7,57 @@
   align-items: center
   vertical-align: middle
 
+  &::before
+    // content: 'hello'
+    // background: #000
+    // height: 4px
+    // width: 0
+    // left: 0
+    // transition: all $tempo
+
 .search__bar
-  @include responsiveSize(100%, 80%)
+  @include responsiveSize(100%, 70%)
+  background: transparent
+  font-family: $font-family
   border: none
-  border-bottom: 1px solid #000
-  font-size: 22px
+  border-bottom: 4px solid #000
+  font-size: 6vw
   outline: none
-  padding: 1em
+  line-height: 1
+  padding: 0 0 0.1em 0
   font-weight: 500
+  margin-bottom: 0.4em
+
   transition: all $tempo
 
-  &:hover, &:focus
-    border-bottom-width: 3px
+
+
+  &:focus
+    border-bottom-width: 6px
+
+  &::placeholder
+    color: #969696
+    font-weight: 100
 
 .search__list
-  @include responsiveSize(100%, 70%)
+  @include responsiveSize(100%, 60%)
+  padding: 0
 
 .search__option
-  margin-bottom: 1em
-  box-shadow: 0 3px 6px #0004
+  margin-bottom: 5vh
+  box-shadow: 0 2px 4px #0005
   padding: 16px
+  background: white
+  min-height: 10rem
+  border: 1px solid #0001
+  font-size: 26px
+  font-weight: 700
+  color: #0008
+  transition: all $tempo
+
+  &:hover
+    box-shadow: 0 20px 25px #0002
+    transform: scale(1.1)
+
 
 

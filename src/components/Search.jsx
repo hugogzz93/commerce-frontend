@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import SearchBar from './SearchBar';
+import SearchOption from './SearchOption';
 import '../style/search.sass';
 import { sendAction } from '../lib/api';
 
@@ -15,13 +16,11 @@ const buildQuery = (search) => `
 `
 
 function Search(props) {
-  const [productOptions, setProductOptions] = useState(['car', 'dog'])
+  const [productOptions, setProductOptions] = useState([])
   const [searchInput, setSearchInput] = useState('')
 
   const productRows = productOptions.map((product, i) => (
-    <div key={i} className='search__option'>
-      {product}
-    </div>
+    <SearchOption title={product} key={i}/>
   ))
   
   useEffect(() => {
