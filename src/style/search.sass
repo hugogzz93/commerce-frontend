@@ -1,19 +1,12 @@
 @import 'app'
 @import 'mixins'
+@import './cards/card'
 
 .search__container
   display: flex
   flex-direction: column
   align-items: center
   vertical-align: middle
-
-  &::before
-    // content: 'hello'
-    // background: #000
-    // height: 4px
-    // width: 0
-    // left: 0
-    // transition: all $tempo
 
 .search__bar
   @include responsiveSize(100%, 70%)
@@ -27,7 +20,6 @@
   padding: 0 0 0.1em 0
   font-weight: 500
   margin-bottom: 0.4em
-
   transition: all $tempo
 
 
@@ -39,25 +31,24 @@
     color: #969696
     font-weight: 100
 
+
 .search__list
-  @include responsiveSize(100%, 60%)
+  @include responsiveSize(60%, 60%)
   padding: 0
 
 .search__option
+  @extend .card
   margin-bottom: 5vh
-  box-shadow: 0 2px 4px #0005
-  padding: 16px
-  background: white
   min-height: 10rem
-  border: 1px solid #0001
   font-size: 26px
   font-weight: 700
   color: #0008
-  transition: all $tempo
 
   &:hover
-    box-shadow: 0 20px 25px #0002
+    box-shadow: $shadow-high
     transform: scale(1.1)
+
+
 
 
 
