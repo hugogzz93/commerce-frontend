@@ -4,7 +4,7 @@ const SearchOption = (props) => {
   const { title, index, clickHandler } = props
 
   const onClick = () => {
-    clickHandler(index.toString())
+    clickHandler(index.toString(), title)
   }
 
   return(

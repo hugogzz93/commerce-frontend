@@ -46,10 +46,7 @@ const Index = (props) => {
   }, [title])
 
   return(
-    <div className='index__wrapper' >
-      <div className='index__title'>
-        {title}
-      </div>
+    <div className='index__container' >
       <div className='index__search-container'>
         <input className='index__search' placeholder='search'/>
         <i className='fas fa-search'></i>
