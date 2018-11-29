@@ -5,15 +5,18 @@
   display: grid
   grid-template-columns: repeat(12, 1fr)
 
-.index__content-list
+.index__content-list, .index__detail
   border-top: 1px solid #e2e4ef
-  margin-top: .5rem
+  margin: .5rem 1rem
+  box-sizing: border-box
 
 .index__content-list, .index__search-container
   grid-column: 1 / span 4
+  @media (max-width: $break-medium)
+    grid-column: span 12
 
 .index__detail, .index__detail-title
-  grid-column: span 6
+  grid-column: 5 / span 7
 
 .index__search-container
   display: flex

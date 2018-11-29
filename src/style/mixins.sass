@@ -2,10 +2,14 @@
 
 @mixin responsiveSize($small, $large)
   width: $large
-  @media (max-width: $break-small)
+  @media (max-width: $break-medium)
     width: $small
+
+@mixin responsiveColumn($small, $large)
+  grid-column: span $large
+  @media (max-width: $break-medium)
+    grid-column: span $small
 
 @mixin highlight-shadow($shadow, $scale)
   box-shadow: $shadow
   transform: scale($scale)
-
