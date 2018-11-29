@@ -3,9 +3,10 @@ import {  BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import logo from './logo.svg';
 import './App.sass';
 import Search from './components/Search'
+import ThumbCard from './components/cards/ThumbCard'
 
 const Root = (props) => (
-  <div className="app">
+  <div className="app content">
     <header className="App-header">
       <img src={logo} className="App-logo" alt="logo" />
       <p>

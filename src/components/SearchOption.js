@@ -1,10 +1,14 @@
 import React, { Component } from 'react'
 
 const SearchOption = (props) => {
-  const { title, key } = props
+  const { title, index, clickHandler } = props
+
+  const onClick = () => {
+    clickHandler(index.toString())
+  }
 
   return(
-    <div key={key} className='search__option'>
+    <div key={index} className='search__option fade-in' onClick={onClick}>
       {title}
     </div>
   )

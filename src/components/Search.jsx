@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import SearchBar from './SearchBar';
 import SearchOption from './SearchOption';
+import Index from './Index';
 import '../style/search.sass';
 import { sendAction } from '../lib/api';
 
@@ -18,9 +19,14 @@ const buildQuery = (search) => `
 function Search(props) {
   const [productOptions, setProductOptions] = useState([])
   const [searchInput, setSearchInput] = useState('')
+  const [selectedOption, setSelected] = useState(null)
+
+  const handleOnClick = (key) => {
+    setSelected(key)
+  }
 
   const productRows = productOptions.map((product, i) => (
-    <SearchOption title={product} key={i}/>
+    <SearchOption title={product} key={i} index={i} clickHandler={handleOnClick}/>
   ))
   
   useEffect(() => {
@@ -31,13 +37,22 @@ function Search(props) {
       })
   }, [searchInput])
 
-  return (
-    <div className='search__container'>
+  const body = selectedOption ? (
+    <Index title={productOptions[selectedOption]}/>
+  ) : (
+    <div className={`search__container ${selectedOption ? 'selected' : ''}`} >
       <SearchBar input={searchInput} inputHandler={setSearchInput} />
-      <ol className='search__list'>
+      {selectedOption}
+      <ol className='search__list fade-in-list'>
         {productRows}
       </ol>
     </div>
+  )
+
+  return (
+  <div className='content'>
+    {body}
+  </div>
   )
 }
 

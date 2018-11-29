@@ -1,1 +1,50 @@
-@import 'app.sass'
+@import 'app'
+
+.index__wrapper
+  padding-left: 5% 
+  display: grid
+  grid-template-columns: repeat(12, 1fr)
+
+.index__content-list
+  border-top: 1px solid #e2e4ef
+  margin-top: .5rem
+
+.index__content-list, .index__search-container
+  grid-column: 1 / span 4
+
+.index__detail, .index__detail-title
+  grid-column: span 6
+
+.index__search-container
+  display: flex
+  margin: 1rem
+  align-items: center
+
+.index__search
+  @extend .c__input
+  order: 2
+  margin-left: 0.25rem
+  font-size: $font-size
+  color: $black
+  font-weight: 500
+  position: relative
+  border-bottom: 1px solid transparent
+
+  transition: all $tempo
+
+  &::placeholder
+    color: $gray
+
+  &:focus
+    font-size: 22px
+    margin-left: 1rem
+    color: black
+    border-bottom: 3px solid $black
+
+.index__search ~ .fas
+  order: 1
+  transition: all $tempo
+
+
+.index__search:focus ~ .fas
+  font-size: 22px

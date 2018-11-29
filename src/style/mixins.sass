@@ -1,4 +1,11 @@
+@import './variables'
+
 @mixin responsiveSize($small, $large)
   width: $large
   @media (max-width: $break-small)
     width: $small
+
+@mixin highlight-shadow($shadow, $scale)
+  box-shadow: $shadow
+  transform: scale($scale)
+

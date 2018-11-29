@@ -5,6 +5,11 @@
   box-shadow: $shadow-1 
   padding: 3%
   box-sizing: border-box
-  transition: all $tempo cubic-bezier(.25,.8,.25,1)
+  transition: all $tempo $bezier-curve
+  margin: 1vmax 0
+  z-index: 1
+
+  &:hover
+    z-index: 2
 
 
