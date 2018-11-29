@@ -14,22 +14,16 @@ const buildItemQuery = ({name}) => `
   }
 `
 
-const buildDetailQuery = ({id}) => `
-  {
-    users(search: {
-      id: "${id}"
-    }) {
-      name
-    }
-  }
-`
-
 const Index = (props) => {
   const [options, setOptions] = useState([])
   const [detail, setDetail] = useState({})
   const [filter, setFilter] = useState({name: ''})
   const { title } = props
   const selectedItem = 0
+
+  const handleSearchChange = (event) => {
+    setFilter({...filter, name: event.target.value})
+  }
 
   const indexItems = options.map((option, i) => (
     <div className='index__item fade-in' key={i}>
@@ -41,14 +35,19 @@ const Index = (props) => {
   ))
 
   useEffect(() => {
-    sendAction(buildItemQuery({name: filter.name}))
+    sendAction(buildItemQuery(filter))
       .then(res => setOptions(res.users))
-  }, [title])
+  }, [title, filter])
 
   return(
     <div className='index__container' >
       <div className='index__search-container'>
-        <input className='index__search' placeholder='search'/>
+        <input 
+          className='index__search'
+          placeholder='search'
+          value={filter.name}
+          onChange={ handleSearchChange }
+        />
         <i className='fas fa-search'></i>
       </div>
       <div className='index__content-list fade-in-list'>
