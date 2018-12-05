@@ -1,15 +1,19 @@
 import React, { Component, useEffect, useState } from 'react'
+import gql from 'graphql-tag'
 import { sendAction } from '../lib/api'
 import ThumbCard from './cards/ThumbCard'
 import '../style/index.sass'
 
-const buildItemQuery = ({name}) => `
-  {
-    users(search: {
-      name: "${name}"
+const GET_USERS_FOR_PRODUCT = gql`
+  query GetUsersForProduct($product_id: ID!, $userName: String) {
+    products(productQuery: {
+      id: $product_id,
+      userQuery: { name: $userName }
     }) {
-      title: name
-      subtitle: id
+      users {
+        title: name
+        subtitle: id
+      }
     }
   }
 `
@@ -18,25 +22,33 @@ const Index = (props) => {
   const [options, setOptions] = useState([])
   const [detail, setDetail] = useState({})
   const [filter, setFilter] = useState({name: ''})
-  const { title } = props
+  const { product: {title, id} } = props
   const selectedItem = 0
 
   const handleSearchChange = (event) => {
     setFilter({...filter, name: event.target.value})
   }
 
-  const indexItems = options.map((option, i) => (
+  const indexItems = options.map(({title, subtitle}, i) => (
     <div className='index__item fade-in' key={i}>
       <ThumbCard 
-        title={option.title}
-        subtitle={option.subtitle} 
+        title={title}
+        subtitle={subtitle} 
       />
     </div>
   ))
 
   useEffect(() => {
-    sendAction(buildItemQuery(filter))
-      .then(res => setOptions(res.users))
+    sendAction({
+      query: GET_USERS_FOR_PRODUCT,
+      variables: {
+        product_id: id,
+        userName: filter.name
+      }
+    })
+      .then(res => {
+        setOptions(res.data.products[0].users)
+      })
   }, [title, filter])
 
   return(

@@ -1,23 +1,25 @@
 import React, { useState, useEffect } from 'react';
+import gql from 'graphql-tag';
 import SearchBar from './SearchBar';
 import SearchOption from './SearchOption';
 import Index from './Index';
 import { sendAction } from '../lib/api';
+
 
 import '../style/search.sass';
 import '../style/transitions/indexTransition.sass';
 
 
 
-const buildQuery = (search) => `
+const GET_PRODUCTS = gql`
+  query GetProducts($name: String)
   {
-    products(search: {
-      name: "${search}"
-    }) {
-      name
+    products(productQuery: {name: $name}) {
+      title: name
+      id
     }
   }
-`
+`;
 
 function Search(props) {
   const [productOptions, setProductOptions] = useState([])
@@ -35,15 +37,19 @@ function Search(props) {
     setSearchInput(value)
   }
 
-  const productRows = productOptions.map((product, i) => (
-    <SearchOption title={product} key={i} index={i} clickHandler={handleOnClick}/>
+  const productRows = productOptions.map(({title, id}, i) => (
+    <SearchOption title={title} key={id} index={id} clickHandler={handleOnClick}/>
   ))
 
   useEffect(() => {
     if(selectedOption) return
-    sendAction(buildQuery(searchInput))
+    sendAction({ 
+      query: GET_PRODUCTS,
+      variables: {
+        name: searchInput
+      }})
       .then(res => {
-        setProductOptions(res.products.map(p => p.name))
+        setProductOptions(res.data.products)
       })
 
   }, [searchInput])
@@ -56,7 +62,7 @@ function Search(props) {
         {productRows}
       </ol>
     </div>
-    { selectedOption && <Index title={productOptions[selectedOption]}/>}
+    { selectedOption && <Index product={productOptions[selectedOption]}/>}
   </div>
   )
 }
