@@ -2,6 +2,7 @@ import React, { Component, useEffect, useState } from 'react'
 import gql from 'graphql-tag'
 import { sendAction } from '../lib/api'
 import ThumbCard from './cards/ThumbCard'
+import ImageCard from './cards/ImageCard'
 import '../style/index.sass'
 
 const GET_USERS_FOR_PRODUCT = gql`
@@ -66,7 +67,10 @@ const Index = (props) => {
         {indexItems}
       </div>
       <div className='index__detail'>
-        {/* {detail} */}
+        <ImageCard 
+          source="https://getmdl.io/assets/demos/image_card.jpg" 
+          alt="demo"
+        />
       </div>
     </div>
   )
