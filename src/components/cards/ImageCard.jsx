@@ -7,8 +7,7 @@ const ImageTag = ({source, alt}) => {
       className="image-card"
       alt={alt}
       style={{backgroundImage: `url( ${source} )`}}
-    >
-    </div>
+    > </div>
   )
 }
 

@@ -26,6 +26,15 @@ body
 .gradient--purple
   background-image: $purpleGradient
 
+@for $i from 1 through 12 
+  .grid-#{$i}
+    display: grid
+    grid-template-columns: repeat(#{$i}, 1fr)
+
+@for $i from 1 through 12
+  .col-#{$i}
+    grid-column: span $i
+
 .fade-in
   opacity: 0
   animation-fill-mode: forwards
@@ -43,3 +52,5 @@ body
   to
     opacity: 1
     transform: translate(0,0)
+
+
