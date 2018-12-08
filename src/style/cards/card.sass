@@ -8,9 +8,17 @@
   transition: all $tempo $bezier-curve
   margin: 1vmax 0
   z-index: 1
+  color: var(--strong)
 
   &:hover
     z-index: 2
+
+.card--selected.card--selected
+  --strong: white
+  --weak: $gray
+  background: $orangeGradient
+  box-shadow: 0 3px 8px $g__orange
+  border: 1px solid #0003
 
 .cn__vertical
   display: flex

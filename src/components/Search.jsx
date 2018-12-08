@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import gql from 'graphql-tag';
 import SearchBar from './SearchBar';
 import SearchOption from './SearchOption';
@@ -22,13 +22,14 @@ const GET_PRODUCTS = gql`
 `;
 
 function Search(props) {
-  const [productOptions, setProductOptions] = useState([])
+  const [searchOptions, setSearchOptions] = useState([])
   const [searchInput, setSearchInput] = useState('')
   const [selectedOption, setSelected] = useState(null)
+  const [optionCursor, setOptionCursor] = useState(0)
 
   const handleOnClick = (key, name) => {
-    setSearchInput(name)
     setSelected(key)
+    setSearchInput(name)
   }
 
   const searchHandler = (value) => {
@@ -37,32 +38,62 @@ function Search(props) {
     setSearchInput(value)
   }
 
-  const productRows = productOptions.map(({title, id}, i) => (
-    <SearchOption title={title} key={id} index={id} clickHandler={handleOnClick}/>
+  const searchRows = searchOptions.map(({title, id}, i) => (
+    <SearchOption
+      title={title}
+      key={id}
+      index={id}
+      clickHandler={handleOnClick}
+      selected={optionCursor == i ? true : false}
+    />
   ))
+
+
+  useEffect(() => {
+    const handleKeys = e => {
+      switch(e.which) {
+        case 40:
+          setOptionCursor(( optionCursor + 1 + searchOptions.length ) % searchOptions.length)
+          break
+
+        case 38:
+          setOptionCursor(( optionCursor - 1  + searchOptions.length) % searchOptions.length)
+          break
+        
+        case 13:
+          const {id, title} = searchOptions[optionCursor]
+          handleOnClick(id, title)
+      }
+
+    }
+    window.addEventListener('keydown', handleKeys )
+    return () => window.removeEventListener('keydown', handleKeys)
+  }, [optionCursor, searchOptions])
 
   useEffect(() => {
     if(selectedOption) return
+    setOptionCursor(0)
     sendAction({ 
       query: GET_PRODUCTS,
       variables: {
         name: searchInput
       }})
       .then(res => {
-        setProductOptions(res.data.products)
+        setSearchOptions(res.data.products)
       })
 
-  }, [searchInput])
+  }, [searchInput, selectedOption])
 
   return (
   <div className={`content ${selectedOption ? 'index-shown' : 'search-shown'}`}>
     <div className='search__container'>
       <SearchBar input={searchInput} inputHandler={searchHandler} />
-      <ol className='search__list fade-in-list'>
-        {productRows}
-      </ol>
+      {searchOptions.lenght}
+      <div className='search__list fade-in-list'>
+        {searchRows}
+      </div>
     </div>
-    { selectedOption && <Index product={productOptions[selectedOption]}/>}
+    { selectedOption && <Index product={searchOptions[selectedOption]}/>}
   </div>
   )
 }

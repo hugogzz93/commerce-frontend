@@ -24,6 +24,7 @@ const Index = (props) => {
   const [options, setOptions] = useState([])
   const [detail, setDetail] = useState({})
   const [filter, setFilter] = useState({name: ''})
+  const [ optionCursor, setOptionCursor ] = useState(0)
   const { product: {title, id} } = props
   const selectedItem = 0
 
@@ -35,7 +36,8 @@ const Index = (props) => {
     <div className='index__item fade-in' key={i}>
       <ThumbCard 
         title={title}
-        subtitle={subtitle} 
+        subtitle={subtitle}
+        selected={optionCursor == i ? true : false}
       />
     </div>
   ))
@@ -52,6 +54,23 @@ const Index = (props) => {
         setOptions(res.data.products[0].users)
       })
   }, [title, filter])
+
+  useEffect(() => {
+    const handleKeys = e => {
+      switch(e.which) {
+        case 40:
+          setOptionCursor(( optionCursor + 1 + options.length ) % options.length)
+          break
+
+        case 38:
+          setOptionCursor(( optionCursor - 1  + options.length) % options.length)
+          break
+      }
+    }
+
+    window.addEventListener('keydown', handleKeys )
+    return () => window.removeEventListener('keydown', handleKeys)
+  })
 
   return(
     <div className='index__container' >

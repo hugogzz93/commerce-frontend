@@ -1,5 +1,8 @@
 @import './variables'
 
+@mixin shadow-high-colored($sec-color, $main-color)
+  box-shadow: 0 14px 28px $sec-color, 0 10px 10px $main-color
+
 @mixin responsiveSize($small, $large)
   width: $large
   @media (max-width: $break-medium)

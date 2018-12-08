@@ -51,19 +51,19 @@ const IndexDetail = (props) => {
           Aspernatur quibusdam architecto velit necessitatibus.
         </p>
         <div className="cn__row">
-          <div class="text__pair--ver">
-            <div class="text__key">Locations</div>
-            <div class="text__value">Based in Iceland</div>
+          <div className="text__pair--ver">
+            <div className="text__key">Locations</div>
+            <div className="text__value">Based in Iceland</div>
           </div>
         </div><div className="cn__row">
-          <div class="text__pair--ver">
-            <div class="text__key">Locations</div>
-            <div class="text__value">Based in Iceland</div>
+          <div className="text__pair--ver">
+            <div className="text__key">Locations</div>
+            <div className="text__value">Based in Iceland</div>
           </div>
         </div><div className="cn__row">
-          <div class="text__pair--ver">
-            <div class="text__key">Locations</div>
-            <div class="text__value">Based in Iceland</div>
+          <div className="text__pair--ver">
+            <div className="text__key">Locations</div>
+            <div className="text__value">Based in Iceland</div>
           </div>
         </div>
       </div>
