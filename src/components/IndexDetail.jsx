@@ -12,20 +12,61 @@ const images = [
 const IndexDetail = (props) => {
 
   const createImages = (size) => images.map((url, i) => (
-    <div className={`col-${size}`} key={i} style={{padding: '0 3%', height: '15rem'}}>
+    <div className={`col-${size} index_detail__ic--sm`} key={i}>
       <ImageCard source={url}/>
     </div>
   ))
 
   return(
     <div className="index__detail grid-12">
-      <div className="image-row grid-12 col-12">
-          {createImages(3)}
+      <div className="grid-12 col-8">
+        <div className="image-row grid-12 col-12">
+            {createImages(3)}
+        </div>
+        <div className="image-row grid-12 col-12">
+            {createImages(4)}
+        </div>
       </div>
-      <div className="image-row grid-12 col-12">
-          {createImages(4)}
+      <div className="cn--vertical col-4 index__detail-profile">
+        <div className="index-detail__profile-pic">
+          <ImageCard source={images[0]} />
+        </div>
+        <div className="title">Benjamin Hardman</div>
+        <div className="cn__row">
+          <div className="text__pair ">
+            <div className="text__key">882</div>
+            <div className="text__value">Photos</div>
+          </div>
+          <div className="text__pair ">
+            <div className="text__key">882</div>
+            <div className="text__value">Follower</div>
+          </div>
+        </div>
+        <p>
+          Elita ad hic voluptatem temporibus quod dolor Corporis omnis nemo placeat reprehenderit sapiente odio odit?
+          Aspernatur quibusdam architecto velit necessitatibus.
+        </p>
+        <p>
+          Elita ad hic voluptatem temporibus quod dolor Corporis omnis nemo placeat reprehenderit sapiente odio odit?
+          Aspernatur quibusdam architecto velit necessitatibus.
+        </p>
+        <div className="cn__row">
+          <div class="text__pair--ver">
+            <div class="text__key">Locations</div>
+            <div class="text__value">Based in Iceland</div>
+          </div>
+        </div><div className="cn__row">
+          <div class="text__pair--ver">
+            <div class="text__key">Locations</div>
+            <div class="text__value">Based in Iceland</div>
+          </div>
+        </div><div className="cn__row">
+          <div class="text__pair--ver">
+            <div class="text__key">Locations</div>
+            <div class="text__value">Based in Iceland</div>
+          </div>
+        </div>
       </div>
-
     </div>
   )
 }
