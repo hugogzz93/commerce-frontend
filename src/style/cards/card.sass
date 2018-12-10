@@ -1,17 +1,17 @@
 @import '../variables'
-.card
+.card, .card--no-bg
   background: #fff
   border-radius: 2px
   box-shadow: $shadow-1 
   padding: 3%
   box-sizing: border-box
   transition: all $tempo $bezier-curve
-  margin: 1vmax 0
-  z-index: 1
   color: var(--strong)
 
-  &:hover
-    z-index: 2
+.card--no-bg
+  background: transparent
+  box-shadow: none
+
 
 .card--selected.card--selected
   --strong: white

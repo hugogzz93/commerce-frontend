@@ -44,10 +44,17 @@
     color: black
     border-bottom: 3px solid $black
 
+.index__item
+  position: relative
+  margin-bottom: .75rem
+  z-index: 1
+
+  &:hover
+    z-index: 2
+
 .index__search ~ .fas
   order: 1
   transition: all $tempo
-
 
 .index__search:focus ~ .fas
   font-size: 22px
