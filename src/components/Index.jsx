@@ -1,6 +1,6 @@
 import React, { Component, useEffect, useState } from 'react'
 import gql from 'graphql-tag'
-import { sendAction } from '../lib/api'
+import { sendQuery } from '../lib/api'
 import ThumbCard from './cards/ThumbCard'
 import ImageCard from './cards/ImageCard'
 import IndexDetail from './IndexDetail'
@@ -43,7 +43,7 @@ const Index = (props) => {
   ))
 
   useEffect(() => {
-    sendAction({
+    sendQuery({
       query: GET_USERS_FOR_PRODUCT,
       variables: {
         product_id: id,

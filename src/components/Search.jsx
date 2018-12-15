@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 import SearchBar from './SearchBar';
 import SearchOption from './SearchOption';
 import Index from './Index';
-import { sendAction } from '../lib/api';
+import { sendQuery } from '../lib/api';
 
 
 import '../style/search.sass';
@@ -73,7 +73,7 @@ function Search(props) {
   useEffect(() => {
     if(selectedOption) return
     setOptionCursor(0)
-    sendAction({ 
+    sendQuery({ 
       query: GET_PRODUCTS,
       variables: {
         name: searchInput

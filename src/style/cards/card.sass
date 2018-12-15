@@ -1,17 +1,20 @@
 @import '../variables'
-.card, .card--no-bg
-  background: #fff
+  
+%__card
   border-radius: 2px
   box-shadow: $shadow-1 
   padding: 3%
   box-sizing: border-box
   transition: all $tempo $bezier-curve
+  
+.card, .card--no-bg
+  @extend %__card
+  background: #fff
   color: var(--strong)
 
 .card--no-bg
   background: transparent
   box-shadow: none
-
 
 .card--selected.card--selected
   --strong: white
@@ -28,3 +31,56 @@
 .cn__row
   display: flex
   margin: 1rem 0
+
+.modal
+  @extend %__card
+  --theme: #fa7354
+  background: var(--theme)
+  border-radius: 2px
+  position: fixed
+  z-index: 1
+  top: 100px
+  right: 105px
+  max-height: 100vh
+  max-width: 45vw
+  box-shadow: 0 0 40px -10px #0005
+  transition: all $tempo $bezier-curve, max-height 0.7s $bezier-curve, max-width 1s $bezier-curve
+
+  .modal__item
+    width: 95%
+    margin: auto
+    padding: 20px 0
+    font-size: 18px
+
+    &:not(:last-child)
+      margin-bottom: 20px
+
+  input
+    color: var(--theme)
+    text-align: center
+    background: white
+    opacity: 1
+    transition: all $tempo $bezier-curve
+
+
+  .modal__button
+    border: 1px solid white
+    background: var(--theme)
+    color: white
+    margin-left: 0
+    margin-right: 0
+    text-align: center
+    cursor: pointer
+
+
+
+
+.modal--inactive
+  max-height: 0
+  max-width: 0
+  padding: 0
+  overflow: hidden
+
+  input
+    opacity: 0
+
