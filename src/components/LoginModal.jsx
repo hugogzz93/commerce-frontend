@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react'
 import gql from 'graphql-tag'
 import { sendMutation } from '../lib/api'
 import '../style/LoginModal.sass'
-import { SessionContext } from '../SessionContext'
+import { connect } from 'react-redux'
+import { updateSession } from '../lib/actions'
 
 const LOG_IN = gql`
   mutation LogIn( $email: String!, $password: String! ) {
@@ -15,26 +16,22 @@ const LOG_IN = gql`
 `
 
 const LoginModal = (props) => {
+  const [email, setEmail] = useState(props.session.email)
+  const [password, setPassword] = useState('')
 
+  const HandleLogIn = () => {
+    sendMutation({
+      mutation: LOG_IN,
+      variables: { email, password }
+    }).then(res => {
+      props.dispatch(updateSession(res.data.login))
+    })
+  }
 
-  return (
-  <SessionContext.Consumer>
-    {({auth_token, setSessionState}) => {
-      const [email, setEmail] = useState('')
-      const [password, setPassword] = useState('')
-
-      const LogIn = () => {
-        sendMutation({
-          mutation: LOG_IN,
-          variables: {email, password}
-        }).then(res => {
-          debugger
-          //
-          // setSessionState({auth_token})
-        })
-      }
-
-      return <div className={`modal ${props.active ? '' : 'modal--inactive'}`}>
+  const body = props.session.auth_token ?
+    <div class="modal__item modal__button">{props.session.email}</div>
+    : (
+      <React.Fragment>
         <input
           className="modal__item c__input"
           type="text" value={email}
@@ -44,11 +41,18 @@ const LoginModal = (props) => {
           type="password"
           value={password}
           onChange={e => setPassword(e.target.value)} />
-        <div className="modal__item modal__button" onClick={LogIn}>Sign In</div>
-      </div>
-    }}
-  </SessionContext.Consumer>
+        <div className="modal__item modal__button" onClick={HandleLogIn}>Sign In</div>
+      </React.Fragment>
+    )
 
+  return (
+    <div className={`modal ${props.active ? '' : 'modal--inactive'}`}>
+      {body}
+    </div>
   )
 }
-export default LoginModal
+
+export default connect((state) => ({
+  session: state.sessionReducer
+}))(LoginModal)
+
