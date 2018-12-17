@@ -1,6 +1,6 @@
 import { call, takeLatest, takeEvery, all, put } from 'redux-saga/effects'
 import { createAction, createReducer } from 'redux-act'
-import { login } from '../services/Authentication'
+import { login, setAuthToken } from '../services/Authentication'
 
 export const checkLoggedInAction = createAction('CHECK_LOGGED_IN')
 export const loginAction = createAction('LOGIN')
@@ -11,7 +11,9 @@ const loginSaga = function *(action) {
   try {
     const response = yield call(login, action.payload)
     if(response.data.login) {
-      yield put(setLoginDetail(response.data.login))
+      const user = response.data.login
+      yield call(setAuthToken, user.auth_token)
+      yield put(setLoginDetail(user))
     } else {
       yield put(setLoginFailed())
     }
