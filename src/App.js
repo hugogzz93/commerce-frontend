@@ -4,7 +4,7 @@ import logo from './logo.svg';
 import './App.sass';
 import Search from './components/Search'
 import ThumbCard from './components/cards/ThumbCard'
-import LoginModal from './components/LoginModal'
+import Login from './components/Login/index'
 import NavBar from './components/NavBar'
 
 
@@ -32,7 +32,7 @@ const Root = (props) => (
 class App extends Component {
   constructor(props) {
     super(props)
-    this.state = {loginModalActive: false}
+    this.state = {loginModalActive: true}
     this.loginModalToggle = this.loginModalToggle.bind(this)
   }
 
@@ -46,7 +46,7 @@ class App extends Component {
       <Router>
         <div className='app_wrapper'>
           <NavBar loginIconHandler={this.loginModalToggle}/>
-          <LoginModal active={this.state.loginModalActive} />
+          <Login active={this.state.loginModalActive} />
           {/* <Link to='/search'> */}
           {/*   Search */}
           {/* </Link> */}
