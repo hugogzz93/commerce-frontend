@@ -1,14 +1,12 @@
 import React, { Component, createContext } from 'react';
 import {  BrowserRouter as Router, Route, Link } from 'react-router-dom'
-import logo from './logo.svg';
+import logo from '../../logo.svg';
 import './App.sass';
-import Search from './components/Search'
-import ThumbCard from './components/cards/ThumbCard'
-import Login from './components/Login/index'
-import NavBar from './components/NavBar'
+import Search from '../Search'
+import ThumbCard from '../cards/ThumbCard'
+import Login from '../Login/index'
+import NavBar from '../NavBar'
 
-
-const SessionContext = createContext({auth_token: null, setAuthToken: () => {}})
 
 const Root = (props) => (
   <div className="app content">
@@ -34,6 +32,10 @@ class App extends Component {
     super(props)
     this.state = {loginModalActive: true}
     this.loginModalToggle = this.loginModalToggle.bind(this)
+  }
+
+  componentWillMount() {
+    this.props.checkLoggedIn()
   }
 
   loginModalToggle() {

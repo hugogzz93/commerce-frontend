@@ -5,8 +5,9 @@ export default (props) => {
   const [email, setEmail] = useState(user.email || '')
   const [password, setPassword] = useState('')
 
+
   const body = props.user.auth_token ?
-    <div className="modal__item modal__button">{email}</div>
+    <div className="modal__item modal__button">{props.user.email}</div>
     : (
       <React.Fragment>
         <input

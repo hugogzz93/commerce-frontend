@@ -9,3 +9,13 @@ export const LOG_IN_MUTATION = gql`
     }
   }
 `
+
+export const LOG_IN_JWT_QUERY = gql`
+  query LogInJWT($auth_token: String!) {
+    loginJWT(auth_token: $auth_token) {
+      name
+      email
+      auth_token
+    }
+  }
+`
