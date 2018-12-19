@@ -1,24 +1,7 @@
 import React, { Component, useEffect, useState } from 'react'
-import gql from 'graphql-tag'
-import { sendQuery } from '../lib/api'
-import ThumbCard from './cards/ThumbCard'
-import ImageCard from './cards/ImageCard'
-import IndexDetail from './IndexDetail'
-import '../style/index.sass'
-
-const GET_USERS_FOR_PRODUCT = gql`
-  query GetUsersForProduct($product_id: ID!, $userName: String) {
-    products(productQuery: {
-      id: $product_id,
-      userQuery: { name: $userName }
-    }) {
-      users {
-        title: name
-        subtitle: id
-      }
-    }
-  }
-`
+import ThumbCard from '../cards/ThumbCard'
+import ImageCard from '../cards/ImageCard'
+import IndexDetail from '../IndexDetail/index'
 
 const Index = (props) => {
   const [options, setOptions] = useState([])
@@ -26,7 +9,6 @@ const Index = (props) => {
   const [filter, setFilter] = useState({name: ''})
   const [ optionCursor, setOptionCursor ] = useState(0)
   const { product: {title, id} } = props
-  const selectedItem = 0
 
   const handleSearchChange = (event) => {
     setFilter({...filter, name: event.target.value})
@@ -43,16 +25,9 @@ const Index = (props) => {
   ))
 
   useEffect(() => {
-    sendQuery({
-      query: GET_USERS_FOR_PRODUCT,
-      variables: {
-        product_id: id,
-        userName: filter.name
-      }
+    props.getUsersForProduct(id, filter).then(res => {
+      setOptions(res.data.products[0].users)
     })
-      .then(res => {
-        setOptions(res.data.products[0].users)
-      })
   }, [title, filter])
 
   useEffect(() => {
@@ -86,7 +61,7 @@ const Index = (props) => {
       <div className='index__content-list fade-in-list'>
         {indexItems}
       </div>
-      <IndexDetail />
+      { options[optionCursor] && <IndexDetail id={options[optionCursor].id} />}
     </div>
   )
 }

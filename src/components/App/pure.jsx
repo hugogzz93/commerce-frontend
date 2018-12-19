@@ -1,11 +1,11 @@
-import React, { Component, createContext } from 'react';
+import React, { Component } from 'react';
 import {  BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import logo from '../../logo.svg';
 import './App.sass';
 import Search from '../Search'
 import ThumbCard from '../cards/ThumbCard'
 import Login from '../Login/index'
-import NavBar from '../NavBar'
+import NavBar from '../NavBar/index'
 
 
 const Root = (props) => (
@@ -34,7 +34,7 @@ class App extends Component {
     this.loginModalToggle = this.loginModalToggle.bind(this)
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.checkLoggedIn()
   }
 
@@ -48,7 +48,7 @@ class App extends Component {
       <Router>
         <div className='app_wrapper'>
           <NavBar loginIconHandler={this.loginModalToggle}/>
-          <Login active={this.state.loginModalActive} />
+          {!!this.state.email && <Login active={this.state.loginModalActive} /> }
           {/* <Link to='/search'> */}
           {/*   Search */}
           {/* </Link> */}

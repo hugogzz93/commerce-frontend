@@ -1,25 +1,7 @@
 import React, { useState, useEffect, useReducer } from 'react';
-import gql from 'graphql-tag';
-import SearchBar from './SearchBar';
-import SearchOption from './SearchOption';
-import Index from './Index';
-import { sendQuery } from '../lib/api';
-
-
-import '../style/search.sass';
-import '../style/transitions/indexTransition.sass';
-
-
-
-const GET_PRODUCTS = gql`
-  query GetProducts($name: String)
-  {
-    products(productQuery: {name: $name}) {
-      title: name
-      id
-    }
-  }
-`;
+import SearchBar from '../SearchBar';
+import SearchOption from '../SearchOption';
+import Index from '../Index/index';
 
 function Search(props) {
   const [searchOptions, setSearchOptions] = useState([])
@@ -50,6 +32,7 @@ function Search(props) {
 
 
   useEffect(() => {
+    if(selectedOption) return
     const handleKeys = e => {
       switch(e.which) {
         case 40:
@@ -59,7 +42,7 @@ function Search(props) {
         case 38:
           setOptionCursor(( optionCursor - 1  + searchOptions.length) % searchOptions.length)
           break
-        
+
         case 13:
           const {id, title} = searchOptions[optionCursor]
           handleOnClick(id, title)
@@ -73,14 +56,11 @@ function Search(props) {
   useEffect(() => {
     if(selectedOption) return
     setOptionCursor(0)
-    sendQuery({ 
-      query: GET_PRODUCTS,
-      variables: {
-        name: searchInput
-      }})
-      .then(res => {
-        setSearchOptions(res.data.products)
-      })
+    props.getProducts({
+      name: searchInput
+    }).then(res => {
+      setSearchOptions(res.data.products)
+    })
 
   }, [searchInput, selectedOption])
 

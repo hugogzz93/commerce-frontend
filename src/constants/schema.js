@@ -19,3 +19,29 @@ export const LOG_IN_JWT_QUERY = gql`
     }
   }
 `
+export const GET_USERS_FOR_PRODUCT = gql`
+  query GetUsersForProduct($product_id: ID!, $userName: String) {
+    products(productQuery: {
+      id: $product_id,
+      userQuery: { name: $userName }
+    }) {
+      users {
+        title: name
+        subtitle: id
+        id
+      }
+    }
+  }
+`
+
+
+export const GET_PRODUCTS = gql`
+  query GetProducts($name: String)
+  {
+    products(productQuery: {name: $name}) {
+      title: name
+      id
+    }
+  }
+`;
+

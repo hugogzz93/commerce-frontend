@@ -1,7 +1,6 @@
-// import axios from 'axios'
 import ServerClient from '../ServerClient'
 
-const sendQuery = (action) => {
+export const sendQuery = (action) => {
   return ServerClient.query(action)
   .then(res => {
     return res
@@ -11,7 +10,7 @@ const sendQuery = (action) => {
   })
 }
 
-const sendMutation = (action) => {
+export const sendMutation = (action) => {
   return ServerClient.mutate(action)
     .then(res => {
       return res
@@ -21,4 +20,3 @@ const sendMutation = (action) => {
     })
 }
 
-export {sendQuery, sendMutation}
