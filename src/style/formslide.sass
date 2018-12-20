@@ -1,0 +1,48 @@
+@import 'variables'
+
+$top-padding: 23px
+$side-padding: 10px
+
+.form-slide
+  .form__input
+    font-size: $font-size
+    background: transparent
+    color: $black
+    border-radius: 5px
+    padding: $top-padding $side-padding $side-padding
+    cursor: pointer
+    background: white
+    box-shadow: 0 3px 18px -4px #0005
+    outline: none
+    box-sizing: border-box
+    border: 1px solid transparent
+    transition: all $tempo
+    width: 95%
+
+    &:focus
+      border-color: #0085ff
+
+  textarea.form__input
+    min-height: 15em
+    font-size: 16px
+    padding: 21px 12px 15px
+    min-width: 99%
+    line-height: 20px
+    max-width: 99%
+
+  label
+    position: absolute
+    transition: all $tempo
+    pointer-events: none
+    left: $side-padding
+    top: $top-padding
+
+  .form__input:focus ~ label,
+  .form__input:not(:placeholder-shown) ~ label
+    top: 3px
+    font-size: 13px
+
+.form__control
+  position: relative
+
+

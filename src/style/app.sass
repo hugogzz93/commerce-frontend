@@ -36,6 +36,17 @@ body
 .gradient--purple
   background-image: $purpleGradient
 
+.overlay
+  postiton: fixed
+  width: 100vw
+  height: 100vh
+
+@for $i from 4 through 9
+  .container--#{$i}0
+    width: #{$i}0%
+    margin: auto
+    padding: 15px 0
+
 @for $i from 1 through 12 
   .grid-#{$i}
     display: grid

@@ -6,6 +6,7 @@ import Search from '../Search'
 import ThumbCard from '../cards/ThumbCard'
 import Login from '../Login/index'
 import NavBar from '../NavBar/index'
+import FormSlide from '../FormSlide/index'
 
 
 const Root = (props) => (
@@ -47,15 +48,22 @@ class App extends Component {
     return (
       <Router>
         <div className='app_wrapper'>
-          <NavBar loginIconHandler={this.loginModalToggle}/>
+          {/* <NavBar loginIconHandler={this.loginModalToggle}/> */}
           {!!this.state.email && <Login active={this.state.loginModalActive} /> }
-          {/* <Link to='/search'> */}
-          {/*   Search */}
-          {/* </Link> */}
-          {/* <Link to='/'> */}
-          {/*   Home */}
-          {/* </Link> */}
-          <Route path='/' component={Search}/>
+          <Link to='/profile/edit'>
+            Edit
+          </Link>
+          <Link to='/'>
+            Search
+          </Link>
+          <Route exact={true} path='/' component={Search}/>
+          <Route path='/profile/edit' component={() => (
+            <div className="overlay ">
+              <div className="container--50">
+                <FormSlide />
+              </div>
+            </div>
+          )}/>
         </div>
       </Router>
     );
