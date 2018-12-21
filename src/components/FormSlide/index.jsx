@@ -1,36 +1,55 @@
-import { useReducer } from 'react'
 import { connect } from 'react-redux'
+import { sendMutation } from '../../lib/api'
+import { updateUserAction } from '../../models/User'
 import Pure from './pure'
 
-const reducer = (state, {type, payload: {field, value}}) => {
+const fieldValidator = (state, {field, value}) => {
+  switch(field) {
+    case 'password_confirmation': 
+      return state.password != value ? "Password Confirmation doesn't match password" : false
+    default:
+      return false
+  }
+}
+
+const formReducer = (state, {type, payload}) => {
   switch(type) {
     case 'UPDATE_FIELD':
+      const field_error = fieldValidator(state, payload)
       return {
-        ...state, [field]: value
+        ...state,
+        [payload.field]: payload.value,
+        [`${payload.field}_error`]: field_error 
       }
   }
 }
 
 const mapStateToProps = state => ({
   ...state,
-  reducer,
-  initialState: {
-    name: state.authentication.user.name,
-    email: state.authentication.user.email,
+  initialFormState: {
+    name: state.user.name,
+    email: state.user.email,
     password: '',
     password_confirmation: '',
-    phone: state.authentication.user.phone,
-    country: state.authentication.user.country,
-    city: state.authentication.user.city,
-    street: state.authentication.user.street,
-    street_2: state.authentication.user.street_2,
-    street_number: state.authentication.user.street_number,
-    zipcode: state.authentication.user.zipcode,
-    description: state.authentication.user.description
-  }
+    phone: state.user.phone,
+    country: state.user.country,
+    city: state.user.city,
+    street: state.user.street,
+    street_2: state.user.street_2,
+    street_number: state.user.street_number,
+    zipcode: state.user.zipcode,
+    description: state.user.description
+  },
+
+})
+
+const mapDispatchToProps = dispatch => ({
+  submitUpdate: updates => dispatch(updateUserAction(updates)),
+  formReducer: formReducer
 })
 
 
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(Pure)

@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react'
 
 export default (props) => {
-  const user = props.user
-  const [email, setEmail] = useState(user.email || '')
+  const [email, setEmail] = useState(props.email || '')
   const [password, setPassword] = useState('')
 
 
-  const body = props.user.auth_token ?
-    <div className="modal__item modal__button">{props.user.email}</div>
+  const body = props.auth_token ?
+    <div className="modal__item modal__button">{props.email}</div>
     : (
       <React.Fragment>
         <input

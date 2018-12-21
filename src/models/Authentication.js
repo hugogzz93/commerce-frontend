@@ -44,24 +44,12 @@ export const authRootSaga = function *() {
 }
 
 const InitialState = {
-  user: {
-    name:'',
-    email:'',
-    password:'',
-    phone: '',
-    country:'',
-    city:'',
-    street:'',
-    street_2:'',
-    street_number:'',
-    zipcode:'',
-    description:''
-  },
+  auth_token: '',
   fail: false
 }
 
 export const authReducer = createReducer({
-  [setLoginDetail]: (state, payload) => ({...state, user: {...state.user, ...payload}, fail: false}),
-  [setLoginFailed]: (state) => ({...state, user: {}, fail: true}),
+  [setLoginDetail]: (state, {auth_token}) => ({...state, auth_token, fail: false}),
+  [setLoginFailed]: (state) => ({...state, auth_token: null, fail: true}),
   [errorAction]: (state, payload) => ({...state, error: payload})
 }, InitialState)

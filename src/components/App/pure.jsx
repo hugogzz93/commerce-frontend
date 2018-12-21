@@ -49,7 +49,7 @@ class App extends Component {
       <Router>
         <div className='app_wrapper'>
           {/* <NavBar loginIconHandler={this.loginModalToggle}/> */}
-          {!!this.state.email && <Login active={this.state.loginModalActive} /> }
+          {!this.state.auth_token && <Login active={this.state.loginModalActive} /> }
           <Link to='/profile/edit'>
             Edit
           </Link>

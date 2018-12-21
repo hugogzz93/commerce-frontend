@@ -5,7 +5,7 @@ import TextArea from './textarea'
 import '../../style/formslide.sass'
 
 const FormSlide = props => {
-  const [state, dispatch] =  useReducer(props.reducer, props.initialState)
+  const [state, dispatch] =  useReducer(props.formReducer, props.initialFormState)
 
   const handleFieldChange = e => {
     dispatch({ 
@@ -15,6 +15,10 @@ const FormSlide = props => {
         value: e.target.value
       }
    })
+  }
+
+  const onSubmit = () => {
+    // props.submitUpdates(state.formState)
   }
 
   return (
@@ -30,7 +34,9 @@ const FormSlide = props => {
         name={'password'} onChange={handleFieldChange}/>
       <Input label={'Password Confirmation'} type={'password'}
         className={'col-6'} value={state.password_confirmation}
-        name={'password_confirmation'} onChange={handleFieldChange}/>
+        name={'password_confirmation'} onChange={handleFieldChange}
+        errors={state.password_confirmation_error}
+      />
       <Input label={'Telephone'}  className={'col-6'}
         value={state.country} name={'country'}
         onChange={handleFieldChange}/>

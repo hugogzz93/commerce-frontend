@@ -3,7 +3,8 @@ import { loginAction, checkLoggedInAction } from '../../models/Authentication'
 import Pure from './pure'
 
 const mapStateToProps = state => ({
-  ...state.authentication
+  auth_token: state.authentication.auth_token,
+  email: state.user.email
 })
 
 const mapDispatchToProps = dispatch => ({
