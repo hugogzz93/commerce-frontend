@@ -5,13 +5,15 @@ import { setLoginDetail } from './Authentication'
 
 export const updateUserAction = createAction('UPDATE')
 export const updateUserFailAction = createAction('UPDATE/FAIL')
+export const updateSuccessAction = createAction('UPDATE/SUCCESS')
 
 
 
 const updateUserSaga = function *(action) {
   try {
-    const response = yield call(updateUser(action.payload))
-    debugger
+    const response = yield call(updateUser, action.payload)
+    if(response.data && response.data.updateUser)
+      yield put(updateSuccessAction())
   } catch(e) {
     yield put(updateUserFailAction())
   }

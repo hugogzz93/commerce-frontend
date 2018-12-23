@@ -6,9 +6,9 @@ import Pure from './pure'
 const fieldValidator = (state, {field, value}) => {
   switch(field) {
     case 'password_confirmation': 
-      return state.password != value ? "Password Confirmation doesn't match password" : false
+      return state.password != value ? "Password Confirmation doesn't match password" : null
     default:
-      return false
+      return null
   }
 }
 
@@ -19,13 +19,14 @@ const formReducer = (state, {type, payload}) => {
       return {
         ...state,
         [payload.field]: payload.value,
-        [`${payload.field}_error`]: field_error 
+        [`${payload.field}_error`]: field_error
+
       }
   }
 }
 
 const mapStateToProps = state => ({
-  ...state,
+  id: state.user.id,
   initialFormState: {
     name: state.user.name,
     email: state.user.email,
@@ -44,7 +45,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  submitUpdate: updates => dispatch(updateUserAction(updates)),
+  submitUpdates: payload => dispatch(updateUserAction(payload)),
   formReducer: formReducer
 })
 

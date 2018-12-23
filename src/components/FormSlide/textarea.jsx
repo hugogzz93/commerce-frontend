@@ -5,7 +5,7 @@ const TextArea = props => {
     <div className={`form__control ${props.className}`}>
       <textarea
         className="form__input"
-        value={props.value}
+        value={props.value || ''}
         name={props.name}
         onChange={props.onChange}
         placeholder=" "

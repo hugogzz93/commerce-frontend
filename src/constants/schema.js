@@ -3,6 +3,7 @@ import gql from 'graphql-tag'
 export const LOG_IN_MUTATION = gql`
   mutation LogIn( $email: String!, $password: String! ) {
     login(email: $email, password: $password) {
+      id
       auth_token
       name,
       email,
@@ -22,6 +23,7 @@ export const LOG_IN_MUTATION = gql`
 export const LOG_IN_JWT_QUERY = gql`
   query LogInJWT($auth_token: String!) {
     loginJWT(auth_token: $auth_token) {
+      id 
       auth_token
       name,
       email,
@@ -33,7 +35,7 @@ export const LOG_IN_JWT_QUERY = gql`
       street_2,
       street_number,
       zipcode,
-      description,
+      description
     }
   }
 `
@@ -65,7 +67,7 @@ export const GET_PRODUCTS = gql`
 
 
 export const UPDATE_USER = gql`
-  mutation UpdateUser($auth_token: String!, 
+  mutation UpdateUser($id: ID,
                       $name: String ,
                       $email: String ,
                       $password: String 
@@ -77,8 +79,7 @@ export const UPDATE_USER = gql`
                       $street_number: String,
                       $zipcode: String,
                       $description: String) {
-    updateUser(viewer: { auth_token: $auth_token },
-               userQuery: { auth_token: $auth_token },
+    updateUser(userQuery: { id: $id },
                userInput: {
                   name: $name,
                   email: $email,

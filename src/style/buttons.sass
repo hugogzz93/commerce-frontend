@@ -1,0 +1,27 @@
+@import 'variables'
+
+.button
+  --theme: white
+  background: $blue
+  color: var(--theme)
+  margin-left: 0
+  margin-right: 0
+  text-align: center
+  cursor: pointer
+  padding: 1em
+  border-radius: 5px
+  box-shadow: 0 3px 18px -4px $blue
+  transition: all $tempo
+
+  &:hover
+    box-shadow: 0 3px 18px 0px $blue
+
+  &:active
+    background: darken($blue, 15%)
+
+  &[disabled]
+    box-shadow: 0 3px 18px 0px #0005
+    background: gray
+
+
+

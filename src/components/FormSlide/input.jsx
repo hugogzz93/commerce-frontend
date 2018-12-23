@@ -5,7 +5,7 @@ const Input = props => {
     <div className={`form__control ${props.className} ${props.errors && 'form__control--invalid'}`}>
       <input className='form__input'
         type={props.type || 'text'}
-        value={props.value}
+        value={props.value || ''}
         placeholder=" "
         name={props.name}
         onChange={props.onChange}

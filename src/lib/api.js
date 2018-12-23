@@ -16,7 +16,7 @@ export const sendMutation = (action) => {
       return res
     })
     .catch(err => {
-      debugger
+      // debugger
     })
 }
 
