@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
-import {  BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import {  BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom'
+import {
+  CSSTransition,
+  TransitionGroup
+} from 'react-transition-group'
 import logo from '../../logo.svg';
 import './App.sass';
 import Search from '../Search'
@@ -9,24 +13,6 @@ import NavBar from '../NavBar/index'
 import FormSlide from '../FormSlide/index'
 
 
-const Root = (props) => (
-  <div className="app content">
-    <header className="App-header">
-      <img src={logo} className="App-logo" alt="logo" />
-      <p>
-        Edit <code>src/App.js</code> and save to reload.
-      </p>
-      <a
-        className="App-link"
-        href="https://reactjs.org"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Learn React
-      </a>
-    </header>
-  </div>
-)
 
 class App extends Component {
   constructor(props) {
@@ -51,17 +37,30 @@ class App extends Component {
           {/* <NavBar loginIconHandler={this.loginModalToggle}/> */}
           {!this.props.auth_token && <Login active={this.state.loginModalActive} /> }
           {!!this.props.auth_token &&  <Link to='/profile/edit'> Edit </Link>}
+          {/* {this.props.editModalActive } */}
           <Link to='/'>
             Search
           </Link>
-          <Route exact={true} path='/' component={Search}/>
-          <Route path='/profile/edit' component={() => (
-            <div className="overlay ">
-              <div className="container--50">
-                <FormSlide />
-              </div>
-            </div>
-          )}/>
+          <Route render={({location}) => (
+            <TransitionGroup>
+              <CSSTransition 
+                key={location.key}
+                timeout={3000}
+                classNames='fade'
+              >
+                <Switch location={location}>
+                  <Route exact={true} path='/' component={Search}/>
+                  <Route path='/profile/edit' component={() => (
+                    <div className="overlay ">
+                      <div className="container--50">
+                        <FormSlide />
+                      </div>
+                    </div>
+                  )}/>
+                </Switch>
+              </CSSTransition>
+          </TransitionGroup>
+          )} />
         </div>
       </Router>
     );
