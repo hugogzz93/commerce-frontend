@@ -1,7 +1,7 @@
 import React, { Component, useEffect, useState } from 'react'
 import ThumbCard from '../cards/ThumbCard'
 import ImageCard from '../cards/ImageCard'
-import IndexDetail from '../IndexDetail/index'
+import IndexDetail from './IndexDetail/index'
 
 const Index = (props) => {
   const [options, setOptions] = useState([])

@@ -3,7 +3,8 @@ import Pure from './pure'
 import '../../style/nav.sass'
 
 const mapStateToProps = state => ({
-  ...state.authentication
+  loggedIn: !!state.authentication.auth_token,
+  email: state.user.email
 })
 
 export default connect(

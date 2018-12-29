@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useReducer } from 'react';
-import SearchBar from '../SearchBar';
-import SearchOption from '../SearchOption';
+import SearchBar from './SearchBar';
+import SearchOption from './SearchOption';
 import Index from '../Index/index';
 
 function Search(props) {

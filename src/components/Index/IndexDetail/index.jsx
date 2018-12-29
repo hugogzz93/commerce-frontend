@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { sendQuery } from '../../lib/api'
+import { sendQuery } from '../../../lib/api'
 import gql from 'graphql-tag'
 import Pure from './pure'
 
