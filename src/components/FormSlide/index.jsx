@@ -1,6 +1,7 @@
 import { connect } from 'react-redux'
 import { sendMutation } from '../../lib/api'
-import { updateUserAction } from '../../models/User'
+import { postUserUpdatesAction } from '../../models/User'
+import { UPDATE_USER } from '../../constants/schema'
 import Pure from './pure'
 
 const fieldValidator = (state, {field, value}) => {
@@ -45,7 +46,10 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  submitUpdates: payload => dispatch(updateUserAction(payload)),
+  submitUpdates: variables => dispatch(postUserUpdatesAction({
+    variables,
+    mutation: UPDATE_USER
+  })),
   formReducer: formReducer
 })
 
