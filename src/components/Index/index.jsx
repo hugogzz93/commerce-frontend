@@ -1,32 +1,30 @@
 import { connect } from 'react-redux'
-import { sendQuery } from '../../lib/api'
-import {GET_USERS_FOR_PRODUCT} from '../../constants/schema'
+import gql from 'graphql-tag'
+import { queryProductsAction } from '../../models/Products'
 import Pure from './pure'
 import '../../style/index.sass'
 
-// const reducer = (state, action) => {
-//   switch(action.type) {
-//     case 'setOptions':
-//       return {
-//         
-//       }
-//     case 'setShownOption':
-//     case 'updateFilters':
-//     case 'setCursor':
-//   }
-// }
-// const mapStateToProps
-const mapDispatchToProps = dispatch => ({
-  getUsersForProduct: (product_id, filters) => sendQuery({
-    query: GET_USERS_FOR_PRODUCT,
-    variables: {
-      product_id, 
-      userName: filters.name
+const query = gql`
+  query GetProductUsers($productId: ID!, $userName: String ) {
+    products(query: { id: $productId }) {
+      id
+      users(query: { name: $userName }) {
+        name
+        id
+      }
     }
-  })
+  }
+`
+
+const mapStateToDispatch = (state, {productId}) => ({
+  product: state.products[productId]
+})
+
+const mapDispatchToProps = dispatch => ({
+  getProductUsers: variables => dispatch(queryProductsAction({ query, variables }))
 })
 
 export default connect(
-  state => state,
-  mapDispatchToProps,
+  mapStateToDispatch,
+  mapDispatchToProps
 )(Pure)

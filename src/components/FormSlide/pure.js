@@ -1,17 +1,14 @@
 import React from 'react'
-import { useReducer } from 'react'
+import { useReducer, useEffect } from 'react'
 import Input from './input'
 import TextArea from './textarea'
 import '../../style/formslide.sass'
 
 const FormSlide = props => {
-  const [formState, dispatch] =  useReducer(props.formReducer, props.initialFormState)
+  const [formState, dispatch] = useReducer(props.formReducer, props.initialFormState)
 
   const updatesAreValid = () => {
     return true
-    // const nest =  Object.keys(formState).filter(key => key.match('.*_error$')).length == 0
-    // debugger
-    // return nest
   }
 
   const handleFieldChange = e => {
@@ -27,6 +24,17 @@ const FormSlide = props => {
   const onSubmit = () => {
     if(updatesAreValid()) props.submitUpdates({ id: props.id, ...formState })
   }
+
+  useEffect(() => {
+    props.checkLoggedIn()
+  }, [])
+
+  useEffect(() => {
+    dispatch({
+      type: 'UPDATE_REDUCER',
+      payload: props.initialFormState
+    })
+  }, [props.initialFormState])
 
   return (
     <div className="form-slide grid-12">

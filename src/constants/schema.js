@@ -55,20 +55,10 @@ export const GET_USERS_FOR_PRODUCT = gql`
 `
 
 
-export const GET_PRODUCTS = gql`
-  query GetProducts($name: String)
-  {
-    products(productQuery: {name: $name}) {
-      title: name
-      id
-    }
-  }
-`;
 
 
 export const UPDATE_USER = gql`
-  mutation UpdateUser($id: ID,
-                      $name: String ,
+  mutation UpdateUser($id: ID!, $name: String ,
                       $email: String ,
                       $password: String 
                       $phone: String,
@@ -79,23 +69,32 @@ export const UPDATE_USER = gql`
                       $street_number: String,
                       $zipcode: String,
                       $description: String) {
-    updateUser(userQuery: { id: $id },
-               userInput: {
-                  name: $name,
-                  email: $email,
-                  password: $password,
-                  phone: $phone,
-                  country: $country,
-                  city: $city,
-                  street: $street,
-                  street_2: $street_2,
-                  street_number: $street_number,
-                  zipcode: $zipcode,
-                  description: $description,
-                 }
-               ) {
-      id
-      email
-     }
+  user(id: $id) {
+    updateUser(input: {
+      name: $name,
+      email: $email,
+      password: $password,
+      phone: $phone,
+      country: $country,
+      city: $city,
+      street: $street,
+      street_2: $street_2,
+      street_number: $street_number,
+      zipcode: $zipcode,
+      description: $description })
+      {
+        name,
+        email,
+        password,
+        phone,
+        country,
+        city,
+        street,
+        street_2,
+        street_number,
+        zipcode,
+        description
+      }
   }
-` 
+}
+`

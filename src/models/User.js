@@ -1,45 +1,42 @@
 import { call, takeLatest, takeEvery, all, put, select } from 'redux-saga/effects'
 import { createAction, createReducer } from 'redux-act'
-import { postUserUpdates, queryUser } from '../services/User'
+import { mutateUser, queryUser } from '../services/User'
 import { setLoginDetail } from './Authentication'
 
-export const postUserUpdatesAction = createAction('USER/POST')
-export const setUserAction = createAction('STORE/USER/UPDATE')
-// export const postUserProductsAction = createAction('USER/POST/PRODUCTS')
-export const postUserProductsFailAction = createAction('USER/POST/FAIL')
-export const postSuccessAction = createAction('USER/POST/SUCCESS')
-export const fetchUserDataAction = createAction('USER/FETCH')
-export const userFetchFailAction = createAction('USER/FETCH/FAIL')
+export const mutateUserAction = createAction('USER/POST')
+export const updateUserStoreAction = createAction('STORE/USER/UPDATE')
+export const mutateUserFailAction = createAction('USER/POST/FAIL')
+export const mutateUserSuccessAction = createAction('USER/POST/SUCCESS')
+export const queryUserAction = createAction('USER/FETCH')
+export const queryUserFailAction = createAction('USER/FETCH/FAIL')
 
-
-
-const postUserUpdatesSaga = function *(action) {
+const validResponse = res => !!res.data.user
+const mutateUserSaga = function *(action) {
   try {
-    const { data } = yield call(postUserUpdates, action.payload)
-    if(data && data.updateUser[0]) {
-      yield put(setUserAction(data.updateUser[0]))
-      yield put(postSuccessAction())
+    const response = yield call(mutateUser, action.payload)
+    debugger
+    if(validResponse(response)) {
+      yield put(updateUserStoreAction(response.data.user.updateUser))
+      yield put(mutateUserSuccessAction())
     }
   } catch(e) {
-    yield put(postUserProductsFailAction())
+    yield put(mutateUserFailAction())
   }
 }
 
-const getUserSaga = function *(action) {
+const queryUserSaga = function *(action) {
   try {
     const response = yield call(queryUser, action.payload)
-    if(response.data && response.data.users[0].products)
-      yield put(setUserAction({
-        products: response.data.users[0].products
-      }))
+    if(response.data && response.data.users[0])
+      yield put(updateUserStoreAction(response.data.users[0]))
   } catch(e) {
-    yield put(userFetchFailAction())
+    yield put(queryUserFailAction())
   }
 }
 
 export const userRootSaga = function *() {
-  yield takeLatest(postUserUpdatesAction, postUserUpdatesSaga)
-  yield takeLatest(fetchUserDataAction, getUserSaga)
+  yield takeLatest(mutateUserAction, mutateUserSaga)
+  yield takeLatest(queryUserAction, queryUserSaga)
 }
 
 const InitialState = {
@@ -58,6 +55,6 @@ const InitialState = {
 }
 
 export const userReducer = createReducer({
-  [setUserAction]: (state, payload) => ({...state, ...payload}),
+  [updateUserStoreAction]: (state, payload) => ({...state, ...payload}),
   [setLoginDetail]: (state, {auth_token, ...payload}) => ({...state, ...payload}),
 }, InitialState)

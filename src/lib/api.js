@@ -5,9 +5,9 @@ export const sendQuery = (action) => {
   .then(res => {
     return res
   })
-  .catch(err => {
-    debugger
-  })
+  // .catch(err => {
+  //   debugger
+  // })
 }
 
 export const sendMutation = (action) => {
@@ -15,8 +15,8 @@ export const sendMutation = (action) => {
     .then(res => {
       return res
     })
-    .catch(err => {
-      // debugger
-    })
+    // .catch(err => {
+    //   // debugger
+    // })
 }
 

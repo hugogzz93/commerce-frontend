@@ -1,17 +1,35 @@
 import { connect } from 'react-redux'
 import { sendQuery, sendMutation } from '../../../lib/api'
-import { fetchUserDataAction } from '../../../models/User'
+import {
+  queryUserAction,
+  mutateUserAction,
+} from '../../../models/User'
 import gql from 'graphql-tag'
 import Pure from './pure'
+import '../../../style/user_configuration.sass'
 
-const GET_USER_PRODUCTS = gql`
-  query GetUserProducts($id: ID) {
-    users(userQuery: {id: $id}) {
+const query = gql`
+  query GetUserProducts($userId: ID) {
+    users(query: {id: $userId}) {
       products {
-        name
         id
-        description
+        name
       }
+    }
+  }
+`
+const addProducts = gql`
+  mutation addProduct($userId: ID!, $productIds: [ID!]) {
+    user(id: $userId) {
+      addProducts(ids: $productIds)
+    }
+  }
+`
+
+const removeProducts = gql`
+  mutation addProduct($userId: ID!, $productIds: [ID!]) {
+    user(id: $userId) {
+      removeProducts(ids: $productIds)
     }
   }
 `
@@ -22,9 +40,17 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  getProducts: variables => dispatch(fetchUserDataAction({
+  getProducts: variables => dispatch(queryUserAction({
+    query,
+    variables
+  })),
+  addProducts: variables => dispatch(mutateUserAction({
     variables,
-    query: GET_USER_PRODUCTS
+    mutation: addProducts
+  })),
+  removeProducts: variables => dispatch(mutateUserAction({
+    variables,
+    mutation: removeProducts
   }))
 })
 

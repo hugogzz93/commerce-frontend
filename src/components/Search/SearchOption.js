@@ -10,7 +10,6 @@ const SearchOption = (props) => {
 
   return(
     <div 
-      key={index}
       className={`search__option fade-in ${selectedClass}`}
       onClick={onClick}>
       {title}

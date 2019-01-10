@@ -4,41 +4,49 @@ import ImageCard from '../cards/ImageCard'
 import IndexDetail from './IndexDetail/index'
 
 const Index = (props) => {
-  const [options, setOptions] = useState([])
+  const [items, setItems] = useState([])
   const [detail, setDetail] = useState({})
-  const [filter, setFilter] = useState({name: ''})
-  const [ optionCursor, setOptionCursor ] = useState(0)
+  const [filter, setFilter] = useState('')
+  const [ itemCursor, setItemCursor ] = useState(0)
   const { product: {title, id} } = props
 
   const handleSearchChange = (event) => {
-    setFilter({...filter, name: event.target.value})
+    setFilter(event.target.value)
   }
 
-  const indexItems = options.map(({title, subtitle}, i) => (
+  const itemDivs = items.map(({name, email}, i) => (
     <div className='index__item fade-in' key={i}>
       <ThumbCard 
-        title={title}
-        subtitle={subtitle}
-        selected={optionCursor == i ? true : false}
+        title={name}
+        subtitle={email}
+        selected={itemCursor == i ? true : false}
       />
     </div>
   ))
 
   useEffect(() => {
-    props.getUsersForProduct(id, filter).then(res => {
-      setOptions(res.data.products[0].users)
-    })
-  }, [title, filter])
+    props.getProductUsers({productId: props.product.id})
+  }, [])
+
+  useEffect(() => {
+    try {
+      if(filter.length)
+        setItems(props.product.users.filter(user => user.name.toLowerCase().includes(filter)))
+      else
+        setItems(props.product.users || [])
+    } catch(e) {}
+  }, [filter, props.product.users])
+
 
   useEffect(() => {
     const handleKeys = e => {
       switch(e.which) {
         case 40:
-          setOptionCursor(( optionCursor + 1 + options.length ) % options.length)
+          setItemCursor(( itemCursor + 1 + items.length ) % items.length)
           break
 
         case 38:
-          setOptionCursor(( optionCursor - 1  + options.length) % options.length)
+          setItemCursor(( itemCursor - 1  + items.length) % items.length)
           break
       }
     }
@@ -53,15 +61,15 @@ const Index = (props) => {
         <input 
           className='index__search'
           placeholder='search'
-          value={filter.name}
+          value={filter}
           onChange={ handleSearchChange }
         />
         <i className='fas fa-search'></i>
       </div>
       <div className='index__content-list fade-in-list'>
-        {indexItems}
+        { itemDivs }
       </div>
-      { options[optionCursor] && <IndexDetail id={options[optionCursor].id} />}
+      { items[itemCursor] && <IndexDetail id={items[itemCursor].id} />}
     </div>
   )
 }

@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
-import { sendMutation } from '../../lib/api'
-import { postUserUpdatesAction } from '../../models/User'
-import { UPDATE_USER } from '../../constants/schema'
+import { mutateUserAction } from '../../models/User'
+import { checkLoggedInAction } from '../../models/Authentication'
+import { UPDATE_USER as mutation } from '../../constants/schema'
 import Pure from './pure'
 
 const fieldValidator = (state, {field, value}) => {
@@ -15,6 +15,8 @@ const fieldValidator = (state, {field, value}) => {
 
 const formReducer = (state, {type, payload}) => {
   switch(type) {
+    case 'UPDATE_REDUCER':
+      return payload
     case 'UPDATE_FIELD':
       const field_error = fieldValidator(state, payload)
       return {
@@ -46,11 +48,9 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  submitUpdates: variables => dispatch(postUserUpdatesAction({
-    variables,
-    mutation: UPDATE_USER
-  })),
-  formReducer: formReducer
+  submitUpdates: variables => dispatch(mutateUserAction({ mutation, variables})),
+  formReducer: formReducer,
+  checkLoggedIn: () => dispatch(checkLoggedInAction())
 })
 
 
