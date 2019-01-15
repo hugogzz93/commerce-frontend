@@ -20,6 +20,7 @@ const Index = (props) => {
         title={name}
         subtitle={email}
         selected={itemCursor == i ? true : false}
+        onClick={() => { setItemCursor(i) }}
       />
     </div>
   ))

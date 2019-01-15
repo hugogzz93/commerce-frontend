@@ -5,7 +5,7 @@ import Pure from './pure'
 
 export const GET_USER_DETAIL = gql`
   query User($id: ID) {
-    users(userQuery: {id: $id}) {
+    users(query: {id: $id}) {
       name,
       email,
       products {

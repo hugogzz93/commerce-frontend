@@ -26,10 +26,6 @@ const FormSlide = props => {
   }
 
   useEffect(() => {
-    props.checkLoggedIn()
-  }, [])
-
-  useEffect(() => {
     dispatch({
       type: 'UPDATE_REDUCER',
       payload: props.initialFormState
@@ -37,7 +33,7 @@ const FormSlide = props => {
   }, [props.initialFormState])
 
   return (
-    <div className="form-slide grid-12">
+    <div className="form-slide grid-12 container--50">
       <Input label={'Name'} className={'col-6'}
         value={formState.name} name={'name'}
         onChange={handleFieldChange}/>

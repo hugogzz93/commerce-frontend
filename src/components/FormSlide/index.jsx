@@ -1,6 +1,5 @@
 import { connect } from 'react-redux'
 import { mutateUserAction } from '../../models/User'
-import { checkLoggedInAction } from '../../models/Authentication'
 import { UPDATE_USER as mutation } from '../../constants/schema'
 import Pure from './pure'
 
@@ -49,8 +48,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   submitUpdates: variables => dispatch(mutateUserAction({ mutation, variables})),
-  formReducer: formReducer,
-  checkLoggedIn: () => dispatch(checkLoggedInAction())
+  formReducer: formReducer
 })
 
 

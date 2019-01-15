@@ -1,5 +1,5 @@
-import { connect } from 'react-redux'
+// import { connect } from 'react-redux'
 import Pure from './pure'
 
-const mapStateToProps = state => {}
+// const mapStateToProps = state => {}
 export default Pure

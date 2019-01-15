@@ -15,7 +15,7 @@ const queryProductsSaga = function *(action) {
     else
       yield put(queryProductsFailAction())
   } catch(e) {
-    yield put(queryProductsFailAction())
+    yield put(queryProductsFailAction(e))
   }
 }
 
@@ -29,5 +29,6 @@ const InitialState = {
 export const productsReducer = createReducer({
   [updateProductsStoreAction]: (state, productsArray) => (
     Object.assign({}, state, ...productsArray.map(product => ({[product.id]: {...state[product.id], ...product} })))
-  )
+  ),
+  [queryProductsFailAction]: (state, error) => ({...state, error})
 }, InitialState)

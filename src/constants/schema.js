@@ -20,6 +20,12 @@ export const LOG_IN_MUTATION = gql`
   }
 `
 
+export const LOG_OUT_MUTATION = gql`
+  mutation LogOut( $auth_token: String! ) {
+    logout(auth_token: $auth_token) 
+  }
+`
+
 export const LOG_IN_JWT_QUERY = gql`
   query LogInJWT($auth_token: String!) {
     loginJWT(auth_token: $auth_token) {

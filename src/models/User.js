@@ -2,6 +2,7 @@ import { call, takeLatest, takeEvery, all, put, select } from 'redux-saga/effect
 import { createAction, createReducer } from 'redux-act'
 import { mutateUser, queryUser } from '../services/User'
 import { setLoginDetail } from './Authentication'
+import mergeByKey from 'array-merge-by-key'
 
 export const mutateUserAction = createAction('USER/POST')
 export const updateUserStoreAction = createAction('STORE/USER/UPDATE')
@@ -14,9 +15,15 @@ const validResponse = res => !!res.data.user
 const mutateUserSaga = function *(action) {
   try {
     const response = yield call(mutateUser, action.payload)
-    debugger
     if(validResponse(response)) {
-      yield put(updateUserStoreAction(response.data.user.updateUser))
+      const userOps = response.data.user
+      const state = yield select()
+      const updates = {
+        ...(userOps.updateUser || {}),
+        ...(userOps.addProducts ? {products: state.user.products.concat(userOps.addProducts)} : {}),
+        ...(userOps.removeProducts ? {products: state.user.products.filter(id => !userOps.removeProducts.includes(id))} : {})
+      }
+      yield put(updateUserStoreAction(updates))
       yield put(mutateUserSuccessAction())
     }
   } catch(e) {
@@ -30,7 +37,7 @@ const queryUserSaga = function *(action) {
     if(response.data && response.data.users[0])
       yield put(updateUserStoreAction(response.data.users[0]))
   } catch(e) {
-    yield put(queryUserFailAction())
+    yield put(queryUserFailAction(e))
   }
 }
 
@@ -54,7 +61,18 @@ const InitialState = {
   products: []
 }
 
+const preProcessUserProducts = (products) => {
+  //if products is an array of objects make them an array of ints
+  return products[0] && products[0].id ? products.map(p => p.id) : products
+}
+
+const preProcess = (payload) => ({
+  ...payload,
+  ...payload.products ? {products: preProcessUserProducts(payload.products) } : {}
+})
+
 export const userReducer = createReducer({
-  [updateUserStoreAction]: (state, payload) => ({...state, ...payload}),
-  [setLoginDetail]: (state, {auth_token, ...payload}) => ({...state, ...payload}),
+  [updateUserStoreAction]: (state, payload) => ({...state, ...preProcess(payload)}),
+  [setLoginDetail]: (state, {auth_token, ...payload}) => ({...state, ...preProcess(payload)}),
+  [queryUserFailAction]: (state, error) => ({...state, error })
 }, InitialState)

@@ -19,6 +19,7 @@ const NavBar = (props) => {
           <Link to='/users/profile/edit'>
             User
           </Link>
+          <Link to='#' onClick={ () => props.logout() }>Log out</Link>
         </div>
         <div className="nav--right">
           <span>{props.email}</span>
