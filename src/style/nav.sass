@@ -1,8 +1,18 @@
+@import 'variables'
 .nav__bar
   position: fixed
   top: 0
   width: 100%
   z-index: 1
+  box-shadow: 0 2px 12px #e9ecef
+  padding: 1em 5%
+  box-sizing: border-box
+  background: white
+
+  a
+    margin: 0 5px
+    color: $blue2
+    text-decoration: none
 
 .nav--right
   float: right
@@ -10,3 +20,55 @@
 .nav--left
   float: left
 
+.nav__ddown
+  cursor: pointer
+  position: relative
+
+  &::after
+    border-color: $blue2
+    border-style: solid
+    border-width: 0.25em 0.25em 0 0
+    content: ''
+    display: inline-block
+    height: 0.45em
+    position: absolute
+    right: -1em
+    top: 20%
+    transform: rotate(45deg)
+    vertical-align: top
+    width: 0.45em
+    transition: all 0.3s
+
+  &.active::after
+    top: 0
+    transform: rotate(135deg)
+
+  .nav__ddown-title
+    color: $blue2
+
+  .nav__ddown-list
+    border-radius: 5%
+    background: white
+    position: absolute
+    max-height: 0
+    transition: all 0.5s
+    overflow: hidden
+    transform: translateY(1em)
+    box-shadow: $shadow-high
+
+    &.active
+      max-height: 100em
+      border: 1px solid #0003
+
+  .nav__ddown-li
+    padding: 1em
+    transition: background 0.3s
+
+    &:hover
+      background: darken(white, 5%)
+
+    &:active
+      background: darken(white, 10%)
+
+    &:not(:last-of-type)
+      border-bottom: 1px solid $gray

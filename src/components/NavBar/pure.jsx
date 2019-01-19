@@ -9,6 +9,11 @@ const NavBar = (props) => {
     setLoginModal(!loginModal)
   }
 
+  const handleDropdown = e => {
+    e.currentTarget.classList.toggle('active')
+    e.currentTarget.querySelector('.nav__ddown-list').classList.toggle('active')
+  }
+
   if (props.loggedIn)
     return (
       <div className="nav__bar">
@@ -16,13 +21,24 @@ const NavBar = (props) => {
           <Link to='/'>
             Search
           </Link>
-          <Link to='/users/profile/edit'>
-            User
-          </Link>
-          <Link to='#' onClick={ () => props.logout() }>Log out</Link>
         </div>
         <div className="nav--right">
-          <span>{props.email}</span>
+          <div className="nav__ddown" onClick={handleDropdown}>
+            <div className="nav__ddown-title">{props.email}</div>
+            <div className="nav__ddown-list">
+              <div className="nav__ddown-li">
+                <Link to='#' onClick={ (e) => {
+                  e.preventDefault();
+                  props.logout()} }
+                > Log out</Link>
+              </div>
+              <div className="nav__ddown-li">
+                <Link to='/users/profile/edit'>
+                  Settings
+                </Link>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     )
