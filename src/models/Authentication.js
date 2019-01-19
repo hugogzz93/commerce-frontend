@@ -26,11 +26,12 @@ const loginSaga = function *(action) {
 
 const logoutSaga = function *(action) {
   try {
-    const auth_token = yield select().authentication.auth_token
+    const state = yield select()
+    const auth_token = state.auth_token
     if(auth_token) yield call(logout, action.payload)
     yield call(setAuthTokenCookie, null)
     yield put(setLoginDetail({auth_token: null}))
-  } catch(e) {
+  } catch(err) {
   }
 
 }
@@ -52,7 +53,7 @@ const checkLoggedInSaga = function *() {
 
 export const authRootSaga = function *() {
   yield takeLatest(loginAction, loginSaga)
-  yield takeLatest(logoutAction, loginSaga)
+  yield takeLatest(logoutAction, logoutSaga)
   yield takeLatest(checkLoggedInAction, checkLoggedInSaga)
 }
 
