@@ -10,7 +10,11 @@ const query = gql`
       id
       users(query: { name: $userName }) {
         name
+        email
         id
+        country
+        city
+        zipcode
       }
     }
   }

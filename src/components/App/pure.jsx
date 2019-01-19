@@ -32,7 +32,7 @@ class App extends Component {
             <TransitionGroup>
               <CSSTransition 
                 key={location.key}
-                timeout={3000}
+                timeout={300}
                 classNames='fade' >
                 <Switch location={location}>
                   <Route exact={true} path='/' component={Search}/>

@@ -5,17 +5,27 @@
   display: grid
   grid-template-columns: repeat(12, 1fr)
 
+.index__content-list
+  padding: 25px 0
+
 .index__content-list, .index__detail
   border-top: 1px solid #e2e4ef
-  margin: .5rem 1rem
+  margin: .5em 0 0 1em
   box-sizing: border-box
+
+.index__search-container, .index__detail-header
+  grid-row: 1
+
+.index__content-list, .index__detail
+  grid-row: 2
 
 .index__content-list, .index__search-container
   grid-column: 1 / span 3
+
   @media (max-width: $break-medium)
     grid-column: span 12
 
-.index__detail, .index__detail-title
+.index__detail, .index__detail-header
   grid-column: 4 / span 9
 
 .index__search-container

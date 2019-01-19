@@ -3,6 +3,14 @@ import ThumbCard from '../cards/ThumbCard'
 import ImageCard from '../cards/ImageCard'
 import IndexDetail from './IndexDetail/index'
 
+const DetailHeading = props => (
+<div className="index__heading fade-in-list">
+  <div className="t--row fade-in">{props.city}</div>
+  <div className="t--row fade-in">{props.country}</div>
+  <div className="t--row fade-in">{props.zipcode}</div>
+</div>
+)
+
 const Index = (props) => {
   const [items, setItems] = useState([])
   const [detail, setDetail] = useState({})
@@ -18,7 +26,6 @@ const Index = (props) => {
     <div className='index__item fade-in' key={i}>
       <ThumbCard 
         title={name}
-        subtitle={email}
         selected={itemCursor == i ? true : false}
         onClick={() => { setItemCursor(i) }}
       />
@@ -44,10 +51,12 @@ const Index = (props) => {
       switch(e.which) {
         case 40:
           setItemCursor(( itemCursor + 1 + items.length ) % items.length)
+          e.preventDefault()
           break
 
         case 38:
           setItemCursor(( itemCursor - 1  + items.length) % items.length)
+          e.preventDefault()
           break
       }
     }
@@ -69,6 +78,9 @@ const Index = (props) => {
       </div>
       <div className='index__content-list fade-in-list'>
         { itemDivs }
+      </div>
+      <div className="index__detail-header">
+        <DetailHeading {...items[itemCursor]}/>
       </div>
       { items[itemCursor] && <IndexDetail id={items[itemCursor].id} />}
     </div>

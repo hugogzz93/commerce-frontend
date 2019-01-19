@@ -4,13 +4,65 @@
   @extend .card
   padding: 0
   background-size: cover
-  min-height: 2rem
   height: 100%
+  // width: 320px
+  // height: 320px
+
 
 .image-row.image-row
   row-gap: 1rem
-// .image-card--med
-//   width: 25rem
-//   height: 25rem
+
+.image-card--small
+  width: 190px
+  height: 170px
+
+.image-card--wide
+  width: 512px
+
+.img__grid
+  $gap: 30px
+  display: grid
+  grid-template-columns: repeat(12, 1fr)
+  grid-template-rows: 180px
+  grid-column-gap: $gap
+  grid-row-gap: $gap
+  
+  > div
+    border: 1px solid
+    overflow: hidden
+
+.img__grid--big
+  grid-column: span 6
+  grid-row: span 2
+  border-radius: 4%
+
+.img__grid--small
+  grid-column: span 3
+  border-radius: 5%
+
+.masonic
+  display: flex
+  flex-wrap: wrap
+  justify-content: space-around
+
+  > div
+    margin-right: 20px
+    margin-bottom: 20px
+    overflow: hidden
+
+
+.masonic--big
+  height: 280px
+  // width: 380px
+  flex-basis: 380px
+  flex-grow: 2
+  border-radius: 4%
+
+.masonic--small
+  height: 180px
+  // width: 220px
+  flex-basis: 220px
+  flex-grow: 1
+  border-radius: 5%
 
 
