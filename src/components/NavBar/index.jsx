@@ -1,7 +1,9 @@
 import { connect } from 'react-redux'
 import { logoutAction } from '../../models/Authentication'
+import { ROOT_URL } from '../../constants/config'
 import Pure from './pure'
 import '../../style/nav.sass'
+
 
 const mapStateToProps = state => ({
   loggedIn: !!state.authentication.auth_token,
@@ -9,7 +11,10 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  logout: () => dispatch(logoutAction())
+  logout: () => {
+    window.location = ROOT_URL
+    dispatch(logoutAction())
+  }
 })
 
 export default connect(

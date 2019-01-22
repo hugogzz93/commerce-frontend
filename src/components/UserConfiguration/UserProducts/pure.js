@@ -37,7 +37,7 @@ const UserProducts = props => {
   ))
 
   return(
-    <div className="grid-12 container--80">
+    <div className="grid-12 container--90">
       <div className="flex--col col-3 up__search">
         <input className="up__search-input"
           type="text"
