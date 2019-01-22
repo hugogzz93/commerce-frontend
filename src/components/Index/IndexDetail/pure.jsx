@@ -45,9 +45,13 @@ const IndexDetail = (props) => {
                       { imageDivs }
                     </div>
                     <div>
-                      <div className="card">
-                        <h1>user.name</h1>
-                        <h5>user.email</h5>
+                      <div className="card card--info card--info-red">
+                        <p>{user.name}</p>
+                        <p>{user.email}</p>
+                        <p>{user.phone}</p>
+                        <br />
+                        <p className="p--small">{user.country} / {user.city}</p>
+                        <p className="p--small">{user.street} / {user.street_2} / {user.street_number}</p>
                       </div>
                     </div>
         </Carousel>

@@ -27,15 +27,15 @@ const NavBar = (props) => {
             <div className="nav__ddown-title">{props.email}</div>
             <div className="nav__ddown-list">
               <div className="nav__ddown-li">
+                <Link to='/users/profile/edit'>
+                  Settings
+                </Link>
+              </div>
+              <div className="nav__ddown-li nav__li--danger">
                 <Link to='#' onClick={ (e) => {
                   e.preventDefault();
                   props.logout()} }
                 > Log out</Link>
-              </div>
-              <div className="nav__ddown-li">
-                <Link to='/users/profile/edit'>
-                  Settings
-                </Link>
               </div>
             </div>
           </div>

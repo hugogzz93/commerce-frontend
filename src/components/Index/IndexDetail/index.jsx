@@ -8,6 +8,16 @@ export const GET_USER_DETAIL = gql`
     users(query: {id: $id}) {
       name,
       email,
+      password,
+      auth_token,
+      phone,
+      country,
+      city,
+      street,
+      street_2,
+      street_number,
+      zipcode,
+      description,
       products {
         name
       }
