@@ -62,6 +62,13 @@ body
   .col-#{$i}
     grid-column: span $i
 
+@for $i from 1 through 50
+  .col-gap-#{$i}
+    column-gap: #{$i}px
+
+  .row-gap-#{$i}
+    row-gap: #{$i}px
+
 .fade-enter
   animation: fade-in-animation 1s linear forwards
 

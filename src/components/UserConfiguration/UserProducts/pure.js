@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useReducer } from 'react'
 import ThumbCard from '../../cards/ThumbCard'
+import UserProductItems from '../UserProductItems'
 
 const UserProducts = props => {
   const userId = props.userId
@@ -24,18 +25,6 @@ const UserProducts = props => {
         ))
 
 
-  const userProductDivs = props.userProducts.map(( product, i ) => (
-    <div className="card up__li fade-in" key={product.id + i}>
-      <div className="text__pair--ver">
-        <div className="text__key">{product.name}</div>
-        {/* <div className="text__value">{product.description}</div> */}
-      </div>
-      <div className="button btn--danger"
-        onClick={() => props.removeProducts({userId, productIds: [product.id]})}
-        data-product-id={product.id}>X</div>
-    </div>
-  ))
-
   return(
     <div className="grid-12 container--90">
       <div className="flex--col col-3 up__search">
@@ -49,7 +38,7 @@ const UserProducts = props => {
         </div>
       </div>
       <div className="col-9 up__list flex__row fade-in-list">
-        { userProductDivs }
+        {props.userProducts[0] && <UserProductItems product={props.userProducts[0]} />} 
       </div>
     </div>
   )

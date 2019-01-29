@@ -1,19 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import '../../style/cards/imageInput.sass'
 
-const ImageInput = () => {
-  const [file, setFile] = useState(null)
+const ImageInput = props => {
   const [image, setImage] = useState(null)
 
-
-
-  const changeImage = e => {
-    const file = e.target.files[0]
-    if(!file) return
+  const changeImage = ({target: { files: [file]}})  => {
     const reader = new FileReader()
     reader.onload = e => {
       setImage(e.target.result)
-      setFile(file)
+      props.setFile(file)
     }
 
     reader.readAsDataURL(file)
@@ -24,13 +19,15 @@ const ImageInput = () => {
     <div className="img-input__container"
           style={ image && ({
               backgroundImage: `url(${image})`,
-              border: 'none'
+              border: '1px solid #0085ff'
             })
           }
           onClick={e => e.target.querySelector('input').click()}
       >
-      {/* <div className="img-input__name">Tets</div> */}
-      <input className="img-input" type="file" onChange={changeImage} onClick={e => e.stopPropagation()}/>
+      <input className="img-input"
+             type="file"
+             onChange={changeImage}
+             onClick={e => e.stopPropagation()}/>
     </div>
   )
 }

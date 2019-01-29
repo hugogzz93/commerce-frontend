@@ -1,7 +1,7 @@
 import React from 'react'
 import { useReducer, useEffect } from 'react'
-import Input from './input'
-import TextArea from './textarea'
+import Input from '../Inputs/TextInput'
+import TextArea from '../Inputs/TextArea'
 import '../../style/formslide.sass'
 
 const FormSlide = props => {
@@ -33,7 +33,7 @@ const FormSlide = props => {
   }, [props.initialFormState])
 
   return (
-    <div className="form-slide grid-12 container--50">
+    <div className="form-slide grid-12 col-gap-10 container--50">
       <Input label={'Name'} className={'col-6'}
         value={formState.name} name={'name'}
         onChange={handleFieldChange}/>

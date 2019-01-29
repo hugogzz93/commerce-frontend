@@ -2,7 +2,7 @@ import React from 'react'
 
 const Input = props => {
   return (
-    <div className={`form__control ${props.className} ${props.errors && 'form__control--invalid'}`}>
+    <div className={`form__control ${props.className || ''} ${props.errors ? 'form__control--invalid' : ''}`}>
       <input className='form__input'
         type={props.type || 'text'}
         value={props.value || ''}

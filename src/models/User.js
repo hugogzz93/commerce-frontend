@@ -21,12 +21,13 @@ const mutateUserSaga = function *(action) {
       const updates = {
         ...(userOps.updateUser || {}),
         ...(userOps.addProducts ? {products: state.user.products.concat(userOps.addProducts)} : {}),
-        ...(userOps.removeProducts ? {products: state.user.products.filter(id => !userOps.removeProducts.includes(id))} : {})
+        ...(userOps.removeProducts ? {products: state.user.products.filter(id => !userOps.removeProducts.includes(id))} : {}),
+        ...(userOps.createUserProduct ? {userProducts: state.user.userProducts.concat([ userOps.createUserProduct ])} : {})
       }
       yield put(updateUserStoreAction(updates))
       yield put(mutateUserSuccessAction())
     }
-  } catch(e) {
+  } catch(error) {
     yield put(mutateUserFailAction())
   }
 }
@@ -58,7 +59,8 @@ const InitialState = {
   street_number:'',
   zipcode:'',
   description:'',
-  products: []
+  products: [],
+  userProducts: []
 }
 
 const preProcessUserProducts = (products) => {

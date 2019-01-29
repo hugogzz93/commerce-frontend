@@ -5,6 +5,7 @@ import { onError } from 'apollo-link-error';
 import { setContext } from 'apollo-link-context';
 import { ApolloLink } from 'apollo-link';
 import { getAuthToken } from './services/Authentication'
+import { createUploadLink } from 'apollo-upload-client'
 
 const client = new ApolloClient({
   link: ApolloLink.from([
@@ -27,7 +28,7 @@ const client = new ApolloClient({
         );
       if (networkError) console.log(`[Network error]: ${networkError}`);
     }),
-    new HttpLink({
+    new createUploadLink({
       uri: 'http://localhost:3001/graphql',
       credentials: 'same-origin'
     })
