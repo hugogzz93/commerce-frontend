@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Carousel } from "react-responsive-carousel";
 import ImageCard from '../../cards/ImageCard'
+import HoverImageCard from '../../cards/HoverImageCard'
 import '../../../style/indexDetail.sass'
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import '../../../style/overwrites/carousel.sass'
@@ -26,7 +27,11 @@ const IndexDetail = (props) => {
 
   const imageDivs = Array.from({length: 10}).map((k, i) => {
       return <div className={`masonic--${getRandom(sizes)}`} key={i}>
-        <ImageCard source={getRandom(img)} alt={''} />
+        <HoverImageCard 
+          src={getRandom(img)}
+          title={'Lorem'}
+          paragraphs={['$12.3', 'Lorem Ipsum', 'Dolor sit amet']}
+        />
       </div>
   })
 
@@ -39,7 +44,6 @@ const IndexDetail = (props) => {
                   showArrowns={false}
                   useKeyboardArrows={true}
                   transitionTime={150}
-                  dynamicHeight={true}
                 >
                     <div className="fade-in masonic">
                       { imageDivs }

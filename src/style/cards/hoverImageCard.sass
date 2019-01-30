@@ -1,0 +1,55 @@
+figure
+  width: 100%
+  height: 100%
+  position: relative
+  overflow: hidden
+  font-size: 18px
+  background: #2f3238
+  margin: 0
+  img
+    width: 100%
+    height: 100%
+    transition: transform 1s, opacity 1s
+    transition-delay: 0s
+    opacity: 1
+
+  figcaption
+    position: absolute
+    top: 5%
+    left: 5%
+    width: 66%
+    height: 66%
+    box-sizing: border-box
+    p
+      display: inline-block
+      margin: 0 0 0.25em
+      padding: 0.4em 1em
+      background: rgba(255,255,255,0.9)
+      color: #2f3238
+      text-transform: none
+      font-weight: 500
+      font-size: 75%
+      clear: both
+      float: left
+      transform: translateX(-200px)
+      transition: transform 0.3s
+
+      &:first-child
+        transition-delay: 0
+      &:nth-child(2)
+        transition-delay: 0.05s
+      &:nth-child(3)
+        transition-delay: 0.1s
+    h2
+      color: white
+
+    h2, p
+      text-align: left
+
+  &:hover
+    img
+      transform: scale(1.1)
+      opacity: 0.4
+
+    figcaption p
+      transform: translateX(0px)

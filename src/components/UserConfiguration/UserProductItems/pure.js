@@ -13,7 +13,7 @@ const UserProductItems = ({product, user_id, ...props}) => {
   }, [user_id])
 
   const userProductItemDivs = props.userProductItems.map(( up, i ) => (
-    <div className={`masonic--${getRandom(sizes)}`} key={up.id}>
+    <div className={`masonic--${getRandom(sizes)}`} key={i}>
       <ImageCard source={`http://localhost:3002/download?filename=${up.image}&id=${user_id}`} />
     </div>
   ))
