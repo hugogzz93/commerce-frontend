@@ -18,21 +18,33 @@ const sizes = [ 'big', 'small' ]
 const getRandom = myArray => ( myArray[Math.floor(Math.random() * myArray.length)])
 
 const IndexDetail = (props) => {
-  const [user, setUser] = useState({id: props.id})
+  const [user, setUser] = useState({id: props.id, userProducts: []})
 
   useEffect(() => {
-    props.getUserDetails(props.id).then(setUser)
+    props.getUserDetails({id: props.id, product_id: props.product_id}).then(setUser)
   }, [props])
 
 
-  const imageDivs = Array.from({length: 10}).map((k, i) => {
-      return <div className={`masonic--${getRandom(sizes)}`} key={i}>
+  // const imageDivs = Array.from({length: 10}).map((k, i) => {
+  //     return <div className={`masonic--${getRandom(sizes)}`} key={i}>
+  //       <HoverImageCard 
+  //         src={getRandom(img)}
+  //         title={'Lorem'}
+  //         paragraphs={['$12.3', 'Lorem Ipsum', 'Dolor sit amet']}
+  //       />
+  //     </div>
+  // })
+
+  const userProducts = user.userProducts.map((up, i) => {
+    return (
+      <div className={`masonic--${getRandom(sizes)}`} key={i}>
         <HoverImageCard 
-          src={getRandom(img)}
-          title={'Lorem'}
-          paragraphs={['$12.3', 'Lorem Ipsum', 'Dolor sit amet']}
+          src={`http://localhost:3002/download?filename=${up.image}&id=${user.id}`}
+          title={up.name}
+          paragraphs={[up.price, 'Lorem Ipsum', 'Dolor sit amet']}
         />
       </div>
+    )
   })
 
 
@@ -46,7 +58,7 @@ const IndexDetail = (props) => {
                   transitionTime={150}
                 >
                     <div className="fade-in masonic">
-                      { imageDivs }
+                      { userProducts }
                     </div>
                     <div>
                       <div className="card card--info card--info-red">

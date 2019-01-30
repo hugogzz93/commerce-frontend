@@ -4,8 +4,9 @@ import gql from 'graphql-tag'
 import Pure from './pure'
 
 export const GET_USER_DETAIL = gql`
-  query User($id: ID) {
+  query User($id: ID, $product_id: ID) {
     users(query: {id: $id}) {
+      id
       name,
       email,
       password,
@@ -21,14 +22,23 @@ export const GET_USER_DETAIL = gql`
       products {
         name
       }
+      userProducts(query: {product_id: $product_id}) {
+        id
+        name
+        price
+        image
+      }
     }
   }
 `
 
+// const mapStateToProps = state => ({
+//   userProducts: state
+// })
 const mapDispatchToProps = dispatch => ({
-  getUserDetails: id => sendQuery({
+  getUserDetails: variables => sendQuery({
     query: GET_USER_DETAIL,
-    variables: { id }
+    variables
   }).then(res => res.data.users[0])
 })
 

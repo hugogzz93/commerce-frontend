@@ -82,7 +82,7 @@ const Index = (props) => {
       <div className="index__detail-header">
         <DetailHeading {...items[itemCursor]}/>
       </div>
-      { items[itemCursor] && <IndexDetail id={items[itemCursor].id} />}
+      { items[itemCursor] && <IndexDetail id={items[itemCursor].id} product_id={id} />}
     </div>
   )
 }

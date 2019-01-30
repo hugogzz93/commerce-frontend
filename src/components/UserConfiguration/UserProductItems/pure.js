@@ -1,6 +1,7 @@
 import React, { useState, useEffect} from 'react'
 import UserProductItemForm from '../UserProductItemForm'
 import ImageCard from '../../cards/ImageCard'
+import HoverImageCard from '../../cards/HoverImageCard'
 
 const sizes = [ 'big', 'small' ]
 
@@ -13,8 +14,12 @@ const UserProductItems = ({product, user_id, ...props}) => {
   }, [user_id])
 
   const userProductItemDivs = props.userProductItems.map(( up, i ) => (
-    <div className={`masonic--${getRandom(sizes)}`} key={i}>
-      <ImageCard source={`http://localhost:3002/download?filename=${up.image}&id=${user_id}`} />
+    <div className={`masonic--norm`} key={i}>
+      <HoverImageCard 
+        src={`http://localhost:3002/download?filename=${up.image}&id=${user_id}`}
+        title={up.name}
+        paragraphs={[up.price, 'Lorem Ipsum', 'Dolor sit amet']}
+      />
     </div>
   ))
 
