@@ -25,19 +25,9 @@ const IndexDetail = (props) => {
   }, [props])
 
 
-  // const imageDivs = Array.from({length: 10}).map((k, i) => {
-  //     return <div className={`masonic--${getRandom(sizes)}`} key={i}>
-  //       <HoverImageCard 
-  //         src={getRandom(img)}
-  //         title={'Lorem'}
-  //         paragraphs={['$12.3', 'Lorem Ipsum', 'Dolor sit amet']}
-  //       />
-  //     </div>
-  // })
-
   const userProducts = user.userProducts.map((up, i) => {
     return (
-      <div className={`masonic--${getRandom(sizes)}`} key={i}>
+      <div className={'fade-in'} key={i}>
         <HoverImageCard 
           src={`http://localhost:3002/download?filename=${up.image}&id=${user.id}`}
           title={up.name}
@@ -57,7 +47,7 @@ const IndexDetail = (props) => {
                   useKeyboardArrows={true}
                   transitionTime={150}
                 >
-                    <div className="fade-in masonic">
+                    <div className="fade-in-list masonic masonic--col-2">
                       { userProducts }
                     </div>
                     <div>

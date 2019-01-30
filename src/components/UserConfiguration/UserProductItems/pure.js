@@ -14,7 +14,7 @@ const UserProductItems = ({product, user_id, ...props}) => {
   }, [user_id])
 
   const userProductItemDivs = props.userProductItems.map(( up, i ) => (
-    <div className={`masonic--norm`} key={i}>
+    <div className={``} key={i}>
       <HoverImageCard 
         src={`http://localhost:3002/download?filename=${up.image}&id=${user_id}`}
         title={up.name}
@@ -30,7 +30,7 @@ const UserProductItems = ({product, user_id, ...props}) => {
       </div>
       <div className="up__canvas">
         <UserProductItemForm product_id={product.id}/>
-        <div className="fade-in masonic">
+        <div className="fade-in masonic masonic--col-2">
           { userProductItemDivs }
         </div>
       </div>
