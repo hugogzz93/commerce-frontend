@@ -6,20 +6,38 @@ const UserProducts = props => {
   const userId = props.userId
   const [searchFilter, setSearchFilter] = useState('')
   const [ searchProducts, setSearchProducts ] = useState([])
+  const [selectedProduct, selectProduct] = useState(null)
 
   useEffect(() => {
     props.getUserProducts({userId})
     props.getProducts()
   }, [userId])
 
+  useEffect(() => {
+    if(props.userProducts[0]) selectProduct(props.userProducts[0])
+  }, [props.userProducts])
+
+
+  const selectedItemDivs = props.userProducts
+        .filter(p => searchFilter.length && p.name.toLowerCase().includes(searchFilter.toLowerCase()) || !searchFilter.length)
+        .map((product) => (
+            <div className='fade-in up__search-item index__item' key={product.id}>
+              <ThumbCard 
+                title={product.name}
+                subtitle={product.description}
+                onClick={() => selectProduct(product)}
+                selected={true}
+              />
+            </div>
+        ))
   const searchItemDivs = props.products
         .filter(p => searchFilter.length && p.name.toLowerCase().includes(searchFilter.toLowerCase()) || !searchFilter.length)
-        .map(( {name, description, id}, i ) => (
+        .map(( product, i ) => (
             <div className='fade-in up__search-item index__item' key={i}>
               <ThumbCard 
-                title={name}
-                subtitle={description}
-                onClick={() => props.addProducts({userId, productIds: [id]})}
+                title={product.name}
+                subtitle={product.description}
+                onClick={() => selectProduct(product)}
               />
             </div>
         ))
@@ -34,11 +52,13 @@ const UserProducts = props => {
           onChange={(e) => setSearchFilter(e.target.value)}
         />
         <div className="up__search-items fade-in-list">
+          { selectedItemDivs}
+          <br />
           { searchItemDivs }
         </div>
       </div>
       <div className="col-9 up__list flex__row fade-in-list">
-        {props.userProducts[0] && <UserProductItems product={props.userProducts[0]} />} 
+        {selectedProduct && <UserProductItems product={selectedProduct} />} 
       </div>
     </div>
   )

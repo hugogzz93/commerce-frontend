@@ -22,7 +22,8 @@ const mutateUserSaga = function *(action) {
         ...(userOps.updateUser || {}),
         ...(userOps.addProducts ? {products: state.user.products.concat(userOps.addProducts)} : {}),
         ...(userOps.removeProducts ? {products: state.user.products.filter(id => !userOps.removeProducts.includes(id))} : {}),
-        ...(userOps.createUserProduct ? {userProducts: state.user.userProducts.concat([ userOps.createUserProduct ])} : {})
+        ...(userOps.createUserProduct ? {userProducts: state.user.userProducts.concat([ userOps.createUserProduct ])} : {}),
+        ...(userOps.updateUserProduct ? {userProducts: mergeByKey('id', state.user.userProducts, [userOps.updateUserProduct])} : {}),
       }
       yield put(updateUserStoreAction(updates))
       yield put(mutateUserSuccessAction())

@@ -3,22 +3,29 @@ import UserProductItemForm from '../UserProductItemForm'
 import ImageCard from '../../cards/ImageCard'
 import HoverImageCard from '../../cards/HoverImageCard'
 
-const sizes = [ 'big', 'small' ]
-
-const getRandom = myArray => ( myArray[Math.floor(Math.random() * myArray.length)])
-
 const UserProductItems = ({product, user_id, ...props}) => {
+  const [userProductForEdit, setUserProductForEdit] = useState(null)
 
   useEffect(() => {
     props.getUserProductItems({user_id, product_id: product.id})
-  }, [user_id])
+  }, [user_id, product])
 
   const userProductItemDivs = props.userProductItems.map(( up, i ) => (
-    <div className={``} key={i}>
+    <div className={``} key={up.id}>
       <HoverImageCard 
         src={`http://localhost:3002/download?filename=${up.image}&id=${user_id}`}
         title={up.name}
         paragraphs={[up.price, 'Lorem Ipsum', 'Dolor sit amet']}
+        options={
+            <React.Fragment>
+              <div className="image__hover-button" onClick={(e) => {e.stopPropagation(); console.log('deleted')}}>Delete</div>
+              <div className="image__hover-button" onClick={ () => {
+                setUserProductForEdit(up)
+                const y = document.querySelector('.up__item-form').getBoundingClientRect().top
+                window.scroll({top: y, behavior: 'smooth'})
+              } }>Edit</div>
+            </React.Fragment>
+        }
       />
     </div>
   ))
@@ -29,7 +36,11 @@ const UserProductItems = ({product, user_id, ...props}) => {
         <div className="text__key">{product.name}</div>
       </div>
       <div className="up__canvas">
-        <UserProductItemForm product_id={product.id}/>
+        <UserProductItemForm
+          product_id={product.id}
+          userProduct={userProductForEdit}
+          user_id={user_id}
+        />
         <div className="fade-in masonic masonic--col-2">
           { userProductItemDivs }
         </div>

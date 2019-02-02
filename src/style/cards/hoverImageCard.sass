@@ -1,11 +1,20 @@
-figure
+@import '../variables'
+
+$fig-bg-color: #2f3238
+figure.image__hover-card
+  --option-section-height: 2em
+  cursor: pointer
+  border-radius: 5px
   width: 100%
   height: 100%
   position: relative
   overflow: hidden
   font-size: 18px
-  background: #2f3238
+  background: $fig-bg-color
   margin: 0
+
+  .image__hover-image
+
   img
     width: 100%
     height: 100%
@@ -48,10 +57,58 @@ figure
     h2, p
       text-align: left
 
-  &:hover
+  &.active
+    border-bottom-left-radius: 0
+    border-bottom-right-radius: 0
+
+  &:hover, &.active
     img
       transform: scale(1.1)
       opacity: 0.4
 
     figcaption p
       transform: translateX(0px)
+
+    .image__hover-button
+      // opacity: .5
+      // pointer-events: auto
+      //
+      // &:hover
+      //   opacity: 1
+      //   background: black
+
+.image__hover-options
+  cursor: default
+  max-height: 0
+  transition: all $tempo
+  overflow: hidden
+  // position: absolute
+  // bottom: 0
+  width: 100%
+  background: $fig-bg-color
+
+
+  &.active
+    transition: all $tempo, padding 0
+    max-height: 3em
+    padding: 1ch
+    border-bottom-left-radius: 5px
+    border-bottom-right-radius: 5px
+
+.image__hover-button
+  --theme: white
+  cursor: pointer
+  float: right
+  background: #2f3238
+  color: var(--theme)
+  border: 1px solid var(--theme)
+  display: inline-block
+  padding: 5px
+  // pointer-events: none
+  transition: all $tempo
+  cursor: pointer
+  &:hover
+
+  &:not(:first-of-type)
+    margin: 0 1ch 0 0
+

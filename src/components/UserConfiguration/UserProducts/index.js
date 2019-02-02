@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
-import { queryUserAction, mutateUserAction, } from '../../../models/User'
+import { queryUserAction, mutateUserAction,
+} from '../../../models/User'
 import { queryProductsAction } from '../../../models/Products'
 import gql from 'graphql-tag'
 import Pure from './pure'
