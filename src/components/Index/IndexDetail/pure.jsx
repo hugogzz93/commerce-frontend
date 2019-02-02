@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Carousel } from "react-responsive-carousel";
 import ImageCard from '../../cards/ImageCard'
 import HoverImageCard from '../../cards/HoverImageCard'
+import HoverContainer from '../../cards/HoverContainer'
 import '../../../style/indexDetail.sass'
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import '../../../style/overwrites/carousel.sass'
@@ -27,13 +28,17 @@ const IndexDetail = (props) => {
 
   const userProducts = user.userProducts.map((up, i) => {
     return (
-      <div className={'fade-in'} key={i}>
+      <HoverContainer key={up.id}
+        detail={
+          <div className="button">Buy</div>
+        }
+      >
         <HoverImageCard 
           src={`http://localhost:3002/download?filename=${up.image}&id=${user.id}`}
           title={up.name}
           paragraphs={[up.price, 'Lorem Ipsum', 'Dolor sit amet']}
         />
-      </div>
+      </HoverContainer>
     )
   })
 

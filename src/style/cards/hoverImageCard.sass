@@ -112,3 +112,25 @@ figure.image__hover-card
   &:not(:first-of-type)
     margin: 0 1ch 0 0
 
+.hover__container
+  transition: all $tempo, box-shadow $tempo * 4
+  border-radius: 0 !important
+  > div
+    transition: all $tempo
+
+  &.active
+    box-shadow: 0 3px 6px #0005
+    padding: 2ch
+    .hover__img
+      margin: 0 0 1ch 0
+    .hover__detail
+      // padding: 1ch
+      max-height: 10em
+
+.hover__img
+  box-sizing: border-box
+
+.hover__detail
+  max-height: 0
+  overflow: hidden
+

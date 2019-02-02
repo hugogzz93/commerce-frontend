@@ -2,6 +2,7 @@ import React, { useState, useEffect} from 'react'
 import UserProductItemForm from '../UserProductItemForm'
 import ImageCard from '../../cards/ImageCard'
 import HoverImageCard from '../../cards/HoverImageCard'
+import HoverContainer from '../../cards/HoverContainer'
 
 const UserProductItems = ({product, user_id, ...props}) => {
   const [userProductForEdit, setUserProductForEdit] = useState(null)
@@ -12,21 +13,24 @@ const UserProductItems = ({product, user_id, ...props}) => {
 
   const userProductItemDivs = props.userProductItems.map(( up, i ) => (
     <div className={``} key={up.id}>
-      <HoverImageCard 
-        src={`http://localhost:3002/download?filename=${up.image}&id=${user_id}`}
-        title={up.name}
-        paragraphs={[up.price, 'Lorem Ipsum', 'Dolor sit amet']}
-        options={
-            <React.Fragment>
-              <div className="image__hover-button" onClick={(e) => {e.stopPropagation(); console.log('deleted')}}>Delete</div>
-              <div className="image__hover-button" onClick={ () => {
-                setUserProductForEdit(up)
-                const y = document.querySelector('.up__item-form').getBoundingClientRect().top
-                window.scroll({top: y, behavior: 'smooth'})
-              } }>Edit</div>
-            </React.Fragment>
+      <HoverContainer 
+        detail={
+          <React.Fragment>
+            <div className="button" onClick={(e) => {e.stopPropagation(); console.log('deleted')}}>Delete</div>
+            <div className="button" onClick={ () => {
+              setUserProductForEdit(up)
+              const y = document.querySelector('.up__item-form').getBoundingClientRect().top
+              window.scroll({top: y, behavior: 'smooth'})
+            } }>Edit</div>
+          </React.Fragment>
         }
-      />
+      >
+        <HoverImageCard 
+          src={`http://localhost:3002/download?filename=${up.image}&id=${user_id}`}
+          title={up.name}
+          paragraphs={[up.price, 'Lorem Ipsum', 'Dolor sit amet']}
+        />
+      </HoverContainer>
     </div>
   ))
 
