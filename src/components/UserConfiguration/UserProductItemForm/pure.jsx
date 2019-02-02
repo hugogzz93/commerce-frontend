@@ -50,10 +50,10 @@ const UserProductItemForm = props => {
         <div className="button" onClick={e => mutation({
           user_id: props.user_id,
           product_id: props.product_id,
-          id: props.userProduct.id,
           price: parseFloat(price),
           name: name,
-          image: file
+          image: file,
+          ...props.userProduct ? {id: props.userProduct.id} : null
         })}>{submitMsg}</div>
     </div>
   )

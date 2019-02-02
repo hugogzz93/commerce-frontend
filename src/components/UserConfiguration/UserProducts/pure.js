@@ -14,7 +14,8 @@ const UserProducts = props => {
   }, [userId])
 
   useEffect(() => {
-    if(props.userProducts[0]) selectProduct(props.userProducts[0])
+    if(props.userProducts[0] && !selectedProduct) 
+      selectProduct(props.userProducts[0])
   }, [props.userProducts])
 
 
