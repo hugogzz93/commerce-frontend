@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
 import { sendQuery } from '../../../lib/api'
+import { cartAddProductAction } from '../../../models/ShoppingCart'
 import gql from 'graphql-tag'
 import Pure from './pure'
 
@@ -24,6 +25,7 @@ export const GET_USER_DETAIL = gql`
       }
       userProducts(query: {product_id: $product_id}) {
         id
+        user_id
         name
         price
         image
@@ -39,7 +41,8 @@ const mapDispatchToProps = dispatch => ({
   getUserDetails: variables => sendQuery({
     query: GET_USER_DETAIL,
     variables
-  }).then(res => res.data.users[0])
+  }).then(res => res.data.users[0]),
+  addProductItem: payload => dispatch(cartAddProductAction(payload))
 })
 
 export default connect(

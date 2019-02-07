@@ -31,6 +31,7 @@ function Search(props) {
   useEffect(() => {
     if(selectedOption) return
     const handleKeys = e => {
+      if(e.target != document.body) return
       switch(e.which) {
         case 40:
           setOptionCursor(( optionCursor + 1 + searchOptions.length ) % searchOptions.length)

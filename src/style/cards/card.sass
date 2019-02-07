@@ -56,10 +56,15 @@
   z-index: 1
   top: 100px
   right: 105px
-  max-height: 100vh
-  max-width: 45vw
   box-shadow: 0 0 40px -10px #0005
   transition: all $tempo $bezier-curve, max-height 0.7s $bezier-curve, max-width 1s $bezier-curve
+  max-height: 0
+  max-width: 0
+  padding: 0
+  overflow: hidden
+
+  .login__input
+    opacity: 0
 
   .modal__item
     width: 95%
@@ -70,30 +75,26 @@
     &:not(:last-child)
       margin-bottom: 20px
 
-  input
-    color: var(--theme)
-    text-align: center
-    background: white
-    opacity: 1
-    transition: all $tempo $bezier-curve
 
+  &.active
+    // padding: 3%
+    max-height: 100vh
+    max-width: 45vw
+    .login__input
+      color: var(--theme)
+      text-align: center
+      background: white
+      opacity: 1
+      transition: all $tempo $bezier-curve
 
-  .modal__button
-    border: 1px solid white
-    background: var(--theme)
-    color: white
-    margin-left: 0
-    margin-right: 0
-    text-align: center
-    cursor: pointer
+    .modal__button
+      border: 1px solid white
+      background: var(--theme)
+      color: white
+      margin-left: 0
+      margin-right: 0
+      text-align: center
+      cursor: pointer
 
-
-.modal--inactive
-  max-height: 0
-  max-width: 0
-  padding: 0
-  overflow: hidden
-
-  input
-    opacity: 0
-
+.cart__item
+  color: white

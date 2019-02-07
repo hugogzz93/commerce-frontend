@@ -1,12 +1,38 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import Login from '../Login/index'
+import ShoppingCart from '../ShoppingCart'
+import '../../style/shoppingCart.sass'
+
+// const CartItemInput = props => {
+//   const []
+// }
+
 
 const NavBar = (props) => {
   const [loginModal, setLoginModal] = useState(!props.loggedIn)
+  const [cartModal, setCartModal] = useState(false)
+  const [cartDetails, setCartDetails] = useState({})
+  const [cartFetched, setCartFetched] = useState(false)
+
+  useEffect(() => {
+    if(props.shoppingCart.length)
+      props.getUserProducts({ids: props.shoppingCart.map(e => e.id)})
+           .then(res => setCartDetails(Object.assign({}, cartDetails, ...res.data.userProducts.map(e => ({[e.id]: e})) ))  )
+           .then(() => setCartFetched(true))
+  }, [props.shoppingCart])
 
   const toggleLoginModal = () => {
     setLoginModal(!loginModal)
+  }
+
+  const toggleShoppingCart = () => {
+    setCartModal(!cartModal)
+  }
+
+  const updateCartItemQty = (qty, id) => {
+    const item = props.shoppingCart.find(e => e.id == id)
+    props.updateCartItem({...item, qty})
   }
 
   const handleDropdown = e => {
@@ -23,6 +49,7 @@ const NavBar = (props) => {
           </Link>
         </div>
         <div className="nav--right">
+          <i className="fas fa-shopping-cart icon--button" onClick={e => toggleShoppingCart() }></i>
           <div className="nav__ddown" onClick={handleDropdown}>
             <div className="nav__ddown-title">{props.email}</div>
             <div className="nav__ddown-list">
@@ -35,6 +62,9 @@ const NavBar = (props) => {
               > Log out</Link>
             </div>
           </div>
+        </div>
+        <div className={`modal ${cartModal ? 'active' : ''}`}>
+          <ShoppingCart />
         </div>
       </div>
     )

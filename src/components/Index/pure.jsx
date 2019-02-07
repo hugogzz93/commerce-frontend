@@ -48,6 +48,7 @@ const Index = (props) => {
 
   useEffect(() => {
     const handleKeys = e => {
+      if(e.target != document.body) return
       switch(e.which) {
         case 40:
           setItemCursor(( itemCursor + 1 + items.length ) % items.length)

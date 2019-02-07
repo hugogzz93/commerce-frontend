@@ -1,0 +1,52 @@
+$grayish: rgba(255, 255, 255, 0.5)
+
+.cart__item.cart__item
+  border-bottom: 1px solid white
+  width: 18em
+
+.cart__item-title,
+.cart__item-details,
+.cart__item-body
+  font-size: 13px
+  display: flex
+  color: $grayish
+  justify-content: center
+  align-items: center
+
+.cart__item-title
+  font-weight: 900
+  font-size: 16px
+  color: white
+
+.cart__item-details
+  > div, > input
+    margin: 0.5ch
+
+.cart__item-input
+  text-align: center
+  width: 2em
+  border: none
+  background: transparent
+  font-size: inherit
+  outline: none
+  color: inherit
+  transition: all 0.3s
+  border: 1px solid rgba(255,255,255,0.3)
+  border-radius: 5px
+  cursor: pointer
+  padding: 0.2ch
+
+  &:hover
+    font-size: 16px
+
+  &:active, &:focus
+    color: white
+    font-size: 16px
+    padding: 0.2ch 0.2ch 0.5ch 0.2ch
+    border: 1px solid white
+
+
+  &[type=number]::-webkit-inner-spin-button,
+  &[type=number]::-webkit-outer-spin-button
+    -webkit-appearance: none
+    margin: 0
