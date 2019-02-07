@@ -1,17 +1,21 @@
 $grayish: rgba(255, 255, 255, 0.5)
 
 .cart__item.cart__item
-  border-bottom: 1px solid white
+  border-bottom: 1px solid $grayish
   width: 18em
+  margin: 0 !important
+  padding: 1ch
 
 .cart__item-title,
 .cart__item-details,
 .cart__item-body
+  padding: 0 1ch
   font-size: 13px
   display: flex
   color: $grayish
-  justify-content: center
+  justify-content: left
   align-items: center
+  margin: 0.5ch 0 0 0
 
 .cart__item-title
   font-weight: 900
@@ -50,3 +54,27 @@ $grayish: rgba(255, 255, 255, 0.5)
   &[type=number]::-webkit-outer-spin-button
     -webkit-appearance: none
     margin: 0
+
+.cart__summary
+  display: flex
+  flex-direction: column
+  padding: 1ch
+
+  > div:not(:last-child)
+    margin-bottom: 1em
+
+.cart__subtotal
+  display: flex
+  color: inherit
+  justify-content: space-between
+
+.cart__summary-title
+  font-size: 14px
+  color: $grayish
+  text-transform: uppercase
+  font-weight: 500
+
+.cart__total
+  font-size: 15px
+  color: white
+  font-weight: 900

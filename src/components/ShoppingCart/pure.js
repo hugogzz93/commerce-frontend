@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-
+import numeral from 'numeral'
 const ShoppingCart = props => {
   const updateCartItemQty = (qty, id) => {
     const item = props.shoppingCart.find(e => e.id == id)
@@ -10,6 +10,8 @@ const ShoppingCart = props => {
   useEffect(() => {
     props.loadCart()
   }, [props.shoppingCart.length])
+
+  const subTotal = numeral(props.shoppingCart.reduce((sum, e)  => sum + e.price * e.qty, 0))
 
   return <div className="cart__container">
       <div className="cart__items">
@@ -30,7 +32,15 @@ const ShoppingCart = props => {
         ))}
       </div>
       <div className="cart__summary">
-        {props.shoppingCart.reduce((sum, e) => sum + e.price * e.qty, 0)}
+        <div className="cart__subtotal">
+          <div className="cart__summary-title">Subtotal</div>
+          <div className="cart__total">
+            { subTotal.format('0,0')} MXN
+          </div>
+        </div>
+        <div className="modal__button modal__button--alt modal__item">
+            CHECKOUT
+        </div>
       </div>
     </div>
 }

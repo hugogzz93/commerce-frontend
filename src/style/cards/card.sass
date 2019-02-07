@@ -50,6 +50,7 @@
 .modal
   @extend %__card
   --theme: #fa7354
+  --primary: white
   background: var(--theme)
   border-radius: 2px
   position: fixed
@@ -77,24 +78,29 @@
 
 
   &.active
-    // padding: 3%
     max-height: 100vh
     max-width: 45vw
     .login__input
       color: var(--theme)
       text-align: center
-      background: white
+      background: var(--primary)
       opacity: 1
       transition: all $tempo $bezier-curve
 
-    .modal__button
-      border: 1px solid white
-      background: var(--theme)
-      color: white
-      margin-left: 0
-      margin-right: 0
-      text-align: center
-      cursor: pointer
+.modal__button
+  border: 1px solid var(--primary)
+  background: var(--theme)
+  color: var(--primary)
+  margin-left: 0
+  margin-right: 0
+  text-align: center
+  cursor: pointer
+
+
+.modal__button--alt
+  color: var(--theme)
+  background: var(--primary)
 
 .cart__item
-  color: white
+  color: var(--primary)
+
