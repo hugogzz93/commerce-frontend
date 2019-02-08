@@ -17,7 +17,10 @@ const ShoppingCart = props => {
       <div className="cart__items">
         { props.shoppingCart.map(item => (
           <div className="modal__item cart__item" key={item.id}>
-            <div className="cart__item-title">{item.name}</div>
+            <div className="cart__item-title">
+              {item.name}
+              <i className="fas fa-times" onClick={() => props.removeItemFromCart({id: item.id}) }></i>
+            </div>
             <div className="cart__item-body"></div>
             <div className="cart__item-details">
               <input 

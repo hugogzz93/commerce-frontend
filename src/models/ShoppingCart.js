@@ -54,9 +54,18 @@ const addProductSaga = function*(action) {
   try {
     const state = yield select()
     yield put(updateCartAction( ({productItems: mergeByKey('id', state.shoppingCart.productItems, [action.payload] ) }) ))
-    const newState = yield select()
-    yield call(setCartCookie, newState.shoppingCart.productItems.map(({id, qty}) => ({id, qty})) )
+    yield saveStoreToCookie()
   } catch(err) {
+  }
+}
+
+const removeProductSaga = function*(action) {
+  try {
+    const {shoppingCart: {productItems}} = yield select()
+    yield put(updateCartAction({productItems: productItems.filter(e => e.id != action.payload.id)}))
+    yield saveStoreToCookie()
+  } catch(err) {
+
   }
 }
 
@@ -74,6 +83,7 @@ const updateCartItemSaga = function*(action) {
 export const cartRootSaga = function*() {
   yield takeLatest(loadCartAction, loadCartSaga)
   yield takeLatest(cartAddProductAction, addProductSaga)
+  yield takeLatest(cartRemoveProductAction, removeProductSaga)
   yield takeLatest(updateCartItemAction, updateCartItemSaga)
 }
 

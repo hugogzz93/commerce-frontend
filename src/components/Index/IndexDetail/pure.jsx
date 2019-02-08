@@ -32,7 +32,7 @@ const IndexDetail = (props) => {
         detail={
           <div className="button"
             onClick={() => props.addProductItem({id: up.id, owner_id: up.user_id, qty: 1})}
-          >Buy</div>
+          >Add To Cart</div>
         }
       >
         <HoverImageCard 
