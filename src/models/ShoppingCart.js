@@ -3,7 +3,7 @@ import { createAction, createReducer } from 'redux-act'
 import mergeByKey from 'array-merge-by-key'
 import { sendQuery } from '../lib/api'
 import gql from 'graphql-tag'
-import {getCartCookie, setCartCookie } from '../services/ShoppingCart'
+import {getCartCookie, setCartCookie, placeOrder } from '../services/ShoppingCart'
 
 export const cartAddProductAction = createAction('CART/PRODUCT/ADD')
 export const cartRemoveProductAction = createAction('CART/PRODUCT/REMOVE')
@@ -12,6 +12,9 @@ export const updateCartItemAction = createAction('CART/UPDATE')
 export const loadCartAction = createAction('CART/LOAD')
 export const loadCartFailAction = createAction('CART/LOAD/FAIL')
 export const setCartLoadingStateAction = createAction('CART/LOADING/TOGGLE')
+export const checkoutAction = createAction('CART/CHECKOUT')
+export const checkoutSuccessAction = createAction('CART/CHECKOUT/SUCCESS')
+export const checkoutFailAction = createAction('CART/CHECKOUT/FAIL')
 
 const GET_USER_PRODUCT_ITEMS = gql`
   query getUserProductItems($ids: [ID]!) {
@@ -80,11 +83,30 @@ const updateCartItemSaga = function*(action) {
   }
 }
 
+const checkoutSaga = function *(action) {
+  try {
+    const { user, shoppingCart: { productItems }} = yield select()
+    const response = yield call(placeOrder, {
+      user_id: user.id,
+      order_items: productItems.map(e => ( {user_product_id: e.id, amount: parseInt(e.amount)} ))
+    })
+    if(!!response.data.order.createOrder) {
+      yield put(checkoutSuccessAction())
+      yield saveStoreToCookie()
+    }
+    else
+      yield put(checkoutFailAction())
+  } catch(err) {
+    yield put(checkoutFailAction(err))
+  }
+}
+
 export const cartRootSaga = function*() {
   yield takeLatest(loadCartAction, loadCartSaga)
   yield takeLatest(cartAddProductAction, addProductSaga)
   yield takeLatest(cartRemoveProductAction, removeProductSaga)
   yield takeLatest(updateCartItemAction, updateCartItemSaga)
+  yield takeLatest(checkoutAction, checkoutSaga)
 }
 
 
@@ -101,5 +123,6 @@ export const cartReducer = createReducer({
   },
   [setCartLoadingStateAction]: (state, payload) => ({...state, loaded: payload}),
   [updateCartAction]: (state, payload) => ({...state, ...payload}),
+  [checkoutSuccessAction]: (state) => ({...state, productItems: []}),
 }, InitialState)
 

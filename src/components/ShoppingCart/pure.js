@@ -33,17 +33,19 @@ const ShoppingCart = props => {
           </div>
         ))}
       </div>
-      <div className="cart__summary">
-        <div className="cart__subtotal">
-          <div className="cart__summary-title">Subtotal</div>
-          <div className="cart__total">
-            { subTotal.format('0,0')} MXN
+      {subTotal.value > 0 && (
+        <div className="cart__summary">
+          <div className="cart__subtotal">
+            <div className="cart__summary-title">Subtotal</div>
+            <div className="cart__total">
+              { subTotal.format('0,0')} MXN
+            </div>
+          </div>
+          <div className="modal__button modal__button--alt modal__item" onClick={() => props.checkout()}>
+              CHECKOUT
           </div>
         </div>
-        <div className="modal__button modal__button--alt modal__item">
-            CHECKOUT
-        </div>
-      </div>
+      )}
     </div>
 }
 

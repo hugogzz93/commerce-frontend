@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { loadCartAction, updateCartItemAction, cartRemoveProductAction } from '../../models/ShoppingCart'
+import { loadCartAction, updateCartItemAction, cartRemoveProductAction, checkoutAction } from '../../models/ShoppingCart'
 import Pure from './pure'
 
 const mapStateToProps = state => ({
@@ -10,6 +10,7 @@ const mapDispatchToProps = dispatch => ({
   loadCart: () => dispatch(loadCartAction()),
   updateCartItem: payload => dispatch(updateCartItemAction(payload)),
   removeItemFromCart: payload => dispatch(cartRemoveProductAction(payload)),
+  checkout: () => dispatch(checkoutAction())
 })
 
 export default connect(
