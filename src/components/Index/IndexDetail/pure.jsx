@@ -31,7 +31,7 @@ const IndexDetail = (props) => {
       <HoverContainer key={up.id}
         detail={
           <div className="button"
-            onClick={() => props.addProductItem({id: up.id, owner_id: up.user_id, qty: 1})}
+            onClick={() => props.addProductItem({id: up.id, owner_id: up.user_id, amount: 1})}
           >Add To Cart</div>
         }
       >

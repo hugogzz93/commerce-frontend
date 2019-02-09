@@ -26,7 +26,7 @@ const GET_USER_PRODUCT_ITEMS = gql`
 
 const saveStoreToCookie = function*() {
   const {shoppingCart: {productItems}} = yield select()
-  yield call(setCartCookie, productItems.map(({id, qty}) => ({id, qty})))
+  yield call(setCartCookie, productItems.map(({id, amount}) => ({id, amount})))
 }
 
 const loadCartSaga = function*() {

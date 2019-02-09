@@ -1,17 +1,16 @@
 import React, {useState, useEffect} from 'react'
 import numeral from 'numeral'
 const ShoppingCart = props => {
-  const updateCartItemQty = (qty, id) => {
+  const updateCartItemQty = (amount, id) => {
     const item = props.shoppingCart.find(e => e.id == id)
-    props.updateCartItem({...item, qty})
-
+    props.updateCartItem({...item, amount})
   }
 
   useEffect(() => {
     props.loadCart()
   }, [props.shoppingCart.length])
 
-  const subTotal = numeral(props.shoppingCart.reduce((sum, e)  => sum + e.price * e.qty, 0))
+  const subTotal = numeral(props.shoppingCart.reduce((sum, e)  => sum + e.price * e.amount, 0))
 
   return <div className="cart__container">
       <div className="cart__items">
@@ -26,7 +25,7 @@ const ShoppingCart = props => {
               <input 
                 className="cart__item-input" 
                 type="number"
-                value={item.qty}
+                value={item.amount}
                 onChange={e => updateCartItemQty(e.target.value, item.id) }
               />x
               <div>{item.price}</div>

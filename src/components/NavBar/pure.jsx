@@ -30,9 +30,9 @@ const NavBar = (props) => {
     setCartModal(!cartModal)
   }
 
-  const updateCartItemQty = (qty, id) => {
+  const updateCartItemQty = (amount, id) => {
     const item = props.shoppingCart.find(e => e.id == id)
-    props.updateCartItem({...item, qty})
+    props.updateCartItem({...item, amount})
   }
 
   const handleDropdown = e => {
