@@ -10,6 +10,7 @@ import Search from '../Search'
 import ThumbCard from '../cards/ThumbCard'
 import NavBar from '../NavBar/index'
 import UserConfiguration from '../../components/UserConfiguration/index'
+import OrderIndex from '../Orders/OrdersIndex/index'
 
 
 
@@ -37,6 +38,7 @@ class App extends Component {
                 <Switch location={location}>
                   <Route exact={true} path='/' component={Search}/>
                   <Route path='/users' component={ UserConfiguration }/>
+                  <Route path='/user/orders' component={ OrderIndex } />
                 </Switch>
               </CSSTransition>
           </TransitionGroup>

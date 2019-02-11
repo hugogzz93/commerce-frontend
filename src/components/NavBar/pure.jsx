@@ -47,6 +47,9 @@ const NavBar = (props) => {
           <Link to='/'>
             Search
           </Link>
+          <Link to='/user/orders'>
+            Orders
+          </Link>
         </div>
         <div className="nav--right">
           <i className="fas fa-shopping-cart icon--button" onClick={e => toggleShoppingCart() }></i>

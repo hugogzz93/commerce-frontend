@@ -33,7 +33,7 @@ const ShoppingCart = props => {
           </div>
         ))}
       </div>
-      {subTotal.value > 0 && (
+      {subTotal.value() > 0 && (
         <div className="cart__summary">
           <div className="cart__subtotal">
             <div className="cart__summary-title">Subtotal</div>

@@ -61,7 +61,8 @@ const InitialState = {
   zipcode:'',
   description:'',
   products: [],
-  userProducts: []
+  userProducts: [],
+  orders: {}
 }
 
 const preProcessUserProducts = (products) => {

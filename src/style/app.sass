@@ -26,6 +26,10 @@ body
   background: transparent
   box-sizing: border-box
 
+.flex--even
+  display: flex
+  justify-content: space-between
+
 .flex--col
   display: flex
   flex-direction: column
@@ -43,6 +47,15 @@ body
 
 .gradient--purple
   background-image: $purpleGradient
+
+
+.tail
+  color: #0005
+  background: linear-gradient(to right, currentColor, transparent 80%)
+  height: 1px
+
+.tail--inverse
+  background: linear-gradient(to left, currentColor, transparent 80%)
 
 .overlay
   postiton: fixed

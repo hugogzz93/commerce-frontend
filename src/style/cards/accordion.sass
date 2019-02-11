@@ -1,0 +1,64 @@
+@import 'card'
+
+.accordion
+  @extend %__card
+  padding: 0
+
+.accordion__title
+  display: flex
+  justify-content: space-between
+  cursor: pointer
+  padding: 2ch
+
+  &:hover
+    background: #f8f9fa
+
+.accordion__body
+  max-height: 0
+  overflow: hidden
+  padding: 0
+
+.accordion__footer
+  height: 0
+  opacity: 0
+  overflow: hidden
+  padding: 0
+
+
+.accordion__body,
+.accordion__title,
+.accordion__footer,
+  transition: all 0.5s
+
+.accordion__body,
+.accordion__footer
+  opacity: 0
+  overflow: hidden
+  padding: 0
+
+.accordion--hide-on-active
+  opacity: 1
+  transition: all 0.3s
+
+.accordion--hide-on-inactive
+  opacity: 0
+  transition: all 0.3s
+
+
+.accordion.active
+  .accordion__body,
+  .accordion__footer
+    opacity: 1
+    padding: 2ch
+
+  .accordion__body
+    max-height: 10em
+
+  .accordion__footer
+    height: 2ch
+
+  .accordion--hide-on-active
+    opacity: 0
+
+  .accordion--hide-on-inactive
+    opacity: 1
