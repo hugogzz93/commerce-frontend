@@ -26,7 +26,7 @@ const Index = (props) => {
     <div className='index__item fade-in' key={i}>
       <ThumbCard 
         title={name}
-        selected={itemCursor == i ? true : false}
+        selected={itemCursor == i}
         onClick={() => { setItemCursor(i) }}
       />
     </div>

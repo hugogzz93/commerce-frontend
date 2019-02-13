@@ -12,6 +12,8 @@ import NavBar from '../NavBar/index'
 import UserConfiguration from '../../components/UserConfiguration/index'
 import OrderIndex from '../Orders/OrdersIndex/index'
 
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import '../../../style/overwrites/carousel.sass'
 
 
 class App extends Component {
