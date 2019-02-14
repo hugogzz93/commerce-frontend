@@ -1,0 +1,33 @@
+@import 'variables'
+
+.chat__box
+  display: flex
+  flex-direction: column
+
+.chat__prompt, .chat__messages
+  width: 100%
+
+.chat__promp
+  border: 1px solid gray
+
+.chat__messages
+  height: 10em
+  border: 1px solid
+  padding: 1em
+  overflow: scroll
+
+.chat__bubble
+  border-radius: 2em
+  background: $red
+  color: white
+  border: 1px solid #0003
+  box-shadow: 0 3px 3px lighten($red, 10%)
+  float: left
+  clear: both
+  padding: 1em
+  margin: 0.4em 0
+
+.msg--self
+  background: $blue
+  box-shadow: 0 3px 3px lighten($blue, 10%)
+  float: left

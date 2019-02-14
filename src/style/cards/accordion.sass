@@ -19,10 +19,12 @@
   padding: 0
 
 .accordion__footer
+  display: flex
+  align-items: center
+  justify-content: space-between
   height: 0
   opacity: 0
   overflow: hidden
-  padding: 0
 
 
 .accordion__body,
@@ -49,13 +51,13 @@
   .accordion__body,
   .accordion__footer
     opacity: 1
-    padding: 2ch
 
   .accordion__body
     max-height: 10em
+    padding: 2ch
 
   .accordion__footer
-    height: 2ch
+    padding: 2em
 
   .accordion--hide-on-active
     opacity: 0

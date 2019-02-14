@@ -1,6 +1,6 @@
 import React, { useState, useEffect} from 'react'
-import ThumbCard from '../../cards/ThumbCard'
-import Chat from '../../Chat/index.js'
+import ThumbCard from '../../../cards/ThumbCard'
+import Chat from '../../../Chat/index.js'
 
 const IssueForm = props => {
   const [state, setState] = useState({})
@@ -9,7 +9,7 @@ const IssueForm = props => {
   const [users, setUsers] = useState([])
 
   useEffect(() => {
-    props.getOrder(order_id).then(res => {
+    props.getOrder(props.order_id).then(res => {
       if(res.data.orders) {
         setState(res.data.orders)
         setUsers([...new Set(res.data.order.orderItems.map(e => e.userProduct.user))])
@@ -18,11 +18,11 @@ const IssueForm = props => {
     })
   }, [props.order_id])
 
-  if(loaded) 
+  if(loaded)
     return (
       <div class="issue__form grid-5">
         <div className="col-1 flex--row">
-            users.map(( user, i ) => {
+          {users.map(( user, i ) => {
               return (
                 <ThumbCard
                     title={user.name}
@@ -31,10 +31,10 @@ const IssueForm = props => {
                     selected={itemCursor == user.id }
                 />
               )
-            })
+            })}
         </div>
         <div className="col-4">
-            <Chat>
+          {/* <Chat/> */}
         </div>
       </div>
     )
@@ -43,5 +43,4 @@ const IssueForm = props => {
       <div class="issue__form"></div>
     )
 }
-
 export default IssueForm

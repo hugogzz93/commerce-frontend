@@ -11,22 +11,28 @@ import CarouselWrapper from '../CarouselWrapper'
 
 
 const UserConfiguration = props => {
+  const [carouselControls, setCarouselControls] = useState({})
+  const [currentSlide, setCurrentSlide] = useState(0)
 
   return (
-    <div className="overlay ">
-      <div className="flex__row">
-        <Link to="/users/profile/edit">Profile</Link>
-        <Link to="/users/products/edit">Products</Link>
+    <div className="overlay content ">
+      <div className="button-array container--60">
+          <div className={`btn ${currentSlide == 0 ? 'active' : ''}`} onClick={() => {setCurrentSlide(0); carouselControls.setSlide(0)}}>
+            Profile
+        </div>
+        <div className={`btn ${currentSlide == 1 ? 'active' : ''}`} onClick={() => {setCurrentSlide(1); carouselControls.setSlide(1)}}>
+            Products
+        </div>
       </div>
-        <CarouselWrapper showThumbs={false}
-                  showIndicators={false}
-                  showStatus={false}
-                  transitionTime={150}
-        >
-          <FormSlide/>
-          <UserProducts/>
-        </CarouselWrapper>
-
+      <CarouselWrapper showThumbs={false}
+                showIndicators={false}
+                showStatus={false}
+                transitionTime={150}
+                controlSetter={setCarouselControls}
+      >
+        <FormSlide/>
+        <UserProducts/>
+      </CarouselWrapper>
     </div>
   )
 }

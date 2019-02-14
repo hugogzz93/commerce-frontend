@@ -1,6 +1,6 @@
 import Pure from './pure'
 import { connect } from 'react-redux'
-import { sendQuery }  from '../../../lib/api'
+import { sendQuery }  from '../../../../lib/api'
 import gql from 'graphql-tag'
 
 const ORDER_QUERY = gql`
@@ -34,10 +34,10 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  getOrder: order_id => sendQuery(ORDER_QUERY)
+  getOrder: order_id => sendQuery({query: ORDER_QUERY, variables: {order_id}})
 })
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)
+)(Pure)

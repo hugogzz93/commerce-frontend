@@ -27,7 +27,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   logout: () => {
-    window.location = ROOT_URL
+    window.location = ROOT_URL + ':3000'
     dispatch(logoutAction())
   },
   getUserProducts: payload => sendQuery({

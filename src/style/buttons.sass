@@ -14,6 +14,7 @@
 
   &:hover
     box-shadow: 0 3px 18px 0px $blue
+    border: 1px solid #0003
 
   &:active
     background: darken($blue, 15%)
@@ -25,6 +26,13 @@
 .btn--danger
   background: $red
   color: white
+  box-shadow: 0 3px 18px -4px $red
+
+  &:hover
+    box-shadow: 0 3px 18px 0px $red
+
+.btn--small
+  font-size: 11px
 
 .icon--button
   cursor: pointer
