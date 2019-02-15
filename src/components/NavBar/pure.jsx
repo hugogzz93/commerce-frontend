@@ -47,8 +47,11 @@ const NavBar = (props) => {
           <Link to='/'>
             Search
           </Link>
-          <Link to='/user/orders'>
+          <Link to='/user/orders/created'>
             Orders
+          </Link>
+          <Link to='/user/orders/attending'>
+            Attending Orders
           </Link>
         </div>
         <div className="nav--right">
