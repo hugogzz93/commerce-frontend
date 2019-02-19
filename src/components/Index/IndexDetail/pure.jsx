@@ -7,17 +7,6 @@ import '../../../style/indexDetail.sass'
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import '../../../style/overwrites/carousel.sass'
 
-const img = [
-  'https://images.unsplash.com/photo-1544108182-8810058c3a7d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9',
-  'https://images.unsplash.com/photo-1544077960-604201fe74bc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9',
-  'https://images.unsplash.com/photo-1540206458-3b96c6332706?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9',
-  'https://images.unsplash.com/photo-1540206458-3b96c6332706?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9'
-]
-
-const sizes = [ 'big', 'small' ]
-
-const getRandom = myArray => ( myArray[Math.floor(Math.random() * myArray.length)])
-
 const IndexDetail = (props) => {
   const [user, setUser] = useState({id: props.id, userProducts: []})
 

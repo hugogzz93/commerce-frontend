@@ -21,6 +21,7 @@ export default (props) => {
             type="password"
             value={password}
             onChange={e => setPassword(e.target.value)} />
+          { props.login_failed && <span className='modal__item modal--text'>* Wrong username or password</span> }
           <div 
             className="modal__item modal__button" 
             onClick={() => props.login(email, password)}>

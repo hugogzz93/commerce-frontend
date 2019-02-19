@@ -65,5 +65,6 @@ const InitialState = {
 export const authReducer = createReducer({
   [setLoginDetail]: (state, {auth_token}) => ({...state, auth_token, fail: false}),
   [setLoginFailed]: (state) => ({...state, auth_token: null, fail: true}),
+  [loginAction]: (state) => ({...state, fail: false}),
   [errorAction]: (state, payload) => ({...state, error: payload})
 }, InitialState)

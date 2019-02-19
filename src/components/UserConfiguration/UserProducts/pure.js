@@ -5,7 +5,6 @@ import UserProductItems from '../UserProductItems'
 const UserProducts = props => {
   const userId = props.userId
   const [searchFilter, setSearchFilter] = useState('')
-  const [ searchProducts, setSearchProducts ] = useState([])
   const [selectedProduct, selectProduct] = useState(null)
 
   useEffect(() => {

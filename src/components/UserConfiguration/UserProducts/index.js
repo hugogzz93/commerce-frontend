@@ -34,7 +34,7 @@ const addProducts = gql`
 `
 
 const removeProducts = gql`
-  mutation addProduct($userId: ID!, $productIds: [ID]!) {
+  mutation removeProduct($userId: ID!, $productIds: [ID]!) {
     user(id: $userId) {
       removeProducts(ids: $productIds)
     }
