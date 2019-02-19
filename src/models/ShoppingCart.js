@@ -4,6 +4,7 @@ import mergeByKey from 'array-merge-by-key'
 import { sendQuery } from '../lib/api'
 import gql from 'graphql-tag'
 import {getCartCookie, setCartCookie, placeOrder } from '../services/ShoppingCart'
+import { logoutAction } from './Authentication'
 
 export const cartAddProductAction = createAction('CART/PRODUCT/ADD')
 export const cartRemoveProductAction = createAction('CART/PRODUCT/REMOVE')
@@ -86,11 +87,24 @@ const updateCartItemSaga = function*(action) {
 const checkoutSaga = function *(action) {
   try {
     const { user, shoppingCart: { productItems }} = yield select()
-    const response = yield call(placeOrder, {
-      user_id: user.id,
-      order_items: productItems.map(e => ( {user_product_id: e.id, amount: parseInt(e.amount)} ))
-    })
-    if(!!response.data.order.createOrder) {
+    const orderInput = productItems.reduce((obj, item) => ({
+      ...obj,
+      [item.user_id]: {
+        vendor_id: item.user_id,
+        client_id: user.id,
+        orderItems: [
+          ...obj[item.user_id] ? obj[item.user_id].orderItems : [],
+          { user_product_item_id: item.id, amount: parseInt(item.amount) }
+        ]
+      }
+    }), {})
+
+    const orderGroupInput = {
+      client_id: user.id,
+      orders: [...Object.keys(orderInput).map(k => orderInput[k])]
+    }
+    const response = yield call(placeOrder, { orderGroupInput } )
+    if(!!response.data.order.createOrderGroup) {
       yield put(checkoutSuccessAction())
       yield saveStoreToCookie()
     }
@@ -101,12 +115,19 @@ const checkoutSaga = function *(action) {
   }
 }
 
+const logoutSaga = function *(action) {
+  try {
+    yield call(setCartCookie, null)
+  } catch(err) {}
+}
+
 export const cartRootSaga = function*() {
   yield takeLatest(loadCartAction, loadCartSaga)
   yield takeLatest(cartAddProductAction, addProductSaga)
   yield takeLatest(cartRemoveProductAction, removeProductSaga)
   yield takeLatest(updateCartItemAction, updateCartItemSaga)
   yield takeLatest(checkoutAction, checkoutSaga)
+  yield takeLatest(logoutAction, logoutSaga)
 }
 
 
