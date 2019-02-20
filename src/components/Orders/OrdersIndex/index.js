@@ -7,19 +7,31 @@ const GET_CREATED_ORDERS = gql`
   query GetCreatedOrders($user_id: ID) {
     users(query: {id: $user_id}) {
       orders {
-        createdOrders {
+        orderGroups {
           id
           total
           createdAt
-          status
-          orderItems {
+          orders {
             id
-            price
-            amount
-            status
-            userProduct {
+            createdAt
+            total
+            vendor {
               id
               name
+              email
+            }
+            issues {
+              id
+              status
+            }
+            orderItems {
+              id
+              amount
+              price
+              userProduct {
+                id
+                name
+              }
             }
           }
         }
@@ -27,35 +39,10 @@ const GET_CREATED_ORDERS = gql`
     }
   }
 `
-const GET_ATTENDING_ORDERS = gql`
-  query GetCreatedOrders($user_id: ID) {
-    users(query: {id: $user_id}) {
-      orders {
-        attendingOrders {
-          id
-          total
-          createdAt
-          status
-          orderItems {
-            id
-            price
-            amount
-            status
-            userProduct {
-              id
-              name
-            }
-          }
-        }
-      }
-    }
-  }
-`
-
 const mapStateToProps = state => ({
   user_id: state.user.id,
-  createdOrders: state.user.orders.createdOrders || [],
-  attendingOrders: state.user.orders.attendingOrders || []
+  orderGroups: state.user.orders.orderGroups || [],
+  // createdOrders: state.user.orders.createdOrders || [],
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -63,10 +50,10 @@ const mapDispatchToProps = dispatch => ({
     query: GET_CREATED_ORDERS,
     variables
   })),
-  getAttendingOrders: variables => dispatch(queryUserAction({
-    query: GET_ATTENDING_ORDERS,
-    variables
-  })),
+  // getAttendingOrders: variables => dispatch(queryUserAction({
+  //   query: GET_ATTENDING_ORDERS,
+  //   variables
+  // })),
 })
 
 export default connect(

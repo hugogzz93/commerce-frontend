@@ -2,13 +2,15 @@ import React, {useState, useEffect} from 'react'
 import CarouselWrapper from '../../../CarouselWrapper'
 import AccordionCard from '../../../cards/AccordionCard'
 import numeral from 'numeral'
-import IssueForm from '../IssueForm'
+import OrderIssueForm from '../IssueForm'
 import Chat from '../../../Chat'
 
 
-const Order = props => {
+const OrderGroup = props => {
   const [slideControl, setSlideControls] = useState({})
-  const order = props.order
+  const orderGroup = props.orderGroup
+  const orderItems = orderGroup.orders
+                          .reduce((items, order) => [...items, ...order.orderItems], [])
 
   return(
     <div className="order__container">
@@ -23,19 +25,19 @@ const Order = props => {
             <AccordionCard
               header={
                 <React.Fragment>
-                  <span className='triplet'>{new Date(parseInt(order.createdAt)).toDateString()}</span>
-                  <span className='triplet accordion--hide-on-active'>{numeral( order.total ).format('0,0')} MXN</span>
-                  <span className='triplet accordion--hide-on-active'>{order.orderItems.length} Items</span>
+                  <span className='triplet'>{new Date(parseInt(orderGroup.createdAt)).toDateString()}</span>
+                  <span className='triplet accordion--hide-on-active'>{numeral( orderGroup.total ).format('0,0')} MXN</span>
+                  <span className='triplet accordion--hide-on-active'>{orderItems.length} Items</span>
                 </React.Fragment>
               }
               footer={
                 <React.Fragment>
                   <div className="button btn--danger btn--small" style={{float: 'left'}} onClick={() => slideControl.setSlide(1)}>Create Issue</div>
-                  <span style={{float: 'right'}}>{numeral(order.total).format('0,0')} MXN</span>
+                  <span style={{float: 'right'}}>{numeral(orderGroup.total).format('0,0')} MXN</span>
                 </React.Fragment>
               }
             >
-              { order.orderItems.map(({userProduct: {name}, id, status, price, amount}) => (
+              { orderItems.map(({userProduct: {name}, id, status, price, amount}) => (
                 <div className='oc__list-item flex--even' key={id}>
                   <span className='triplet'>{name}</span>
                   <span className="triplet">{status}</span>
@@ -43,12 +45,10 @@ const Order = props => {
                 </div>
               ))}
             </AccordionCard>
-            <Chat/>
+            <OrderIssueForm orders={orderGroup.orders}/>
           </CarouselWrapper>
     </div>
-    
-    
   )
 }
 
-export default Order
+export default OrderGroup

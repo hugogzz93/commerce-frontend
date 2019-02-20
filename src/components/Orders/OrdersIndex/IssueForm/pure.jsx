@@ -3,44 +3,37 @@ import ThumbCard from '../../../cards/ThumbCard'
 import Chat from '../../../Chat/index.js'
 
 const IssueForm = props => {
-  const [state, setState] = useState({})
-  const [loaded, setLoaded] = useState(false)
-  const [itemCursor, setItemCursor] = useState(null)
-  const [users, setUsers] = useState([])
+  const [selectedVendor, selectVendor] = useState(null)
 
-  useEffect(() => {
-    props.getOrder(props.order_id).then(res => {
-      if(res.data.orders) {
-        setState(res.data.orders)
-        setUsers([...new Set(res.data.order.orderItems.map(e => e.userProduct.user))])
-        setLoaded(true)
-      } 
-    })
-  }, [props.order_id])
-
-  if(loaded)
+  if(selectedVendor)
     return (
-      <div class="issue__form grid-5">
-        <div className="col-1 flex--row">
-          {users.map(( user, i ) => {
-              return (
-                <ThumbCard
-                    title={user.name}
-                    subTitle={user.email}
-                    onClick={() => setItemCursor(user.id)}
-                    selected={itemCursor == user.id }
-                />
-              )
-            })}
+      <div className="card flex--col">
+        <div className="card__heading flex--row">
+          <div className="button btn--danger" onClick={() => selectVendor(null)}>
+            Change Vendor
+          </div>
+          <div className="button" onClick={() => selectVendor(null)}>
+            Close Issue
+          </div>
         </div>
-        <div className="col-4">
-          {/* <Chat/> */}
-        </div>
+        <Chat order={props.orders.find(o => o.vendor == selectedVendor)}/>
       </div>
     )
   else
     return (
-      <div class="issue__form"></div>
+      <div className="card flex--col">
+        <div className="card">
+          Select the vendor you would like to speak with
+        </div>
+        { props.orders.map(order => (
+            <ThumbCard
+              key={order.id}
+              title={order.vendor.name}
+              selected={selectedVendor && selectedVendor.id == order.vendor.id}
+              onClick={() => { selectVendor(order.vendor) }}
+            />
+        )) }
+      </div>
     )
 }
 export default IssueForm

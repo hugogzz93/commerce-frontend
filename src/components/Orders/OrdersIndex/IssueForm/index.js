@@ -6,6 +6,7 @@ import gql from 'graphql-tag'
 const ORDER_QUERY = gql`
   query getOrder($id: ID) {
     orders(query: {id: $id}) {
+      vendor_id
       orderItems {
         amount
         userProduct {
@@ -34,7 +35,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  getOrder: order_id => sendQuery({query: ORDER_QUERY, variables: {order_id}})
+  // getOrder: order_id => sendQuery({query: ORDER_QUERY, variables: {order_id}})
 })
 
 export default connect(
