@@ -4,7 +4,7 @@ import gql from 'graphql-tag'
 import Pure from './pure'
 
 const GET_CREATED_ORDERS = gql`
-  query GetCreatedOrders($user_id: ID) {
+  query GetCreatedOrders($user_id: ID!) {
     users(query: {id: $user_id}) {
       orders {
         orderGroups {
@@ -39,10 +39,38 @@ const GET_CREATED_ORDERS = gql`
     }
   }
 `
+
+const GET_ATTENDING_ORDERS = gql`
+  query GetAttendingOrders($user_id: ID!) {
+    users(query: {id: $user_id}) {
+      orders {
+        ordersAsVendor {
+          id
+          status
+          total
+          createdAt
+          issues {
+            id
+            status
+          }
+          orderItems {
+            id
+            amount
+            price
+            userProduct {
+              name
+            }
+          }
+        }
+      }
+    }
+  }
+`
+
 const mapStateToProps = state => ({
   user_id: state.user.id,
   orderGroups: state.user.orders.orderGroups || [],
-  // createdOrders: state.user.orders.createdOrders || [],
+  attendingOrders: state.user.orders.ordersAsVendor || [],
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -50,10 +78,10 @@ const mapDispatchToProps = dispatch => ({
     query: GET_CREATED_ORDERS,
     variables
   })),
-  // getAttendingOrders: variables => dispatch(queryUserAction({
-  //   query: GET_ATTENDING_ORDERS,
-  //   variables
-  // })),
+  getAttendingOrders: variables => dispatch(queryUserAction({
+    query: GET_ATTENDING_ORDERS,
+    variables
+  })),
 })
 
 export default connect(
