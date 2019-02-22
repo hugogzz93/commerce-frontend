@@ -39,7 +39,7 @@ class App extends Component {
                 classNames='fade' >
                 <Switch location={location}>
                   <Route exact={true} path='/' component={Search}/>
-                  <Route path='/users' component={ UserConfiguration }/>
+                  <Route path='/users/edit' component={ UserConfiguration }/>
                   <Route path='/user/orders' component={ OrderIndex } />
                 </Switch>
               </CSSTransition>

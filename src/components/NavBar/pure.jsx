@@ -59,7 +59,7 @@ const NavBar = (props) => {
           <div className="nav__ddown" onClick={handleDropdown}>
             <div className="nav__ddown-title">{props.email}</div>
             <div className="nav__ddown-list">
-              <Link className="nav__ddown-li" to='/users/profile/edit'>
+              <Link className="nav__ddown-li" to='/users/edit/profile'>
                 Settings
               </Link>
               <Link className="nav__ddown-li nav__li--danger" to='#' onClick={ (e) => {

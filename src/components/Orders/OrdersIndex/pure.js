@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import OrderGroup from './OrderGroup/pure'
 import Order from './Order/pure'
+import OrderIssueForm from  './OrderGroupIssueForm'
+import Chat from '../../Chat/index.js'
 import {  BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom'
 import {
   CSSTransition,
@@ -51,17 +53,30 @@ const OrderIndex = props => {
               timeout={300}
               classNames='fade' >
               <Switch location={location}>
-                <Route path='/user/orders/created' component={ () =>
+                <Route exact={true} path='/user/orders/created' component={ () =>
                   <div className="order__list container--70">
                     { props.orderGroups.length ? createdOrdersDiv : noOrdersCard }
                     {props.orderGroups.length}
                   </div>
                 }>
                 </Route>
-                <Route path='/user/orders/attending' component={ () =>
+                <Route exact={true} path='/user/orders/attending' component={ () =>
                   <div className="order__list container--70">
                     {props.attendingOrders.length ? attendingOrdersDivs : noOrdersCard }
                     {props.attendingOrders.length}
+                  </div>
+                }>
+                </Route>
+                <Route path='/user/orders/created/issue/:id' component={ ({match}) =>
+                  <div class="order__container">
+                    <OrderIssueForm orders={props.orderGroups.find(o => o.id == match.params.id).orders}/>
+                  </div>
+                }></Route>
+                <Route path='/user/orders/chat/:id' component={({match}) =>
+                  <div className="order__container">
+                    <div className="card flex--col">
+                      <Chat order={props.allOrders.find(o => o.id == match.params.id)}/>
+                    </div>
                   </div>
                 }>
                 </Route>

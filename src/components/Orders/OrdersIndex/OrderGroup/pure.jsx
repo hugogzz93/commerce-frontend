@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react'
+import { Link } from 'react-router-dom'
 import CarouselWrapper from '../../../CarouselWrapper'
 import AccordionCard from '../../../cards/AccordionCard'
 import numeral from 'numeral'
@@ -14,14 +15,14 @@ const OrderGroup = props => {
 
   return(
     <div className="order__container">
-      <CarouselWrapper showThumbs={false}
-                    showIndicators={false}
-                    showStatus={false}
-                    showArrowns={false}
-                    useKeyboardArrows={true}
-                    transitionTime={150}
-                    controlSetter={setSlideControls}
-          >
+      {/* <CarouselWrapper showThumbs={false} */}
+      {/*               showIndicators={false} */}
+      {/*               showStatus={false} */}
+      {/*               showArrowns={false} */}
+      {/*               useKeyboardArrows={false} */}
+      {/*               transitionTime={150} */}
+      {/*               controlSetter={setSlideControls} */}
+      {/*     > */}
             <AccordionCard
               header={
                 <React.Fragment>
@@ -32,7 +33,9 @@ const OrderGroup = props => {
               }
               footer={
                 <React.Fragment>
-                  <div className="button btn--danger btn--small" style={{float: 'left'}} onClick={() => slideControl.setSlide(1)}>Create Issue</div>
+                  <Link className="button btn--danger btn--small" style={{float: 'left'}} to={'/user/orders/created/issue/' + orderGroup.id}>
+                    Issues
+                  </Link>
                   <span style={{float: 'right'}}>{numeral(orderGroup.total).format('0,0')} MXN</span>
                 </React.Fragment>
               }
@@ -45,8 +48,8 @@ const OrderGroup = props => {
                 </div>
               ))}
             </AccordionCard>
-            <OrderIssueForm orders={orderGroup.orders}/>
-          </CarouselWrapper>
+          {/*   <OrderIssueForm orders={orderGroup.orders}/> */}
+          {/* </CarouselWrapper> */}
     </div>
   )
 }

@@ -67,12 +67,17 @@ const GET_ATTENDING_ORDERS = gql`
   }
 `
 
-const mapStateToProps = state => ({
-  user_id: state.user.id,
-  orderGroups: state.user.orders.orderGroups || [],
-  attendingOrders: state.user.orders.ordersAsVendor || [],
-})
+const mapStateToProps = state => {
 
+  const orderGroups = state.user.orders.orderGroups || []
+  const attendingOrders = state.user.orders.ordersAsVendor || []
+  return {
+    user_id: state.user.id,
+    orderGroups,
+    attendingOrders,
+    allOrders: [...orderGroups.reduce((all, og) => [...all, ...og.orders], []), ...attendingOrders]
+  }
+}
 const mapDispatchToProps = dispatch => ({
   getCreatedOrders: variables => dispatch(queryUserAction({
     query: GET_CREATED_ORDERS,
