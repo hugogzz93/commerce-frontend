@@ -1,18 +1,35 @@
 @import 'variables'
 
-.chat__box
+.chat__form
   display: flex
   flex-direction: column
 
-.chat__prompt, .chat__messages
-  width: 100%
+.chat__inputs
+  background: #f7f7f7
 
-.chat__promp
-  border: 1px solid gray
+.chat__buttons
+  flex-grow: 1
+  padding: 0 15px
+  .button
+    float: right
 
 .chat__messages
-  height: 10em
-  border: 1px solid
+  width: 100%
+
+.chat__prompt
+  flex-grow: 5
+  border: none
+  outline: none
+  height: 1em
+  padding: 10px
+  font-size: 22px
+  box-sizing: content-box
+  resize: none
+  border: none
+  background: transparent
+
+.chat__messages
+  height: 20em
   padding: 1em
   overflow: scroll
 
@@ -26,6 +43,8 @@
   clear: both
   padding: 1em
   margin: 0.4em 0
+  text-align: left
+  max-width: 50%
 
 .msg--self
   background: $blue
