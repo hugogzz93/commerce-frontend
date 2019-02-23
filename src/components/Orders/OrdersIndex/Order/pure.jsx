@@ -7,6 +7,7 @@ import numeral from 'numeral'
 
 const Order= props => {
   const order = props.order
+  const newMessages = order.issues.some(e => e.newMessages)
 
   return(
     <div className="order__container">
@@ -16,6 +17,7 @@ const Order= props => {
             <span className='triplet'>{new Date(parseInt(order.createdAt)).toDateString()}</span>
             <span className='triplet accordion--hide-on-active'>{numeral( order.total ).format('0,0')} MXN</span>
             <span className='triplet accordion--hide-on-active'>{order.orderItems.length} Items</span>
+            {newMessages && <span className='triplet'> New Messages </span> }
           </React.Fragment>
         }
         footer={

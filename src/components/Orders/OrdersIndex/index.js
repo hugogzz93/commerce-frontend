@@ -23,6 +23,7 @@ const GET_CREATED_ORDERS = gql`
             issues {
               id
               status
+              newMessages(user_id: $user_id)
             }
             orderItems {
               id
@@ -52,6 +53,7 @@ const GET_ATTENDING_ORDERS = gql`
           issues {
             id
             status
+            newMessages(user_id: $user_id)
           }
           orderItems {
             id

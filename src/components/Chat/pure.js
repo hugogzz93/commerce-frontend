@@ -8,6 +8,12 @@ const Chat = props => {
   const issue = props.order.issues.find(i => i.status == 'open')
   const room = issue ? `issue:${issue.id}` : null
 
+  const updateMessages = (messages) => {
+    setMessages(messages)
+    if(messages.length)
+      updateLastSeenMsg(messages[messages.length - 1])
+  }
+
   const fromSelf = (msg) => msg.author.id == props.user.id
   const sendMsg = () => {
     if(issue)
@@ -23,12 +29,11 @@ const Chat = props => {
             body: value
           }]
         }
-      }).then(res => {
-        setMessages(res.data.order.createIssue.messages)
-      })
-
+      }).then(res => updateMessages(res.data.order.createIssue.messages))
   }
+
   const addMessage = msg => setMessages(messages.concat(msg))
+  const updateLastSeenMsg = msg => socket.emit('msg_seen', {user_id: props.user.id, issue_id: issue.id, issue_message_id: msg.id})
 
   const scrollChat = () => {
     const chat = document.querySelector(`.chat__messages[chat-id="${props.order.id}"]`)
@@ -36,18 +41,14 @@ const Chat = props => {
   }
 
   useEffect(() => {
-    if(!issue) return
-    props.getMessages({issue_id: issue.id})
-    .then(res => {
-      if(res.data && res.data.issues.length)
-        setMessages(res.data.issues[0].messages)
-      scrollChat()
-    })
-  }, [])
-
-  useEffect(() => {
     if(issue && issue.id) {
       socket.emit('join', room)
+      props.getMessages({issue_id: issue.id})
+      .then(res => {
+        if(res.data && res.data.issues.length)
+          updateMessages(res.data.issues[0].messages)
+        scrollChat()
+      })
     }
   }, [issue])
 
