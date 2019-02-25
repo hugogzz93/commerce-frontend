@@ -18,7 +18,7 @@ const OrderIndex = props => {
     if(!props.user_id) return
     if(window.location.href.match('created'))
       props.getCreatedOrders({user_id: props.user_id})
-    else
+    else if(window.location.href.match('attending'))
       props.getAttendingOrders({user_id: props.user_id})
   }, [props.user_id])
 
@@ -67,15 +67,15 @@ const OrderIndex = props => {
                   </div>
                 }>
                 </Route>
-                <Route path='/user/orders/created/issue/:id' component={ ({match}) =>
-                  <div class="order__container">
-                    <OrderIssueForm orders={props.orderGroups.find(o => o.id == match.params.id).orders}/>
+                <Route path='/user/orders/created/issue/:order_group_id' component={ ({match}) =>
+                  <div className="order__container">
+                    <OrderIssueForm orderGroupId={match.params.order_group_id}/> 
                   </div>
                 }></Route>
                 <Route path='/user/orders/chat/:id' component={({match}) =>
                   <div className="order__container">
                     <div className="card flex--col">
-                      <Chat order={props.allOrders.find(o => o.id == match.params.id)}/>
+                      <Chat orderId={match.params.id}/>
                     </div>
                   </div>
                 }>

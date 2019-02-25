@@ -5,6 +5,35 @@ import { CHAT_URL } from '../../constants/config'
 import { sendQuery, sendMutation } from '../../lib/api'
 import gql from 'graphql-tag'
 
+const GET_ORDER = gql`
+ query getOrder($id: ID) {
+  orders(ids: [$id]) {
+    id
+    vendor {
+      name
+      id
+      email
+    }
+    client {
+      name
+      id
+      email
+    }
+    issues(query: {status: open }) {
+      id
+      status
+      messages {
+        id
+        body
+        author {
+          id
+        }
+      }
+    }
+  }
+ }
+`
+
 const GET_MESSAGES = gql`
   query getMessages($issue_id: ID!) {
     issues(ids: [$issue_id]) {
@@ -56,8 +85,11 @@ const mapDispatchToDefault = ( dispatch, props ) => ({
   openIssue: variables => sendMutation({
     variables,
     mutation: OPEN_ISSUE
-  })
-
+  }),
+  getOrder: variables => sendQuery({
+    variables,
+    query: GET_ORDER
+  }),
 })
 
 export default connect(

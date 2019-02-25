@@ -5,7 +5,6 @@ export default (props) => {
   const [email, setEmail] = useState(props.email || '')
   const [password, setPassword] = useState('')
 
-
   const body = props.auth_token ?
     <div className="modal__item modal__button">{props.email}</div>
     : (

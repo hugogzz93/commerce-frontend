@@ -16,8 +16,7 @@ const Order= props => {
           <React.Fragment>
             <span className='triplet'>{new Date(parseInt(order.createdAt)).toDateString()}</span>
             <span className='triplet accordion--hide-on-active'>{numeral( order.total ).format('0,0')} MXN</span>
-            <span className='triplet accordion--hide-on-active'>{order.orderItems.length} Items</span>
-            {newMessages && <span className='triplet'> New Messages </span> }
+            <span className='triplet accordion--hide-on-active'>{order.orderItems.length} Items {newMessages &&  <i class="far fa-envelope"></i>}</span>
           </React.Fragment>
         }
         footer={
