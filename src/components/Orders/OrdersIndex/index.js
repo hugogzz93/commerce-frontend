@@ -50,6 +50,17 @@ const GET_ATTENDING_ORDERS = gql`
           status
           total
           createdAt
+          client {
+            id
+            name
+            email
+            phone
+            city
+            country
+            street
+            street_2
+            zipcode
+          }
           issues {
             id
             status
@@ -60,6 +71,7 @@ const GET_ATTENDING_ORDERS = gql`
             amount
             price
             userProduct {
+              id
               name
             }
           }
