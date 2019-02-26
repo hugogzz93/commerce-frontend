@@ -41,6 +41,7 @@ const ShoppingCart = props => {
               { subTotal.format('0,0')} MXN
             </div>
           </div>
+          { props.checkout_failed && <span className='modal__item modal--text'>* An error ocurred, please try again later.</span> }
           <div className="modal__button modal__button--alt modal__item" onClick={() => props.checkout()}>
               CHECKOUT
           </div>

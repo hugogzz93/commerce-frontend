@@ -145,5 +145,7 @@ export const cartReducer = createReducer({
   [setCartLoadingStateAction]: (state, payload) => ({...state, loaded: payload}),
   [updateCartAction]: (state, payload) => ({...state, ...payload}),
   [checkoutSuccessAction]: (state) => ({...state, productItems: []}),
+  [checkoutAction]: (state) => ({...state, checkout_fail: false}),
+  [checkoutFailAction]: (state) => ({...state, checkout_fail: true}),
 }, InitialState)
 
