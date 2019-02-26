@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import OrderGroup from './OrderGroup/pure'
-import Order from './Order/pure'
+import Order from './Order'
 import OrderIssueForm from  './OrderGroupIssueForm'
 import Chat from '../../Chat/index.js'
 import {  BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom'

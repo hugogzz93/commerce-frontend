@@ -2,12 +2,27 @@ import React, {useState, useEffect} from 'react'
 import { Link } from 'react-router-dom'
 import CarouselWrapper from '../../../CarouselWrapper'
 import AccordionCard from '../../../cards/AccordionCard'
+import { Mutation } from 'react-apollo'
 import numeral from 'numeral'
+import gql from 'graphql-tag'
+
+
+
+const StatusSelect = props => (
+  <select className="order__status-select" value={props.value} onChange={props.onChange} onClick={e => e.stopPropagation()}>
+    <option value="in_progress">In Progress</option>
+    <option value="in_transit">In Transit</option>
+    <option value="delivered">Delivered</option>
+    <option value="canceled">Canceled</option>
+  </select>
+)
 
 
 const Order= props => {
   const order = props.order
   const [currentSlide, setSlide] = useState(0)
+  const [showStatusForm, setStatusVisibility] = useState(false)
+  const [status, setStatus] = useState(order.status)
   const newMessages = order.issues.some(e => e.newMessages)
 
   return(
@@ -20,18 +35,19 @@ const Order= props => {
         <AccordionCard
           header={
             <React.Fragment>
-              <span className='triplet'>{new Date(parseInt(order.createdAt)).toDateString()}</span>
-              <span className='triplet accordion--hide-on-active'>{numeral( order.total ).format('0,0')} MXN</span>
-              <span className='triplet accordion--hide-on-active'>{order.orderItems.length} Items {newMessages &&  <i class="far fa-envelope"></i>}</span>
+              <span className=''>{new Date(parseInt(order.createdAt)).toDateString()}</span>
+              <span className=' accordion--hide-on-active'>{numeral( order.total ).format('0,0')} MXN</span>
+              <span className=' accordion--hide-on-active'>{order.orderItems.length} Items {newMessages &&  <i class="far fa-envelope"></i>}</span>
+              <StatusSelect value={status} onChange={e => props.updateStatus( e.target.value).then(r => setStatus( r.data.order.updateOrder.status ))} />
             </React.Fragment>
           }
           footer={
             <React.Fragment>
               <div className="buttons">
-                <Link className="button btn--danger btn--small" style={{float: 'left', marginRight: '5px'}} to={'/user/orders/chat/' + order.id}>
+                <Link className="button btn--danger btn--small" to={'/user/orders/chat/' + order.id}>
                   Issues
                 </Link>
-                <div className="button btn--small" style={{float: 'left'}} onClick={() => setSlide(1)}>
+                <div className="button btn--small" onClick={() => setSlide(1)}>
                   Client
                 </div>
               </div>

@@ -15,6 +15,7 @@ const GET_CREATED_ORDERS = gql`
             id
             createdAt
             total
+            status
             vendor {
               id
               name

@@ -4,12 +4,13 @@ import AccordionCard from '../../../cards/AccordionCard'
 import numeral from 'numeral'
 import OrderIssueForm from '../OrderGroupIssueForm'
 import Chat from '../../../Chat'
+import Helpers from '../../../../lib/helpers'
 
 
 const OrderGroup = props => {
   const orderGroup = props.orderGroup
   const orderItems = orderGroup.orders
-                          .reduce((items, order) => [...items, ...order.orderItems], [])
+                          .reduce((items, order) => [...items, ...order.orderItems.map(o => ({...o, status: order.status}))], [])
   const newMessages = orderGroup.orders.some(o => o.issues.some(i => i.newMessages))
 
   return(
@@ -34,7 +35,7 @@ const OrderGroup = props => {
         { orderItems.map(({userProduct: {name}, id, status, price, amount}) => (
           <div className='oc__list-item flex--even' key={id}>
             <span className='triplet'>{name}</span>
-            <span className="triplet">{status}</span>
+            <span className="triplet">{Helpers.translateStatus(status)}</span>
             <span className='triplet'>{amount} x {numeral(price).format('0,0')} MXN</span>
           </div>
         ))}
