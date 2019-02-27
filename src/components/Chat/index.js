@@ -19,7 +19,7 @@ const GET_ORDER = gql`
       id
       email
     }
-    issues(query: {status: open }) {
+    issues {
       id
       status
       messages {
@@ -55,6 +55,7 @@ const OPEN_ISSUE = gql`
     order(id: $order_id) {
       createIssue(input: $issueInput) {
         id
+        status
         messages {
           id
           author {
@@ -64,6 +65,17 @@ const OPEN_ISSUE = gql`
           }
           body
         }
+      }
+    }
+  }
+`
+
+const CLOSE_ISSUE = gql`
+  mutation CloseIssue($id: ID!) {
+    issue(id: $id) {
+      close {
+        id
+        status
       }
     }
   }
@@ -85,6 +97,10 @@ const mapDispatchToDefault = ( dispatch, props ) => ({
   openIssue: variables => sendMutation({
     variables,
     mutation: OPEN_ISSUE
+  }),
+  closeIssue: variables => sendMutation({
+    variables,
+    mutation: CLOSE_ISSUE
   }),
   getOrder: variables => sendQuery({
     variables,

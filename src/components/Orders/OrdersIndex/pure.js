@@ -54,9 +54,11 @@ const OrderIndex = props => {
               classNames='fade' >
               <Switch location={location}>
                 <Route exact={true} path='/user/orders/created' component={ () =>
-                  <div className="order__list container--70">
-                    { props.orderGroups.length ? createdOrdersDiv : noOrdersCard }
-                    {props.orderGroups.length}
+                  <div class="container--70">
+                    <div className="order__list">
+                      { props.orderGroups.length ? createdOrdersDiv : noOrdersCard }
+                      {props.orderGroups.length}
+                    </div>
                   </div>
                 }>
                 </Route>

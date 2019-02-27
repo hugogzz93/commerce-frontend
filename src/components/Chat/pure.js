@@ -7,6 +7,7 @@ const Chat = props => {
   const [messages, setMessages] = useState([])
   const [value, setValue] = useState('')
   const [room, setRoom] = useState(null)
+  const [joiningRoom, setJoiningRoom] = useState(false)
   const socket = props.socket
 
   useEffect(() => {
@@ -17,6 +18,7 @@ const Chat = props => {
   useEffect(() => {
     if(order) {
       if(issue) {
+        if(!room) return 
         socket.emit('join', calcRoomName())
         console.log('trying to join room')
       }
@@ -24,9 +26,11 @@ const Chat = props => {
       props.getOrder({id: props.orderId}).then(res => {
         try {
           const order = res.data.orders[0]
+          const issue = order.issues.find(i => i.status == 'open') || order.issues[0]
           setOrder(order)
-          setIssue(order.issues[0])
-          setMessages(order.issues[0].messages)
+          if(!issue) return
+          setIssue(issue)
+          setMessages(issue.messages)
           scrollChat()
         } catch(err) {
           console.error(`Chat couldn't load order ${props.orderId}`, err)
@@ -49,8 +53,10 @@ const Chat = props => {
 
 
   const sendMsg = () => {
-    if(issue)
+    if(issue) {
+      if(issue.status == 'closed') return 
       socket.emit('message', {author_id: props.user.id, body: value, issue_id: issue.id, room })
+    }
     else
       props.openIssue({
         order_id: props.orderId,
@@ -62,17 +68,18 @@ const Chat = props => {
             body: value
           }]
         }
-      }).then(res => updateMessages(res.data.order.createIssue.messages))
+      }).then(res => {
+        const issue = res.data.order.createIssue
+        setIssue(issue);
+        setMessages(issue.messages)
+        updateLastSeenMsg(issue.messages[issue.messages.length - 1], issue.id)
+        setValue('')
+      })
   }
 
   const fromSelf = (msg) => msg.author.id == props.user.id
   const addMessage = msg => setMessages(messages.concat(msg))
-  const updateLastSeenMsg = msg => socket.emit('msg_seen', {user_id: props.user.id, issue_id: issue.id, issue_message_id: msg.id})
-  const updateMessages = (messages) => {
-    setMessages(messages)
-    if(messages.length)
-      updateLastSeenMsg(messages[messages.length - 1])
-  }
+  const updateLastSeenMsg = ( msg, issue_id) => socket.emit('msg_seen', {user_id: props.user.id, issue_id: issue_id || issue.id, issue_message_id: msg.id})
 
 
   const scrollChat = () => {
@@ -95,14 +102,15 @@ const Chat = props => {
 
   return(
     <div className="shadow--1 flex--col">
+      {issue && issue.status == 'open' && <div className="button" onClick={() => props.closeIssue({id: issue.id})}>Close Issue</div>}
       <div className="chat__messages" chat-id={props.orderId}>
         {msgDivs}
       </div>
       <div className="chat__inputs flex--row" style={{ flexWrap: 'nowrap', alignItems: 'center' }}>
-        <textarea className="chat__prompt" order-id={props.orderId} type="text" value={value} onChange={e => setValue(e.target.value)}></textarea>
+        <textarea disabled={ issue && issue.status == 'closed'}className="chat__prompt" order-id={props.orderId} type="text" value={value} onChange={e => setValue(e.target.value)}></textarea>
         <div className="chat__buttons">
-          <div className="icon--button btn--circular button">
-            <i className="fas fa-paper-plane" onClick={sendMsg}></i>
+          <div className="icon--button btn--circular button" disabled={ issue && issue.status == 'closed'}>
+            <i className="fas fa-paper-plane" onClick={sendMsg} disabled={ issue && issue.status == 'closed'}></i>
           </div>
         </div>
       </div>
