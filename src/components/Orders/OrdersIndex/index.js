@@ -11,6 +11,7 @@ const GET_CREATED_ORDERS = gql`
           id
           total
           createdAt
+          status
           orders {
             id
             createdAt

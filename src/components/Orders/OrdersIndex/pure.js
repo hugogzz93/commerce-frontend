@@ -13,6 +13,7 @@ import '../../../style/orderIndex.sass'
 const OrderIndex = props => {
   const createdOrdersLocation = '/user/orders/created'
   const attendingOrdersLocation = '/user/orders/attending'
+  const [statusFilter, setStatusFilter] = useState(null)
 
   useEffect(() => {
     if(!props.user_id) return
@@ -24,13 +25,17 @@ const OrderIndex = props => {
 
 
 
-  const createdOrdersDiv = props.orderGroups.map(orderGroup => (
+  const createdOrdersDiv = props.orderGroups
+  .filter( o => statusFilter ? o.status == statusFilter : true )
+  .map(orderGroup => (
     <div className="oc__list-item" key={orderGroup.id}>
       <OrderGroup orderGroup={orderGroup}/>
     </div>
   ))
 
-  const attendingOrdersDivs = props.attendingOrders.map(order => (
+  const attendingOrdersDivs = props.attendingOrders
+  .filter( o => statusFilter ? o.status == statusFilter : true )
+  .map(order => (
     <div className="oc__list-item" key={order.id}>
       <Order order={order}/>
     </div>
@@ -56,6 +61,14 @@ const OrderIndex = props => {
                 <Route exact={true} path='/user/orders/created' component={ () =>
                   <div class="container--70">
                     <div className="order__list">
+                      <div className="cn__row flex--row">
+                        <select className="order__status-select" value={statusFilter} onChange={e => setStatusFilter(e.target.value == 'no_filter' ? null : e.target.value)}>
+                          <option value="no_filter">No Filter</option>
+                          <option value="in_progress">In Progress</option>
+                          <option value="delivered">Delivered</option>
+                          <option value="canceled">Canceled</option>
+                        </select>
+                      </div>
                       { props.orderGroups.length ? createdOrdersDiv : noOrdersCard }
                       {props.orderGroups.length}
                     </div>
@@ -64,6 +77,15 @@ const OrderIndex = props => {
                 </Route>
                 <Route exact={true} path='/user/orders/attending' component={ () =>
                   <div className="order__list container--70">
+                    <div className="cn__row flex--row">
+                        <select value={statusFilter} onChange={e => setStatusFilter(e.target.value)}>
+                          <option value="no_filter">No Filter</option>
+                          <option value="in_progress">In Progress</option>
+                          <option value="in_transit">In Transit</option>
+                          <option value="delivered">Delivered</option>
+                          <option value="canceled">Canceled</option>
+                        </select>
+                      </div>
                     {props.attendingOrders.length ? attendingOrdersDivs : noOrdersCard }
                     {props.attendingOrders.length}
                   </div>
