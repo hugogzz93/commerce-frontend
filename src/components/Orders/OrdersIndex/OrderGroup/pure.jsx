@@ -18,16 +18,17 @@ const OrderGroup = props => {
       <AccordionCard
         header={
           <React.Fragment>
-            <span className='triplet'>{new Date(parseInt(orderGroup.createdAt)).toDateString()}</span>
-            <span className='triplet accordion--hide-on-active'>{numeral( orderGroup.total ).format('0,0')} MXN</span>
-            <span className='triplet accordion--hide-on-active'>{orderItems.length} Items {newMessages && <i class="far fa-envelope"></i> }</span>
+            <span className=''>{new Date(parseInt(orderGroup.createdAt)).toDateString()}</span>
+            <span className=' accordion--hide-on-active'>{numeral( orderGroup.total ).format('0,0')} MXN</span>
+            <span className=' accordion--hide-on-active'>{orderItems.length} Items {newMessages && <i class="far fa-envelope"></i> }</span>
+            <span className='accordion--hide-on-active'>{Helpers.translateStatus(orderGroup.status)}</span>
           </React.Fragment>
         }
         footer={
           <React.Fragment>
-            <Link className="button btn--danger btn--small" style={{float: 'left'}} to={'/user/orders/created/issue/' + orderGroup.id}>
-              Issues
-            </Link>
+            {/* <Link className="button btn--danger btn--small" style={{float: 'left'}} to={'/user/orders/created/issue/' + orderGroup.id}> */}
+            {/*   Issues */}
+            {/* </Link> */}
             <span style={{float: 'right'}}>{numeral(orderGroup.total).format('0,0')} MXN</span>
           </React.Fragment>
         }

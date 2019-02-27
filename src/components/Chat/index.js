@@ -20,6 +20,7 @@ const GET_ORDER = gql`
       email
     }
     issues {
+      createdAt
       id
       status
       messages {
@@ -101,7 +102,7 @@ const mapDispatchToDefault = ( dispatch, props ) => ({
   closeIssue: variables => sendMutation({
     variables,
     mutation: CLOSE_ISSUE
-  }),
+  }).then(res => res.data.issue.close.status),
   getOrder: variables => sendQuery({
     variables,
     query: GET_ORDER

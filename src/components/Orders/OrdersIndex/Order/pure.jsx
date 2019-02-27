@@ -44,9 +44,9 @@ const Order= props => {
           footer={
             <React.Fragment>
               <div className="buttons">
-                <Link className="button btn--danger btn--small" to={'/user/orders/chat/' + order.id}>
-                  Issues
-                </Link>
+                {/* <Link className="button btn--danger btn--small" to={'/user/orders/chat/' + order.id}> */}
+                {/*   Issues */}
+                {/* </Link> */}
                 <div className="button btn--small" onClick={() => setSlide(1)}>
                   Client
                 </div>

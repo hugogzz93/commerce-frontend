@@ -1,4 +1,5 @@
 import React, { useState, useEffect, createRef } from 'react'
+import ThumbCard from '../cards/ThumbCard'
 import autosize from 'autosize'
 
 const Chat = props => {
@@ -8,6 +9,7 @@ const Chat = props => {
   const [value, setValue] = useState('')
   const [room, setRoom] = useState(null)
   const [joiningRoom, setJoiningRoom] = useState(false)
+  const [displayNewIssueOption, setNewIssueOption] = useState(false)
   const socket = props.socket
 
   useEffect(() => {
@@ -32,6 +34,8 @@ const Chat = props => {
           setIssue(issue)
           setMessages(issue.messages)
           scrollChat()
+          if(issue.status != 'open')
+            setNewIssueOption(true)
         } catch(err) {
           console.error(`Chat couldn't load order ${props.orderId}`, err)
         }
@@ -50,6 +54,10 @@ const Chat = props => {
     window.addEventListener('keydown', handleKeys )
     return () => window.removeEventListener('keydown', handleKeys)
   })
+
+  const closeIssue = id => {
+    props.closeIssue({id}).then(newStatus => setIssue({...issue, status: newStatus }))
+  }
 
 
   const sendMsg = () => {
@@ -80,6 +88,7 @@ const Chat = props => {
   const fromSelf = (msg) => msg.author.id == props.user.id
   const addMessage = msg => setMessages(messages.concat(msg))
   const updateLastSeenMsg = ( msg, issue_id) => socket.emit('msg_seen', {user_id: props.user.id, issue_id: issue_id || issue.id, issue_message_id: msg.id})
+  const selectIssue = issue => setIssue(issue)
 
 
   const scrollChat = () => {
@@ -101,16 +110,34 @@ const Chat = props => {
   ))
 
   return(
-    <div className="shadow--1 flex--col">
-      {issue && issue.status == 'open' && <div className="button" onClick={() => props.closeIssue({id: issue.id})}>Close Issue</div>}
-      <div className="chat__messages" chat-id={props.orderId}>
-        {msgDivs}
+    <div className="shadow--1 flex--col grid-5">
+      <div className="col-1">
+        {/* <ThumbCard  */}
+        {/*     key={-1} */}
+        {/*     title={Open new issue} */}
+        {/*     onClick={() =>} */}
+        {/* /> */}
+        { issue && order.issues.map(i => (
+          <ThumbCard 
+            key={i.id}
+            title={new Date(parseInt(i.createdAt)).toDateString()}
+            subtitle={issue.messages[0].body}
+            onClick={() => setIssue(issue)}
+            selected={issue.id == i.id}
+          />
+        ))}
       </div>
-      <div className="chat__inputs flex--row" style={{ flexWrap: 'nowrap', alignItems: 'center' }}>
-        <textarea disabled={ issue && issue.status == 'closed'}className="chat__prompt" order-id={props.orderId} type="text" value={value} onChange={e => setValue(e.target.value)}></textarea>
-        <div className="chat__buttons">
-          <div className="icon--button btn--circular button" disabled={ issue && issue.status == 'closed'}>
-            <i className="fas fa-paper-plane" onClick={sendMsg} disabled={ issue && issue.status == 'closed'}></i>
+      <div className="col-4">
+        {issue && issue.status == 'open' && <div className="button" onClick={() => closeIssue(issue.id)}>Close Issue</div>}
+        <div className="chat__messages" chat-id={props.orderId}>
+          {msgDivs}
+        </div>
+        <div className="chat__inputs flex--row" style={{ flexWrap: 'nowrap', alignItems: 'center' }}>
+          <textarea disabled={ issue && issue.status == 'closed'}className="chat__prompt" order-id={props.orderId} type="text" value={value} onChange={e => setValue(e.target.value)}></textarea>
+          <div className="chat__buttons">
+            <div className="icon--button btn--circular button" disabled={ issue && issue.status == 'closed'}>
+              <i className="fas fa-paper-plane" onClick={sendMsg} disabled={ issue && issue.status == 'closed'}></i>
+            </div>
           </div>
         </div>
       </div>

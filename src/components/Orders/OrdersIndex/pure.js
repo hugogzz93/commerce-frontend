@@ -69,19 +69,19 @@ const OrderIndex = props => {
                   </div>
                 }>
                 </Route>
-                <Route path='/user/orders/created/issue/:order_group_id' component={ ({match}) =>
-                  <div className="order__container">
-                    <OrderIssueForm orderGroupId={match.params.order_group_id}/> 
-                  </div>
-                }></Route>
-                <Route path='/user/orders/chat/:id' component={({match}) =>
-                  <div className="order__container">
-                    <div className="card flex--col">
-                      <Chat orderId={match.params.id}/>
-                    </div>
-                  </div>
-                }>
-                </Route>
+                {/* <Route path='/user/orders/created/issue/:order_group_id' component={ ({match}) => */}
+                {/*   <div className="order__container"> */}
+                {/*     <OrderIssueForm orderGroupId={match.params.order_group_id}/>  */}
+                {/*   </div> */}
+                {/* }></Route> */}
+                {/* <Route path='/user/orders/chat/:id' component={({match}) => */}
+                {/*   <div className="order__container"> */}
+                {/*     <div className="card flex--col"> */}
+                {/*       <Chat orderId={match.params.id}/> */}
+                {/*     </div> */}
+                {/*   </div> */}
+                {/* }> */}
+                {/* </Route> */}
               </Switch>
           </CSSTransition>
         </TransitionGroup>
