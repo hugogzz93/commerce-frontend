@@ -5,6 +5,7 @@ import { sendQuery } from '../lib/api'
 import gql from 'graphql-tag'
 import {getCartCookie, setCartCookie, placeOrder } from '../services/ShoppingCart'
 import { logoutAction } from './Authentication'
+import Errors from '../constants/errors'
 
 export const cartAddProductAction = createAction('CART/PRODUCT/ADD')
 export const cartRemoveProductAction = createAction('CART/PRODUCT/REMOVE')
@@ -15,7 +16,9 @@ export const loadCartFailAction = createAction('CART/LOAD/FAIL')
 export const setCartLoadingStateAction = createAction('CART/LOADING/TOGGLE')
 export const checkoutAction = createAction('CART/CHECKOUT')
 export const checkoutSuccessAction = createAction('CART/CHECKOUT/SUCCESS')
-export const checkoutFailAction = createAction('CART/CHECKOUT/FAIL')
+export const checkoutUnknownFailAction = createAction('CART/CHECKOUT/FAIL')
+const insufficientStockAction = createAction('CART/ERRORS/INSUFFICIENT_STOCK')
+
 
 const GET_USER_PRODUCT_ITEMS = gql`
   query getUserProductItems($ids: [ID]!) {
@@ -108,10 +111,19 @@ const checkoutSaga = function *(action) {
       yield put(checkoutSuccessAction())
       yield saveStoreToCookie()
     }
-    else
-      yield put(checkoutFailAction())
+    else {
+      yield put(checkoutUnknownFailAction())
+    }
   } catch(err) {
-    yield put(checkoutFailAction(err))
+    try {
+      const error = err.graphQLErrors[0].extensions.exception
+      if('InsufficientStock' == error.type)
+        yield put(insufficientStockAction(error.data))
+      else
+      yield put(checkoutUnknownFailAction(err))
+    } catch {
+      yield put(checkoutUnknownFailAction(err))
+    }
   }
 }
 
@@ -145,7 +157,8 @@ export const cartReducer = createReducer({
   [setCartLoadingStateAction]: (state, payload) => ({...state, loaded: payload}),
   [updateCartAction]: (state, payload) => ({...state, ...payload}),
   [checkoutSuccessAction]: (state) => ({...state, productItems: []}),
-  [checkoutAction]: (state) => ({...state, checkout_fail: false}),
-  [checkoutFailAction]: (state) => ({...state, checkout_fail: true}),
+  [checkoutAction]: (state) => ({...state, unknown_error: false}),
+  [checkoutUnknownFailAction]: (state) => ({...state, unknown_error: true}),
+  [insufficientStockAction]: (state, data) => ({...state, error: {type: Errors.INSUFFICIENT_STOCK, data} })
 }, InitialState)
 
