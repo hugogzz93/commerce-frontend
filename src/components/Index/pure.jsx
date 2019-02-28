@@ -68,9 +68,9 @@ const Index = (props) => {
 
   return(
     <div className='index__container' >
-      <div className='index__search-container'>
+      <div className='index__search-container s__content'>
         <input 
-          className='index__search'
+          className='s__input'
           placeholder='search'
           value={filter}
           onChange={ handleSearchChange }

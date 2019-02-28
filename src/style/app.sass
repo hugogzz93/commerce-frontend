@@ -24,6 +24,15 @@ body
 .shadow--1
   box-shadow: $shadow-1
 
+input[type=number].no-spinner
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button
+    -webkit-appearance: none
+    margin: 0
+
+.row
+  width: 100%
+
 .c__input
   outline: none
   border: none
@@ -52,6 +61,41 @@ body
 .gradient--purple
   background-image: $purpleGradient
 
+.s__content
+  display: flex
+  margin: 1rem
+  align-items: center
+  flex-direction: row
+
+.s__input
+  @extend .c__input
+  order: 2
+  margin-left: 0.25rem
+  font-size: $font-size
+  color: $black
+  font-weight: 500
+  position: relative
+  border-bottom: 1px solid transparent
+
+  transition: all $tempo
+
+  &::placeholder
+    color: $gray
+
+  &:focus
+    font-size: 22px
+    margin-left: 1rem
+    color: black
+    border-bottom: 3px solid $black
+
+.s__input ~ .fas
+  order: 1
+  transition: all $tempo
+
+.s__input:focus ~ .fas
+  font-size: 22px
+
+
 
 .tail
   color: #0005
@@ -60,6 +104,7 @@ body
 
 .tail--inverse
   background: linear-gradient(to left, currentColor, transparent 80%)
+
 
 .overlay
   postiton: fixed
