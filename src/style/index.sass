@@ -28,32 +28,6 @@
 .index__detail, .index__detail-header
   grid-column: 4 / span 9
 
-.index__search-container
-  display: flex
-  margin: 1rem
-  align-items: center
-
-.index__search
-  @extend .c__input
-  order: 2
-  margin-left: 0.25rem
-  font-size: $font-size
-  color: $black
-  font-weight: 500
-  position: relative
-  border-bottom: 1px solid transparent
-
-  transition: all $tempo
-
-  &::placeholder
-    color: $gray
-
-  &:focus
-    font-size: 22px
-    margin-left: 1rem
-    color: black
-    border-bottom: 3px solid $black
-
 .index__item
   position: relative
   margin-bottom: .75rem
@@ -61,13 +35,6 @@
 
   &:hover
     z-index: 2
-
-.index__search ~ .fas
-  order: 1
-  transition: all $tempo
-
-.index__search:focus ~ .fas
-  font-size: 22px
 
 .index__detail
   overflow: hidden

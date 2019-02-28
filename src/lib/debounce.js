@@ -21,5 +21,6 @@ function debounceEvent(func, wait) {
   }
 }
 
-export {debounce, debounceEvent};
+export default debounce
+export { debounceEvent }
 
