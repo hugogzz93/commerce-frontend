@@ -8,6 +8,7 @@ const Inventory = props => {
   const [ filter, setFilter ] = useState('')
 
   useEffect(() => {
+    if(!props.user_id) return
     props.getUserProducts({id: props.user_id})
           .then( items => setUserProducts(items))
   }, [props.user_id])
@@ -46,11 +47,10 @@ const Inventory = props => {
         </div>
     )
   }
-  
 )
 
   return(
-    <div class="content">
+    <div className="content">
       <div className="inv__content container--90">
         <div className="inv__options">
           <div className="s__content">

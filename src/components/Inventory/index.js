@@ -4,7 +4,7 @@ import gql from 'graphql-tag'
 import Pure from './pure'
 
 const GET_USER_PRODUCTS = gql`
-  query getUserProducts($id: ID) {
+  query getUserProducts($id: ID!) {
     users(query: {id: $id}) {
       userProducts {
         id
@@ -16,7 +16,7 @@ const GET_USER_PRODUCTS = gql`
 `
 
 const UPDATE_USER_PRODUCT_STOCK = gql`
-  mutation updateUserProductStock($id: ID!, $stock: Int) {
+  mutation updateUserProductStock($id: ID!, $stock: Int!) {
     userProduct(id: $id) {
       update(input: {stock: $stock}) {
         id
@@ -27,6 +27,7 @@ const UPDATE_USER_PRODUCT_STOCK = gql`
 `
 
 const mapStateToProps = state => ({
+  user_id: state.user.id,
   getUserProducts: variables => sendQuery({
     variables,
     query: GET_USER_PRODUCTS
