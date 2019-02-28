@@ -19,7 +19,7 @@ const ShoppingCart = props => {
         { props.shoppingCart.map(item => {
           let errorDiv = null
           if(props.error && props.error.data.userProductId == item.id&& Errors.INSUFFICIENT_STOCK == props.error.type ) {
-            errorDiv = <span className='cart__item-details text--danger'>ERROR: Only {props.error.data.amount} available.</span>
+            errorDiv = <span className='cart__item-details text--danger'>ERROR: Only {props.error.data.stock} available.</span>
           }
           return (
             <div className="modal__item cart__item" key={item.id}>
