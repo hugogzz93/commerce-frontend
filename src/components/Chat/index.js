@@ -83,11 +83,10 @@ const CLOSE_ISSUE = gql`
 `
 
 
-const socket = io(CHAT_URL)
 
 const mapStateToDefault = state => ({
   user: state.user,
-  socket,
+  socket: io(CHAT_URL)
 })
 
 const mapDispatchToDefault = ( dispatch, props ) => ({
