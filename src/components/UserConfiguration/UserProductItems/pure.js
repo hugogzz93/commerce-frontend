@@ -49,9 +49,6 @@ const UserProductItems = ({product, user_id, ...props}) => {
           { userProductItemDivs }
         </div>
       </div>
-      <div className="button btn--danger"
-        onClick={() => props.removeProducts({user_id, productIds: [product.id]})}
-        data-product-id={product.id}>X</div>
     </div>
   )
 }

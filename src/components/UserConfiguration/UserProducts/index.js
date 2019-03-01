@@ -1,7 +1,8 @@
 import { connect } from 'react-redux'
 import { queryUserAction, mutateUserAction,
 } from '../../../models/User'
-import { queryProductsAction } from '../../../models/Products'
+import { queryProductsAction, createProductAction } from '../../../models/Products'
+import { sendMutation }  from '../../../lib/api'
 import gql from 'graphql-tag'
 import Pure from './pure'
 import '../../../style/user_configuration.sass'
@@ -41,6 +42,17 @@ const removeProducts = gql`
   }
 `
 
+const createCategory = gql`
+  mutation createCategory($name: String!) {
+    product {
+      create(input: {name: $name}) {
+        id
+        name
+      }
+    }
+  }
+`
+
 const mapStateToProps = state => {
   return {
     userId: state.user.id,
@@ -64,7 +76,8 @@ const mapDispatchToProps = dispatch => ({
   removeProducts: variables => dispatch(mutateUserAction({
     variables,
     mutation: removeProducts
-  }))
+  })),
+  createCategory: name => dispatch(createProductAction({input: {name}}))
 })
 
 export default connect(
