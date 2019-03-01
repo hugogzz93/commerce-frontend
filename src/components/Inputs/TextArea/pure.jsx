@@ -2,7 +2,7 @@ import React from 'react'
 
 const TextArea = props => {
   return (
-    <div className={`form__control ${props.className}`}>
+    <div className={`form__control ${props.className || ''} ${props.errors ? 'form__control--invalid' : ''}`}>
       <textarea
         className="form__input"
         value={props.value || ''}
