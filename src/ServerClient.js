@@ -30,7 +30,10 @@ const client = new ApolloClient({
     }),
     new createUploadLink({
       uri: 'http://localhost:3001/graphql',
-      credentials: 'same-origin'
+      credentials: 'same-origin',
+      fetchOptions: {
+          mode: 'no-cors',
+        },
     })
   ]),
   cache: new InMemoryCache()
