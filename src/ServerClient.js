@@ -11,7 +11,6 @@ const client = new ApolloClient({
   link: ApolloLink.from([
     setContext((_, { headers }) => {
       const token = getAuthToken()
-      console.log(token)
       return {
         headers: {
           ...headers,
