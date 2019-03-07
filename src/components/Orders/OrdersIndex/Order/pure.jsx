@@ -56,7 +56,7 @@ const Order= props => {
           }
         >
           { order.orderItems.map(({userProduct: {name}, id, status, price, amount}) => (
-            <div className='oc__list-item flex--even' key={id}>
+            <div className='oc__list-item flex--between' key={id}>
               <span className='triplet'>{name}</span>
               <span className="triplet">{status}</span>
               <span className='triplet'>{amount} x {numeral(price).format('0,0')} MXN</span>

@@ -40,7 +40,7 @@ const Inventory = props => {
       updateItems(newValue, originalValue, uProd.id)
     }
     return (
-      <div key={uProd.id} className="card flex--row flex--even fade-in" style={{padding: '1.5em'}}>
+      <div key={uProd.id} className="card flex--row flex--between fade-in" style={{padding: '1.5em'}}>
           <span>{uProd.name}</span>
           <div>
             <span>Stock</span>

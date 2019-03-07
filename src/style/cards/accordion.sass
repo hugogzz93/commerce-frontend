@@ -1,66 +1,50 @@
 @import 'card'
-
 .accordion
-  @extend %__card
-  padding: 0
+  --padding: 2.5ch
 
 .accordion__title
-  display: flex
-  justify-content: space-between
   cursor: pointer
-  padding: 2ch
 
   &:hover
     background: #f8f9fa
 
-.accordion__body
-  max-height: 0
-  overflow: hidden
-  padding: 0
+.accordion__section,
+.accordion--hide-on-active,
+.accordion--hide-on-inactive
+  transition: all 0.3s
 
-.accordion__footer
-  display: flex
-  align-items: center
-  justify-content: space-between
-  height: 0
-  opacity: 0
-  overflow: hidden
-
-
-.accordion__body,
-.accordion__title,
-.accordion__footer,
-  transition: all 0.5s
-
-.accordion__body,
-.accordion__footer
-  opacity: 0
-  overflow: hidden
-  padding: 0
+.accordion__section
+  padding: var(--padding)
+  margin: 0 !important
 
 .accordion--hide-on-active
   opacity: 1
-  transition: all 0.3s
+  padding: 0
 
 .accordion--hide-on-inactive
   opacity: 0
-  transition: all 0.3s
 
+.accordion--shrink-on-inactive
+  max-height: 0
+  overflow: hidden
+  padding: 0
+  opacity: 0
 
 .accordion.active
-  .accordion__body,
-  .accordion__footer
-    opacity: 1
-
-  .accordion__body
-    max-height: 10em
-    padding: 2ch
-
-  .accordion__footer
-    padding: 2em
-
   .accordion--hide-on-active
     opacity: 0
 
   .accordion--hide-on-inactive
     opacity: 1
+    padding: 0
+
+  .accordion--shrink-on-inactive
+    max-height: 10em
+    padding: var(--padding)
+    opacity: 1
+
+  .accordion--shrink-on-active
+    max-height: 0
+    overflow: hidden
+    padding: 0
+    opacity: 0

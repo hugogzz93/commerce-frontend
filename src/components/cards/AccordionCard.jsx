@@ -4,16 +4,16 @@ import '../../style/cards/accordion.sass'
 const AccordionCard = props => {
   const [active, setActive] = useState(false)
   return(
-    <div className={`accordion ${active ? 'active' : ''}`}>
-      <div className="accordion__title" onClick={() => setActive(!active)}>
+    <div className={`card card--no-padding accordion ${active ? 'active' : ''}`}>
+      <div className="accordion__title accordion__section card card--no-bg" onClick={() => setActive(!active)}>
         {props.header}
       </div>
       <div className="tail accordion--hide-on-inactive"></div>
-      <div className="accordion__body">
+      <div className="accordion__section accordion--shrink-on-inactive">
         {props.children}
       </div>
       <div className="tail tail--inverse accordion--hide-on-inactive"></div>
-      <div className="accordion__footer cn__row--accent">
+      <div className="flex--align-center flex--between accordion__section cn__row--accent accordion--shrink-on-inactive">
         {props.footer}
       </div>
     </div>

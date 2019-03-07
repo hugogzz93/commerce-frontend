@@ -17,29 +17,28 @@ const OrderGroup = props => {
     <div className="order__container">
       <AccordionCard
         header={
-          <React.Fragment>
-            <span className=''>{new Date(parseInt(orderGroup.createdAt)).toDateString()}</span>
-            <span className=' accordion--hide-on-active'>{numeral( orderGroup.total ).format('0,0')} MXN</span>
-            <span className=' accordion--hide-on-active'>{orderItems.length} Items {newMessages && <i class="far fa-envelope"></i> }</span>
-            <span className='accordion--hide-on-active'>{Helpers.translateStatus(orderGroup.status)}</span>
-          </React.Fragment>
+          <div class="grid-4">
+            <span className='col-1 t--align-l'>{new Date(parseInt(orderGroup.createdAt)).toDateString()}</span>
+            <span className='col-1 t--align-c accordion--hide-on-active'>{numeral( orderGroup.total ).format('0,0')} MXN</span>
+            <span className='col-1 t--align-c accordion--hide-on-active'>{orderItems.length} Items {newMessages && <i class="far fa-envelope"></i> }</span>
+            <span className='col-1 t--align-r accordion--hide-on-active'>{Helpers.translateStatus(orderGroup.status)}</span>
+          </div>
         }
         footer={
           <React.Fragment>
-            {/* <Link className="button btn--danger btn--small" style={{float: 'left'}} to={'/user/orders/created/issue/' + orderGroup.id}> */}
-            {/*   Issues */}
-            {/* </Link> */}
             <span style={{float: 'right'}}>{numeral(orderGroup.total).format('0,0')} MXN</span>
           </React.Fragment>
         }
       >
-        { orderItems.map(({userProduct: {name}, id, status, price, amount}) => (
-          <div className='oc__list-item flex--even' key={id}>
-            <span className='triplet'>{name}</span>
-            <span className="triplet">{Helpers.translateStatus(status)}</span>
-            <span className='triplet'>{amount} x {numeral(price).format('0,0')} MXN</span>
-          </div>
-        ))}
+        <div className="grid-1 row-gap-15">
+          { orderItems.map(({userProduct: {name}, id, status, price, amount}) => (
+            <div className='grid-3' key={id}>
+              <span className='col-1'>{name}</span>
+              <span className="col-1 t--align-c">{Helpers.translateStatus(status)}</span>
+              <span className='col-1 t--align-r'>{amount} x {numeral(price).format('0,0')} MXN</span>
+            </div>
+          ))}
+        </div>
       </AccordionCard>
     </div>
   )
