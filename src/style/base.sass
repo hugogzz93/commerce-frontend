@@ -1,0 +1,89 @@
+@import 'variables'
+.container--100
+  width: 100%
+  margin: auto
+  padding: 15px 0
+  box-sizing: border-box
+
+@for $i from 4 through 9
+  .container--#{$i}0
+    width: #{$i}0%
+    margin: auto
+    padding: 15px 0
+    box-sizing: border-box
+
+@for $i from 1 through 12 
+  .grid-#{$i}
+    display: grid
+    grid-template-columns: repeat(#{$i}, 1fr)
+    row-gap: 2rem
+
+@for $i from 1 through 12
+  .col-#{$i}
+    grid-column: span $i
+
+@for $i from 1 through 50
+  .col-gap-#{$i}
+    column-gap: #{$i}px
+
+  .row-gap-#{$i}
+    row-gap: #{$i}px
+
+@keyframes fade-in-animation
+  from
+    opacity: 0
+    translate: 0,-2em
+
+  to
+    opacity: 1
+    translate: 0,0
+
+
+.fade-in
+  opacity: 0
+  animation: fade-in-animation 0.75s $bezier-curve forwards
+
+@for $i from 1 through 10
+  .fade-in-list > .fade-in:nth-child(#{$i})
+    animation-delay: $i * 0.1s !important
+
+
+.flex--col
+  display: flex
+  flex-direction: column
+
+.flex--row
+  display: flex
+  flex-direction: row
+  flex-wrap: wrap
+
+.flex--centered
+  align-items: center
+  vertical-align: middle
+
+.flex--justify-center
+  justify-content: center
+
+.flex--align-center
+  align-items: center
+
+.flex--even
+  justify-content: space-between
+
+.shadow--spec
+  box-shadow: $shadow-spec
+
+.shadow--1
+  box-shadow: $shadow-1
+
+.content
+  box-sizing: border-box
+  margin-top: 3vmax
+
+img.thumb-nail
+  height: 2rem
+  margin: 1em
+
+  @media (max-width: $break-small)
+    height: 3rem
+

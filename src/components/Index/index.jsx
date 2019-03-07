@@ -2,7 +2,6 @@ import { connect } from 'react-redux'
 import gql from 'graphql-tag'
 import { queryProductsAction } from '../../models/Products'
 import Pure from './pure'
-import '../../style/index.sass'
 
 const query = gql`
   query GetProductUsers($productId: ID!, $userName: String ) {

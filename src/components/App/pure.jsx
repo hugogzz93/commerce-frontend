@@ -32,21 +32,23 @@ class App extends Component {
       <Router>
         <div className='app_wrapper'>
           <NavBar/>
-          <Route render={({location}) => (
-            <TransitionGroup>
-              <CSSTransition 
-                key={location.key}
-                timeout={300}
-                classNames='fade' >
-                <Switch location={location}>
-                  <Route exact={true} path='/' component={Search}/>
-                  <Route path='/users/edit' component={ UserConfiguration }/>
-                  <Route path='/user/orders' component={ OrderIndex } />
-                  <Route path='/user/inventory' component={ Inventory } />
-                </Switch>
-              </CSSTransition>
-          </TransitionGroup>
-          )} />
+          <div className="content">
+            <Route render={({location}) => (
+              <TransitionGroup>
+                <CSSTransition 
+                  key={location.key}
+                  timeout={300}
+                  classNames='fade' >
+                  <Switch location={location}>
+                    <Route exact={true} path='/' component={Search}/>
+                    <Route path='/users/edit' component={ UserConfiguration }/>
+                    <Route path='/user/orders' component={ OrderIndex } />
+                    <Route path='/user/inventory' component={ Inventory } />
+                  </Switch>
+                </CSSTransition>
+            </TransitionGroup>
+            )} />
+          </div>
         </div>
       </Router>
     );

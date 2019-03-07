@@ -3,7 +3,6 @@ import { Carousel } from "react-responsive-carousel";
 import ImageCard from '../../cards/ImageCard'
 import HoverImageCard from '../../cards/HoverImageCard'
 import HoverContainer from '../../cards/HoverContainer'
-import '../../../style/indexDetail.sass'
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import '../../../style/overwrites/carousel.sass'
 
@@ -35,7 +34,7 @@ const IndexDetail = (props) => {
 
 
   return(
-      <div className="index__detail">
+      <div className="col-9">
         <Carousel showThumbs={false}
                   showIndicators={false}
                   showStatus={false}
@@ -43,11 +42,11 @@ const IndexDetail = (props) => {
                   useKeyboardArrows={true}
                   transitionTime={150}
                 >
-                    <div className="fade-in-list masonic masonic--col-2">
+                    <div className="masonic masonic--col-2">
                       { userProducts }
                     </div>
                     <div>
-                      <div className="card card--info card--info-red">
+                      <div className="card card--theme-red">
                         <p>{user.name}</p>
                         <p>{user.email}</p>
                         <p>{user.phone}</p>

@@ -5,7 +5,8 @@ export default function SearchBar(props) {
 
   return (
       <input
-        className='search__bar'
+        id='search__bar'
+        className='container--100 t--size-h3'
         placeholder='Find...'
         value={input}
         onChange={(e) => inputHandler(e.target.value)}/>

@@ -23,13 +23,13 @@ const Index = (props) => {
   }
 
   const itemDivs = items.map(({name, email}, i) => (
-    <div className='index__item fade-in' key={i}>
-      <ThumbCard 
-        title={name}
-        selected={itemCursor == i}
-        onClick={() => { setItemCursor(i) }}
-      />
-    </div>
+    <ThumbCard 
+      key={i}
+      title={name}
+      selected={itemCursor == i}
+      onClick={() => { setItemCursor(i) }}
+      className={'fade-in' + ( itemCursor == i ? ' card--highlight' : '')}
+    />
   ))
 
   useEffect(() => {
@@ -67,23 +67,31 @@ const Index = (props) => {
   })
 
   return(
-    <div className='index__container' >
-      <div className='index__search-container s__content'>
-        <input 
-          className='s__input'
-          placeholder='search'
-          value={filter}
-          onChange={ handleSearchChange }
-        />
-        <i className='fas fa-search'></i>
+    <div className='grid-12 col-gap-10 row-gap-10 container--100' >
+
+      <div className="col-3">
+        <div className='s__content'>
+          <input 
+            className='s__input'
+            placeholder='search'
+            value={filter}
+            onChange={ handleSearchChange }
+          />
+          <i className='fas fa-search'></i>
+        </div>
       </div>
-      <div className='index__content-list fade-in-list'>
-        { itemDivs }
-      </div>
-      <div className="index__detail-header">
+      <div className="col-9">
         <DetailHeading {...items[itemCursor]}/>
       </div>
+
+      <div className="col-3" style={{borderBottom: '1px solid #e2e4ef'}}></div>
+      <div className="col-9" style={{borderBottom: '1px solid #e2e4ef'}}></div>
+
+      <div className='col-3'>
+        { itemDivs }
+      </div>
       { items[itemCursor] && <IndexDetail id={items[itemCursor].id} product_id={id} />}
+
     </div>
   )
 }

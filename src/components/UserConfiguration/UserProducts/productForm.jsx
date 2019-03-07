@@ -45,7 +45,7 @@ const ProductForm = props => {
       </div> 
     )
   else
-    return <div class="thumb-card" onClick={() => setActive(true)}>Create Category</div>
+    return <div class="card card--clickable" onClick={() => setActive(true)}>Create Category</div>
 }
 
 const mapDispatchToProps = dispatch => ({

@@ -6,13 +6,13 @@ const ThumbCard = (props) => {
   const { title, subtitle, selected, onClick } = props
 
   return(
-    <div className={`thumb-card ${selected ? 'card--selected' : ''}`} onClick={onClick}>
-      <img className='thumb-card__img' src={roots} alt={'thumbnail'}/>
-      <div className='thumb-card__main'>
-        <div className='thumb-card__title'>
+    <div className={`card card--clickable flex--row flex--align-center ${props.className}`} onClick={onClick}>
+      <img className='thumb-nail' src={roots} alt={'thumbnail'}/>
+      <div className='flex--col t--align-l'>
+        <div className='t--strong'>
           { title }
         </div>
-        <div className='thumb-card__subtitle'>
+        <div className=''>
           { subtitle }
         </div>
       </div>

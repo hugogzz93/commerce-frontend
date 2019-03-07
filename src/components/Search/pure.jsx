@@ -18,13 +18,17 @@ function Search(props) {
   const searchRows = props.searchOptions
     .filter(product => product.name.toLowerCase().includes(searchInput.toLowerCase()))
     .map(({name, id}, i) => (
-      <SearchOption
-        index={id}
-        title={name}
-        key={id}
-        clickHandler={handleOnClick}
-        selected={optionCursor == i ? true : false}
-      />
+      <div 
+        class="search__option card card--clickable fade-in"
+        onClick={() => {
+          setSelected(id)
+          setSearchInput(name)
+        }}
+        key={id}>
+          <div className="t--size-h5">
+            {name}
+          </div>
+      </div>
     ))
 
 
@@ -60,21 +64,36 @@ function Search(props) {
     setOptionCursor(0)
   }, [searchInput, selectedOption])
 
-  return (
-  <div className={`content ${selectedOption ? 'index-shown' : 'search-shown'}`}>
-    <div className='search__container'>
-      <SearchBar input={searchInput} inputHandler={(value) => {
-        if(selectedOption)
-          setSelected(null)
-        setSearchInput(value)
-      }} />
-      {searchOptions.lenght}
-      <div className='search__list fade-in-list'>
+
+  const searchBarDiv = (
+      <SearchBar 
+        input={searchInput}
+        inputHandler={(value) => {
+          setSearchInput(value)
+          if(selectedOption) setSelected(null)
+        }}
+      />
+  )
+
+  let slide = null
+  if(selectedOption)
+    slide =  (
+      <Index productId={searchOptions.find(e => e.id == selectedOption).id}/>
+    )
+  else
+    slide =  (
+      <div className='container--90'>
         {searchRows}
       </div>
+    )
+
+  return (
+    <div class={selectedOption ? 'index-shown' : ''}>
+      <div class="container--80 flex--col flex--centered">
+        {searchBarDiv}
+        {slide}
+      </div>
     </div>
-    { selectedOption && <Index productId={searchOptions.find(e => e.id == selectedOption).id}/>}
-  </div>
   )
 }
 

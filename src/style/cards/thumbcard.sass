@@ -2,35 +2,26 @@
 @import '../variables'
 @import '../mixins'
 
-.thumb-card
-  @extend .card
-  display: flex
-  cursor: pointer
-  align-items: center
+// .thumb-card__main
+//   display: flex
+//   flex-direction: column
+//   text-align: left
 
-  &:hover
-    @include highlight-shadow($shadow-high, 1.025)
-
-.thumb-card__main
-  display: flex
-  flex-direction: column
-  text-align: left
-
-.thumb-card__img
-  height: 2rem
-  margin-right: 1rem
-
-  @media (max-width: $break-small)
-    height: 3rem
+// .thumb-card__img
+//   height: 2rem
+//   margin-right: 1rem
+//
+//   @media (max-width: $break-small)
+//     height: 3rem
 
 
-.thumb-card__title
-  color: var( --strong )
-  margin-bottom: 0.25em
-  font-weight: 700
-
-.thumb-card__subtitle
-  color: var( --weak )
+// .thumb-card__title
+//   color: var( --strong )
+//   margin-bottom: 0.25em
+//   font-weight: 700
+//
+// .thumb-card__subtitle
+//   color: var( --weak )
 
 
 

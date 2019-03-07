@@ -1,28 +1,17 @@
 @import 'app'
-@import 'mixins'
-@import './cards/card'
 
-.search__container
-  display: flex
-  flex-direction: column
-  align-items: center
-  vertical-align: middle
+.search__option
+  min-height: 10rem
 
-.search__bar
-  @include responsiveSize(100%, 70%)
+#search__bar
   background: transparent
-  font-family: $font-family
+  font-family: inconsolata, monaco, monospace
+  font-weight: 500
   border: none
   border-bottom: 4px solid #000
-  font-size: 6vw
   outline: none
-  line-height: 1
-  padding: 0 0 0.1em 0
-  font-weight: 500
   margin-bottom: 0.4em
-  transition: all $tempo
-
-
+  transition: all $tempo * 1.5
 
   &:focus
     border-bottom-width: 6px
@@ -31,26 +20,8 @@
     color: #969696
     font-weight: 100
 
-
-.search__list
-  @include responsiveSize(100%, 60%)
-  padding: 0
-
-.search__option
-  @extend .card
-  cursor: pointer
-  margin-bottom: 5vh
-  min-height: 10rem
-  font-size: 26px
-  font-weight: 700
-
-  &:hover
-    box-shadow: $shadow-high
-    transform: scale(1.1)
-
-
-
-
-
-
-
+.index-shown #search__bar
+    margin: 0
+    padding: 0
+    font-size: $body-1
+    border: 0px solid transparent

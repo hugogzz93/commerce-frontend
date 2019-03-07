@@ -1,7 +1,10 @@
 @import '../variables'
+@import '../mixins'
   
 %__card-bg
-  box-shadow: $shadow-1
+  --shad-1: rgba(0,0,0,0.12)
+  --shad-2: rgba(0,0,0,0.24)
+  @include shad_1(var(--shad-1), var(--shad-2))
   color: #345
 
 %__card
@@ -10,21 +13,32 @@
   padding: 3%
   box-sizing: border-box
   transition: all $tempo $bezier-curve
-  
-.card, .card--no-bg
+
+.card
   @extend %__card
-  background: #fff
-  color: var(--strong)
+  --bg-col: #fff
+  --color: var(--strong)
+  background: var(--bg-col)
+  color: var(--color)
+
+  &:not(:last-child)
+    margin-bottom: 0.75em
 
 .card--no-bg
+  @extend .card
   background: transparent
   box-shadow: none
 
 .card--clickable
   cursor: pointer
+  position: relative
+  z-index: 1
+
   &:hover
-    box-shadow: $shadow-high
-    
+    z-index: 2
+    --shad-h-1: rgba(0,0,0,0.12)
+    --shad-h-2: rgba(0,0,0,0.24)
+    @include shad_2(var(--shad-h-1), var(--shad-h-2))
 
 .card__title
   font-size: $h5
@@ -39,26 +53,17 @@
   width: 100%
   padding: 25px
 
-.card--info
-  p
-    font-size: $body-2
-    text-align: left
-    margin: 0.5em
-
-    &.p--small
-      font-size: $body-3
-
 .card--info-red
   background: $redGradient
-  p
-    color: white
-    font-weight: 600
+  --color: white
 
-.card--selected.card--selected
+
+.card--highlight.card--highlight
   --strong: white
   --weak: $gray
+  --shad-1: #ff8465
+  --shad-2: #ff8465
   background: $orangeGradient
-  box-shadow: 0 3px 8px $g__orange
   border: 1px solid #0003
 
 

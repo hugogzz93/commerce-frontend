@@ -26,25 +26,24 @@ const UserProducts = props => {
   const selectedItemDivs = props.userProducts
         .filter(p => searchFilter.length && p.name.toLowerCase().includes(searchFilter.toLowerCase()) || !searchFilter.length)
         .map((product) => (
-            <div className='fade-in up__search-item index__item' key={product.id}>
-              <ThumbCard 
-                title={product.name}
-                subtitle={product.description}
-                onClick={() => selectProduct(product)}
-                selected={true}
-              />
-            </div>
+            <ThumbCard 
+              key={product.id}
+              title={product.name}
+              subtitle={product.description}
+              onClick={() => selectProduct(product)}
+              className='fade-in up__search-item card--highlight'
+            />
         ))
+
   const searchItemDivs = props.products
         .filter(p => searchFilter.length && p.name.toLowerCase().includes(searchFilter.toLowerCase()) || !searchFilter.length)
         .map(( product, i ) => (
-            <div className='fade-in up__search-item index__item' key={i}>
-              <ThumbCard 
-                title={product.name}
-                subtitle={product.description}
-                onClick={() => selectProduct(product)}
-              />
-            </div>
+            <ThumbCard 
+              title={product.name}
+              subtitle={product.description}
+              onClick={() => selectProduct(product)}
+              className='fade-in up__search-item'
+            />
         ))
 
 
