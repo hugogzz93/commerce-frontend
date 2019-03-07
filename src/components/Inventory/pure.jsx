@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import mergeByKey from 'array-merge-by-key'
 import debounce from '../../lib/debounce'
-import '../../style/inventory.sass'
 
 const Inventory = props => {
   const [ userProducts, setUserProducts ] = useState([])
@@ -41,12 +40,18 @@ const Inventory = props => {
       updateItems(newValue, originalValue, uProd.id)
     }
     return (
-      <div key={uProd.id} className="inv__item fade-in">
+      <div key={uProd.id} className="card flex--row flex--even fade-in" style={{padding: '1.5em'}}>
           <span>{uProd.name}</span>
           <div>
             <span>Stock</span>
             <input
-              className="inv__stock-input no-spinner"
+              style={{
+                width: '3em',
+                textAlign: 'center',
+                margin: '0 0 0 10px',
+                fontSize: 'inherit'
+              }}
+              className="no-spinner"
               type="number"
               data-id={uProd.id}
               value={uProd.stock}
@@ -59,17 +64,13 @@ const Inventory = props => {
 )
 
   return(
-    <div className="content">
-      <div className="inv__content container--90">
-        <div className="inv__options">
-          <div className="s__content">
-            <input className="s__input" value={filter} onChange={e => setFilter(e.target.value)}/>
-            <i className='fas fa-search'></i>
-          </div>
-        </div>
-        <div className="inv__items">
-          { userProductDivs }
-        </div>
+    <div className="container--90 grid-1 row-gap-20">
+      <div className="s__content">
+        <input className="s__input" value={filter} onChange={e => setFilter(e.target.value)}/>
+        <i className='fas fa-search'></i>
+      </div>
+      <div>
+        { userProductDivs }
       </div>
     </div>
   )
