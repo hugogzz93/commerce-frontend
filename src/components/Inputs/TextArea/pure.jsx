@@ -9,6 +9,7 @@ const TextArea = props => {
         name={props.name}
         onChange={props.onChange}
         placeholder=" "
+        style={{minHeight: props.minHeight}}
       />
       <label htmlFor={props.name}>{props.label}</label>
     </div>

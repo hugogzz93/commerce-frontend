@@ -47,19 +47,23 @@ const UserProducts = props => {
         ))
 
 
+  const colBaseSize = catFormActive ? 12 : 3
+
+
   return(
-    <div className="grid-12 container--90">
-      <div className={`flex--col col-${catFormActive ? 12 : 3} up__search`}>
-        <div className="s__content">
-          <input className="s__input"
-            autoComplete="false"
-            type="text"
-            value={searchFilter}
-            onChange={(e) => setSearchFilter(e.target.value)}
-          />
-          <i className='fas fa-search'></i>
-        </div>
-        <div className="up__search-items fade-in-list">
+    <div className="grid-12 container--90 col-gap-10 row-gap-20">
+      <div className={`s__content flex--col col-${colBaseSize}`}>
+        <input className="s__input"
+          autoComplete="false"
+          type="text"
+          value={searchFilter}
+          onChange={(e) => setSearchFilter(e.target.value)}
+        />
+        <i className='fas fa-search'></i>
+      </div>
+      <div className={`col-${12 - colBaseSize}`}></div>
+      <div className={`flex--col col-${colBaseSize}`}>
+        <div className="">
           <NewProductForm onActiveChange={setCatFormState}/>
           <div className="tail" style={{marginBottom: '10px'}}></div>
           { selectedItemDivs}
@@ -68,7 +72,7 @@ const UserProducts = props => {
         </div>
       </div>
       {!catFormActive && (
-        <div className={`col-9 up__list flex__row fade-in-list`}>
+        <div className={`col-9 flex__row`}>
           {selectedProduct && <UserProductItems product={selectedProduct} />} 
         </div>
       )}

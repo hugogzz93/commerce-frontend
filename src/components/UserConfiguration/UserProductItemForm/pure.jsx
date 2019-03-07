@@ -18,20 +18,19 @@ const UserProductItemForm = props => {
   }, [props.userProduct])
 
   return(
-    <div className="up__item-form grid-12 col-gap-15" key={userProduct.id}>
+    <div className="grid-12 col-gap-15" key={userProduct.id}>
       <div className="col-5">
         <ImageInput 
           {...{file, setFile, image: userProduct.image ? FileManager.getFileUrl({fileName: userProduct.image, user_id: userProduct.user_id}) : null}}
           />
       </div>
-        <div className="col-7 ">
+        <div className="col-7 row-gap-10 grid-1">
           <Input
               label={'Name'}
               value={name}
               name={name}
               onChange={e => setName(e.target.value)}
           />
-          <div className="div" style={{ marginBottom: '10px' }}/>
           <Input
               label={'Price'}
               value={price}
@@ -39,12 +38,12 @@ const UserProductItemForm = props => {
               onChange={e => setPrice(e.target.value)}
               type={'number'}
           />
-          <div className="div" style={{ marginBottom: '10px' }}/>
           <TextArea
               label={'Description'}
               value={desc}
               price={price}
               onChange={e => setDesc(e.target.value)}
+              minHeight='7em'
           />
         </div>
         <div className="button" onClick={e => mutation({

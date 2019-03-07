@@ -35,19 +35,15 @@ const UserProductItems = ({product, user_id, ...props}) => {
   ))
 
   return (
-    <div className="card up__li fade-in" key={product.id}>
-      <div className="text__pair--ver">
-        <div className="text__key">{product.name}</div>
-      </div>
-      <div className="up__canvas">
-        <UserProductItemForm
-          product_id={product.id}
-          userProduct={userProductForEdit}
-          user_id={user_id}
-        />
-        <div className="fade-in masonic masonic--col-2">
-          { userProductItemDivs }
-        </div>
+    <div className="card fade-in" key={product.id}>
+      <div className="t--strong">{product.name}</div>
+      <UserProductItemForm
+        product_id={product.id}
+        userProduct={userProductForEdit}
+        user_id={user_id}
+      />
+      <div className="fade-in masonic masonic--col-2">
+        { userProductItemDivs }
       </div>
     </div>
   )

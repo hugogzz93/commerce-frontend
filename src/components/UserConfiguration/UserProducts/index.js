@@ -5,7 +5,6 @@ import { queryProductsAction, createProductAction } from '../../../models/Produc
 import { sendMutation }  from '../../../lib/api'
 import gql from 'graphql-tag'
 import Pure from './pure'
-import '../../../style/user_configuration.sass'
 
 const getUserProducts = gql`
   query GetUserProducts($userId: ID) {

@@ -2,7 +2,6 @@ import React from 'react'
 import { useReducer, useEffect } from 'react'
 import Input from '../Inputs/TextInput'
 import TextArea from '../Inputs/TextArea'
-import '../../style/formslide.sass'
 
 const FormSlide = props => {
   const [formState, dispatch] = useReducer(props.formReducer, props.initialFormState)
@@ -33,7 +32,7 @@ const FormSlide = props => {
   }, [props.initialFormState])
 
   return (
-    <div className="form-slide grid-12 col-gap-10 container--50">
+    <div className="grid-12 col-gap-10 row-gap-20 container--50">
       <Input label={'Name'} className={'col-6'}
         value={formState.name} name={'name'}
         onChange={handleFieldChange}/>
@@ -71,7 +70,9 @@ const FormSlide = props => {
         onChange={handleFieldChange}/>
      <TextArea label={'Description'}  className={'col-12'}
         value={formState.description} name={'description'}
-        onChange={handleFieldChange}/>
+        onChange={handleFieldChange}
+        minHeight='15em'
+      />
      <div className="button col-3" disabled={!updatesAreValid()} onClick={onSubmit}>Submit</div>
     </div>
   )

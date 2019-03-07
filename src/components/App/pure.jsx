@@ -16,6 +16,8 @@ import Inventory from '../Inventory'
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import '../../style/overwrites/carousel.sass'
 import '../../style/chat.sass'
+import '../../style/inputs.sass'
+
 
 class App extends Component {
   constructor(props) {

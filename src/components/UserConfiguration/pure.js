@@ -15,7 +15,7 @@ const UserConfiguration = props => {
   const [currentSlide, setCurrentSlide] = useState(0)
 
   return (
-    <div className="overlay content ">
+    <div>
       <div className="button-array container--60">
           <div className={`btn ${currentSlide == 0 ? 'active' : ''}`} onClick={() => {setCurrentSlide(0); carouselControls.setSlide(0)}}>
             Profile
