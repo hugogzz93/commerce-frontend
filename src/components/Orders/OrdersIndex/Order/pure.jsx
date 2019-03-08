@@ -6,18 +6,6 @@ import { Mutation } from 'react-apollo'
 import numeral from 'numeral'
 import gql from 'graphql-tag'
 
-
-
-const StatusSelect = props => (
-  <select className="order__status-select" value={props.value} onChange={props.onChange} onClick={e => e.stopPropagation()}>
-    <option value="in_progress">In Progress</option>
-    <option value="in_transit">In Transit</option>
-    <option value="delivered">Delivered</option>
-    <option value="canceled">Canceled</option>
-  </select>
-)
-
-
 const Order= props => {
   const order = props.order
   const [currentSlide, setSlide] = useState(0)
@@ -26,7 +14,6 @@ const Order= props => {
   const newMessages = order.issues.some(e => e.newMessages)
 
   return(
-    <div className="order__container">
       <CarouselWrapper showThumbs={false}
                 showIndicators={false}
                 showStatus={false}
@@ -34,42 +21,47 @@ const Order= props => {
                 selectedItem={currentSlide}>
         <AccordionCard
           header={
-            <React.Fragment>
-              <span className=''>{new Date(parseInt(order.createdAt)).toDateString()}</span>
-              <span className=' accordion--hide-on-active'>{numeral( order.total ).format('0,0')} MXN</span>
-              <span className=' accordion--hide-on-active'>{order.orderItems.length} Items {newMessages &&  <i class="far fa-envelope"></i>}</span>
-              <StatusSelect value={status} onChange={e => props.updateStatus( e.target.value).then(r => setStatus( r.data.order.updateOrder.status ))} />
-            </React.Fragment>
+            <div class="grid-4">
+              <span className='col-1 t--align-l'>{new Date(parseInt(order.createdAt)).toDateString()}</span>
+              <span className='col-1 t--align-c accordion--hide-on-active'>{numeral( order.total ).format('0,0')} MXN</span>
+              <span className='col-1 t--align-c accordion--hide-on-active'>{order.orderItems.length} Items {newMessages &&  <i class="far fa-envelope"></i>}</span>
+              <div className="col-1 t--align-r">
+                <select value={status}
+                  onChange={e => props.updateStatus( e.target.value).then(r => setStatus( r.data.order.updateOrder.status ))}
+                  onClick={e => e.stopPropagation()}
+                >
+                  <option value="in_progress">In Progress</option>
+                  <option value="in_transit">In Transit</option>
+                  <option value="delivered">Delivered</option>
+                  <option value="canceled">Canceled</option>
+                </select>
+              </div>
+            </div>
           }
           footer={
-            <React.Fragment>
-              <div className="buttons">
-                {/* <Link className="button btn--danger btn--small" to={'/user/orders/chat/' + order.id}> */}
-                {/*   Issues */}
-                {/* </Link> */}
-                <div className="button btn--small" onClick={() => setSlide(1)}>
-                  Client
-                </div>
-              </div>
-              <span style={{float: 'right'}}>{numeral(order.total).format('0,0')} MXN</span>
-            </React.Fragment>
+            <div class="flex--row flex--between flex--align-center">
+              <div className="button btn--small" onClick={() => setSlide(1)}> Client </div>
+              {numeral(order.total).format('0,0')}
+            </div>
           }
         >
-          { order.orderItems.map(({userProduct: {name}, id, status, price, amount}) => (
-            <div className='oc__list-item flex--between' key={id}>
-              <span className='triplet'>{name}</span>
-              <span className="triplet">{status}</span>
-              <span className='triplet'>{amount} x {numeral(price).format('0,0')} MXN</span>
-            </div>
-          ))}
+          <div className="grid-1 row-gap-15">
+            { order.orderItems.map(({userProduct: {name}, id, status, price, amount}) => (
+              <div className='grid-3' key={id}>
+                <span className='col-1'>{name}</span>
+                <span className="col-1 t--align-c">{status}</span>
+                <span className='col-1 t--align-r'>{amount} x {numeral(price).format('0,0')} MXN</span>
+              </div>
+            ))}
+          </div>
         </AccordionCard>
-        <div className="card card--no-padding card--info">
-          <div className="card__content">
+        <div className="card card--no-padding">
+          <div>
             <div className="button btn--small" onClick={() => setSlide(0)} style={{float: 'left'}}>
               Return
             </div>
           </div>
-          <div className="card__content">
+          <div>
             <p>{order.client.name}</p>
             <p>{order.client.email}</p>
             <p>{order.client.phone}</p>
@@ -79,7 +71,6 @@ const Order= props => {
           </div>
         </div>
       </CarouselWrapper>
-    </div>
   )
 }
 

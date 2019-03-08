@@ -2,6 +2,7 @@
 
 .button
   --theme: white
+  --shad: #0095ff
   background: $blue
   color: var(--theme)
   margin: 1ch 0
@@ -9,7 +10,7 @@
   cursor: pointer
   padding: 1em
   border-radius: 5px
-  box-shadow: 0 3px 18px -4px $blue
+  box-shadow: 0 3px 18px -4px var(--shad)
   transition: all $tempo
   border: 1px solid transparent
   display: inline-block
@@ -19,7 +20,7 @@
     margin-right: 0.5em
 
   &:hover
-    box-shadow: 0 3px 18px 0px $blue
+    box-shadow: 0 3px 18px 0px var(--shad)
     border: 1px solid #0003
 
   &:active
@@ -46,6 +47,11 @@
 .icon--button
   cursor: pointer
   display: inline-block
+
+.btn--orng-white
+  box-shadow: none !important
+  background: white
+  color: #fa7354
 
 .button-array
   --border-radius: 5px

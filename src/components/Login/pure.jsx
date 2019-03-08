@@ -1,28 +1,28 @@
 import React, { useState, useEffect } from 'react'
-import '../../style/login.sass'
+import Input from '../Inputs/TextInput'
 
 export default (props) => {
   const [email, setEmail] = useState(props.email || '')
   const [password, setPassword] = useState('')
 
   const body = props.auth_token ?
-    <div className="modal__item modal__button">{props.email}</div>
+    <div>{props.email}</div>
     : (
       <React.Fragment>
-        <form id="login-form">
-          <input
-            className="modal__item login__input c__input"
-            type="text" 
+        <form className="card card--no-bg grid-1 row-gap-15">
+          <Input
+            label='email'
             value={email}
-            onChange={e => setEmail(e.target.value)}/>
-          <input
-            className="modal__item login__input c__input"
+            onChange={e => setEmail(e.target.value)}
+          />
+          <Input 
+            label='password'
             type="password"
             value={password}
             onChange={e => setPassword(e.target.value)} />
-          { props.login_failed && <span className='modal__item modal--text'>* Wrong username or password</span> }
+          { props.login_failed && <span>* Wrong username or password</span> }
           <div 
-            className="modal__item modal__button" 
+            className="button btn--orng-white" 
             onClick={() => props.login(email, password)}>
               Sign In
           </div>

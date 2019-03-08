@@ -8,7 +8,6 @@ import {
   CSSTransition,
   TransitionGroup
 } from 'react-transition-group'
-import '../../../style/orderIndex.sass'
 
 const OrderIndex = props => {
   const createdOrdersLocation = '/user/orders/created'
@@ -28,7 +27,7 @@ const OrderIndex = props => {
   const createdOrdersDiv = props.orderGroups
   .filter( o => statusFilter ? o.status == statusFilter : true )
   .map(orderGroup => (
-    <div className="oc__list-item" key={orderGroup.id}>
+    <div key={orderGroup.id}>
       <OrderGroup orderGroup={orderGroup}/>
     </div>
   ))
@@ -36,21 +35,19 @@ const OrderIndex = props => {
   const attendingOrdersDivs = props.attendingOrders
   .filter( o => statusFilter ? o.status == statusFilter : true )
   .map(order => (
-    <div className="oc__list-item" key={order.id}>
+    <div key={order.id}>
       <Order order={order}/>
     </div>
   ))
 
   const noOrdersCard = (
-      <div className="orders__index content">
-          <div className="card">
-            <div className="card--info">No orders</div>
-          </div>
-      </div>
+    <div className="card">
+      <div className="card--info">No orders</div>
+    </div>
   )
 
   return (
-    <div className="orders__index content">
+    <div className="">
       <Route render={({location}) => (
         <TransitionGroup>
           <CSSTransition
@@ -59,51 +56,40 @@ const OrderIndex = props => {
               classNames='fade' >
               <Switch location={location}>
                 <Route exact={true} path='/user/orders/created' component={ () =>
-                  <div class="container--70">
-                    <div className="order__list">
-                      <div className="cn__row flex--row">
-                        <select className="order__status-select" value={statusFilter} onChange={e => setStatusFilter(e.target.value == 'no_filter' ? null : e.target.value)}>
-                          <option value="no_filter">No Filter</option>
-                          <option value="in_progress">In Progress</option>
-                          <option value="delivered">Delivered</option>
-                          <option value="canceled">Canceled</option>
-                        </select>
-                      </div>
-                      { props.orderGroups.length ? createdOrdersDiv : noOrdersCard }
-                      {props.orderGroups.length}
+                  <div class="container--70 grid-1 row-gap-10">
+                    <div>
+                      <select className="order__status-select" 
+                        value={statusFilter} 
+                        onChange={e => setStatusFilter(e.target.value == 'no_filter' ? null : e.target.value)}
+                      >
+                        <option value="no_filter">No Filter</option>
+                        <option value="in_progress">In Progress</option>
+                        <option value="delivered">Delivered</option>
+                        <option value="canceled">Canceled</option>
+                      </select>
                     </div>
+                    { props.orderGroups.length ? createdOrdersDiv : noOrdersCard }
                   </div>
                 }>
                 </Route>
                 <Route exact={true} path='/user/orders/attending' component={ () =>
-                  <div className="order__list container--70">
-                    <div className="cn__row flex--row">
-                        <select value={statusFilter} onChange={e => setStatusFilter(e.target.value)}>
-                          <option value="no_filter">No Filter</option>
-                          <option value="in_progress">In Progress</option>
-                          <option value="in_transit">In Transit</option>
-                          <option value="delivered">Delivered</option>
-                          <option value="canceled">Canceled</option>
-                        </select>
-                      </div>
+                  <div class="container--70 grid-1 row-gap-10">
+                    <div>
+                      <select className="order__status-select"
+                        value={statusFilter} 
+                        onChange={e => setStatusFilter(e.target.value)}
+                      >
+                        <option value="no_filter">No Filter</option>
+                        <option value="in_progress">In Progress</option>
+                        <option value="in_transit">In Transit</option>
+                        <option value="delivered">Delivered</option>
+                        <option value="canceled">Canceled</option>
+                      </select>
+                    </div>
                     {props.attendingOrders.length ? attendingOrdersDivs : noOrdersCard }
-                    {props.attendingOrders.length}
                   </div>
                 }>
                 </Route>
-                {/* <Route path='/user/orders/created/issue/:order_group_id' component={ ({match}) => */}
-                {/*   <div className="order__container"> */}
-                {/*     <OrderIssueForm orderGroupId={match.params.order_group_id}/>  */}
-                {/*   </div> */}
-                {/* }></Route> */}
-                {/* <Route path='/user/orders/chat/:id' component={({match}) => */}
-                {/*   <div className="order__container"> */}
-                {/*     <div className="card flex--col"> */}
-                {/*       <Chat orderId={match.params.id}/> */}
-                {/*     </div> */}
-                {/*   </div> */}
-                {/* }> */}
-                {/* </Route> */}
               </Switch>
           </CSSTransition>
         </TransitionGroup>

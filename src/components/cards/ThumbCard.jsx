@@ -8,7 +8,7 @@ const ThumbCard = (props) => {
   return(
     <div className={`card card--clickable flex--row flex--align-center ${props.className}`} onClick={onClick}>
       <img className='thumb-nail' src={roots} alt={'thumbnail'}/>
-      <div className='flex--col t--align-l'>
+      <div className='grid-1 row-gap-5 t--align-l'>
         <div className='t--strong'>
           { title }
         </div>

@@ -2,12 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import Login from '../Login/index'
 import ShoppingCart from '../ShoppingCart'
-import '../../style/shoppingCart.sass'
-
-// const CartItemInput = props => {
-//   const []
-// }
-
 
 const NavBar = (props) => {
   const [loginModal, setLoginModal] = useState(!props.loggedIn)
@@ -42,8 +36,8 @@ const NavBar = (props) => {
 
   if (props.loggedIn)
     return (
-      <div className="nav__bar">
-        <div className="nav--left">
+      <div id="nav__bar" className='flex--row flex--between flex--align-center'>
+        <div>
           <Link to='/'>
             Search
           </Link>
@@ -57,8 +51,8 @@ const NavBar = (props) => {
             Inventory
           </Link>
         </div>
-        <div className="nav--right">
-          <i className="fas fa-shopping-cart icon--button" onClick={e => toggleShoppingCart() }></i>
+        <div className="flex--row flex--between">
+          <i className="fas fa-shopping-cart icon--button" style={{marginRight: '1em'}} onClick={e => toggleShoppingCart() }></i>
           <div className="nav__ddown" onClick={handleDropdown}>
             <div className="nav__ddown-title">{props.email}</div>
             <div className="nav__ddown-list">

@@ -1,9 +1,18 @@
+.carousel.carousel-slider
+  overflow: visible
+
+.carousel .slider-wrapper
+  overflow: visible
+
 .carousel .slide
   background: transparent !important
+  margin-right: 1ch
+  transition: opacity 0.15s
 
   &:not(.selected)
     height: 0
-    overflow: hidden
+    margin-right: 0
+    opacity: 0
 
   img
     vertical-align: unset

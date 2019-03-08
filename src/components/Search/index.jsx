@@ -3,9 +3,7 @@ import gql from 'graphql-tag';
 import Pure from './pure'
 import { GET_PRODUCTS } from '../../constants/schema'
 import { queryProductsAction } from '../../models/Products'
-
 import '../../style/search.sass'
-import '../../style/transitions/indexTransition.sass';
 
 const query = gql`
   query GetProducts($name: String) {

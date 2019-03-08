@@ -10,7 +10,7 @@
 %__card
   @extend %__card-bg
   border-radius: 2px
-  padding: 3%
+  padding: var(--padding)
   box-sizing: border-box
   transition: all $tempo $bezier-curve
 
@@ -18,11 +18,15 @@
   @extend %__card
   --bg-col: #fff
   --color: var(--strong)
+  --padding: 1em
   background: var(--bg-col)
   color: var(--color)
 
   &:not(:last-child)
     margin-bottom: 0.75em
+
+.card--no-padding
+  padding: 0
 
 .card--no-bg
   @extend .card
@@ -40,23 +44,9 @@
     --shad-h-2: rgba(0,0,0,0.24)
     @include shad_2(var(--shad-h-1), var(--shad-h-2))
 
-.card__title
-  font-size: $h5
-  text-align: left
-  display: block
-  border: 1px solid transparent
-
-.card--no-padding
-  padding: 0
-
-.card__content
-  width: 100%
-  padding: 25px
-
 .card--info-red
   background: $redGradient
   --color: white
-
 
 .card--highlight.card--highlight
   --strong: white
@@ -65,19 +55,6 @@
   --shad-2: #ff8465
   background: $orangeGradient
   border: 1px solid #0003
-
-
-.cn__vertical
-  display: flex
-  flex-direction: column
-  box-sizing: border-box
-
-.cn__row
-  display: flex
-  margin: 1rem 0
-
-.cn__row--accent
-  background: #f8f9fa
 
 .modal
   @extend %__card
@@ -96,19 +73,6 @@
   padding: 0
   overflow: hidden
 
-  .login__input
-    opacity: 0
-
-  .modal__item
-    width: 95%
-    margin: auto
-    padding: 20px 0
-    font-size: 18px
-
-    &:not(:last-child)
-      margin-bottom: 20px
-
-
   &.active
     max-height: 100vh
     max-width: 45vw
@@ -118,27 +82,3 @@
       background: var(--primary)
       opacity: 1
       transition: all $tempo $bezier-curve
-
-.modal__button
-  border: 1px solid var(--primary)
-  background: var(--theme)
-  color: var(--primary)
-  margin-left: 0
-  margin-right: 0
-  text-align: center
-  cursor: pointer
-
-
-.modal__button--alt
-  color: var(--theme)
-  background: var(--primary)
-
-.modal__item.modal--text
-  padding-top: 1px
-  padding-bottom: 1px
-  color: white
-
-
-.cart__item
-  color: var(--primary)
-

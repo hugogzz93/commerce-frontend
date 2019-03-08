@@ -51,7 +51,7 @@ const Inventory = props => {
                 margin: '0 0 0 10px',
                 fontSize: 'inherit'
               }}
-              className="no-spinner"
+              className="in__small-num"
               type="number"
               data-id={uProd.id}
               value={uProd.stock}

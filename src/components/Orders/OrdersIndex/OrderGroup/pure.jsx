@@ -14,33 +14,31 @@ const OrderGroup = props => {
   const newMessages = orderGroup.orders.some(o => o.issues.some(i => i.newMessages))
 
   return(
-    <div className="order__container">
-      <AccordionCard
-        header={
-          <div class="grid-4">
-            <span className='col-1 t--align-l'>{new Date(parseInt(orderGroup.createdAt)).toDateString()}</span>
-            <span className='col-1 t--align-c accordion--hide-on-active'>{numeral( orderGroup.total ).format('0,0')} MXN</span>
-            <span className='col-1 t--align-c accordion--hide-on-active'>{orderItems.length} Items {newMessages && <i class="far fa-envelope"></i> }</span>
-            <span className='col-1 t--align-r accordion--hide-on-active'>{Helpers.translateStatus(orderGroup.status)}</span>
-          </div>
-        }
-        footer={
-          <React.Fragment>
-            <span style={{float: 'right'}}>{numeral(orderGroup.total).format('0,0')} MXN</span>
-          </React.Fragment>
-        }
-      >
-        <div className="grid-1 row-gap-15">
-          { orderItems.map(({userProduct: {name}, id, status, price, amount}) => (
-            <div className='grid-3' key={id}>
-              <span className='col-1'>{name}</span>
-              <span className="col-1 t--align-c">{Helpers.translateStatus(status)}</span>
-              <span className='col-1 t--align-r'>{amount} x {numeral(price).format('0,0')} MXN</span>
-            </div>
-          ))}
+    <AccordionCard
+      header={
+        <div class="grid-4">
+          <span className='col-1 t--align-l'>{new Date(parseInt(orderGroup.createdAt)).toDateString()}</span>
+          <span className='col-1 t--align-c accordion--hide-on-active'>{numeral( orderGroup.total ).format('0,0')} MXN</span>
+          <span className='col-1 t--align-c accordion--hide-on-active'>{orderItems.length} Items {newMessages && <i class="far fa-envelope"></i> }</span>
+          <span className='col-1 t--align-r accordion--hide-on-active'>{Helpers.translateStatus(orderGroup.status)}</span>
         </div>
-      </AccordionCard>
-    </div>
+      }
+      footer={
+        <React.Fragment>
+          <span style={{float: 'right'}}>{numeral(orderGroup.total).format('0,0')} MXN</span>
+        </React.Fragment>
+      }
+    >
+      <div className="grid-1 row-gap-15">
+        { orderItems.map(({userProduct: {name}, id, status, price, amount}) => (
+          <div className='grid-3' key={id}>
+            <span className='col-1'>{name}</span>
+            <span className="col-1 t--align-c">{Helpers.translateStatus(status)}</span>
+            <span className='col-1 t--align-r'>{amount} x {numeral(price).format('0,0')} MXN</span>
+          </div>
+        ))}
+      </div>
+    </AccordionCard>
   )
 }
 
