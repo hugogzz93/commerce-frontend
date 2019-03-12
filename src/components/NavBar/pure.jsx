@@ -66,15 +66,19 @@ const NavBar = (props) => {
             </div>
           </div>
         </div>
-        <div className={`modal ${cartModal ? 'active' : ''}`}>
-          <ShoppingCart />
+        <div className="modal__container">
+          <div className={`modal ${cartModal ? 'active' : ''}`}>
+            <ShoppingCart />
+          </div>
         </div>
       </div>
     )
   else
     return (
-      <div className="nav__bar">
-        <Login active={loginModal} />
+      <div id="nav__bar" className='flex--row flex--justify-end'>
+        <div className="modal__container">
+          <Login active={loginModal} />
+        </div>
         <div className="nav--right">
           <i className="fas fa-user" onClick={toggleLoginModal}></i>
         </div>

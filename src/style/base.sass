@@ -75,6 +75,9 @@
 .flex--justify-center
   justify-content: center
 
+.flex--justify-end
+  justify-content: flex-end
+
 .flex--align-center
   align-items: center
 
@@ -82,10 +85,13 @@
   justify-content: space-between
 
 .shadow--spec
-  box-shadow: $shadow-spec
+  box-shadow: $shadow-spec !important
 
 .shadow--1
-  box-shadow: $shadow-1
+  box-shadow: $shadow-1 !important
+
+.shadow--high
+  box-shadow: $shadow-high !important
 
 .content
   box-sizing: border-box
@@ -95,8 +101,10 @@
   cursor: pointer
 
 .shrunk
-  max-height: 0
-  overflow: hidden
+  max-height: 0 !important
+  padding: 0 !important
+  margin: 0 !important
+  overflow: hidden !important
 
 img.thumb-nail
   height: 2rem

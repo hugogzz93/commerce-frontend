@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import '../../style/cards/hoverImageCard.sass'
 
 const HoverImageCard = props => {
-  
+
   const active = props.active
   const optionsDiv = props.options && (
     <div>

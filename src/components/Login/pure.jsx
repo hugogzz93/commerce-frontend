@@ -9,7 +9,7 @@ export default (props) => {
     <div>{props.email}</div>
     : (
       <React.Fragment>
-        <form className="card card--no-bg grid-1 row-gap-15">
+        <form className="grid-1 row-gap-15">
           <Input
             label='email'
             value={email}
@@ -31,7 +31,10 @@ export default (props) => {
     )
 
   return (
-    <div className={`modal ${props.active ? 'active' : ''}`}>
+    <div
+      className={`card card--no-bg shadow--high ${props.active ? '' : 'shrunk'}`}
+      style={{background: '#fa7354'}}
+    >
       {body}
     </div>
   )
