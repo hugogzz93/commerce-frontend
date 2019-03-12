@@ -1,6 +1,5 @@
 import { connect } from 'react-redux'
 import { mutateUserAction } from '../../models/User'
-import { UPDATE_USER as mutation } from '../../constants/schema'
 import Pure from './pure'
 
 const fieldValidator = (state, {field, value}) => {
@@ -47,7 +46,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  submitUpdates: variables => dispatch(mutateUserAction({ mutation, variables})),
+  // submitUpdates: variables => dispatch(mutateUserAction({ mutation, variables})),
   formReducer: formReducer
 })
 

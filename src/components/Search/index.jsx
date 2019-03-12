@@ -1,7 +1,6 @@
 import { connect } from 'react-redux'
 import gql from 'graphql-tag';
 import Pure from './pure'
-import { GET_PRODUCTS } from '../../constants/schema'
 import { queryProductsAction } from '../../models/Products'
 import { sendQuery } from '../../lib/api'
 import '../../style/search.sass'

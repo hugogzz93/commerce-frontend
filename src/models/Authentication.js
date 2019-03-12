@@ -1,6 +1,7 @@
 import { call, takeLatest, takeEvery, all, put, select } from 'redux-saga/effects'
 import { createAction, createReducer } from 'redux-act'
-import { login, logout, loginJWT, setAuthTokenCookie, getAuthToken } from '../services/Authentication'
+import { login, logout, fetchCurrentUser, setAuthTokenCookie, getAuthToken } from '../services/Authentication'
+import { updateUserStoreAction } from './User'
 
 export const checkLoggedInAction = createAction('CHECK_LOGGED_IN')
 export const loginAction = createAction('LOGIN')
@@ -12,10 +13,9 @@ export const errorAction = createAction('LOGIN/ERROR')
 const loginSaga = function *(action) {
   try {
     const response = yield call(login, action.payload)
-    if(response.data.login) {
-      const user = response.data.login
-      yield call(setAuthTokenCookie, user.auth_token)
-      yield put(setLoginDetail(user))
+    if(response.data.signIn.authToken) {
+      yield call(setAuthTokenCookie, response.data.signIn.authToken)
+      yield put(checkLoggedInAction())
     } else {
       yield put(setLoginFailed())
     }
@@ -30,7 +30,7 @@ const logoutSaga = function *(action) {
     const auth_token = state.auth_token
     if(auth_token) yield call(logout, action.payload)
     yield call(setAuthTokenCookie, null)
-    yield put(setLoginDetail({auth_token: null}))
+    yield put(updateUserStoreAction(null))
   } catch(err) {
   }
 
@@ -40,10 +40,11 @@ const checkLoggedInSaga = function *() {
   try {
     const auth_token = yield call(getAuthToken)
     if(auth_token) {
-      const response = yield call(loginJWT, auth_token)
-      const user = response.data.loginJWT
+      const response = yield call(fetchCurrentUser)
+      const user = response.data.currentUser
       if(user) {
-        yield put(setLoginDetail(user))
+        yield put(setLoginDetail({auth_token}))
+        yield put(updateUserStoreAction(user))
       }
     }
   } catch(e) {

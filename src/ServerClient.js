@@ -15,7 +15,7 @@ const client = new ApolloClient({
       return {
         headers: {
           ...headers,
-          authorization: token || ''
+          auth_token: token || ''
         }
       }
     }),
