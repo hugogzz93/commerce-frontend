@@ -4,11 +4,11 @@ const HoverContainer = props => {
   const [active, setActive] = useState(false)
 
   return (
-    <div className={ `hover__container ${active ? 'active' : '' }` } onClick={() => setActive(!active)}>
-      <div className="hover__img">
+    <div className={ `${active ? 'card' : '' }` } onClick={() => setActive(!active)}>
+      <div>
         {props.children}
       </div>
-      <div className="hover__detail">
+      <div className={`${active ? '': 'shrunk'}`}>
         {props.detail}
       </div>
     </div>

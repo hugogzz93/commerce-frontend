@@ -1,30 +1,18 @@
 import React, { Component, useEffect, useState } from 'react'
 import ThumbCard from '../cards/ThumbCard'
-import ImageCard from '../cards/ImageCard'
 import IndexDetail from './IndexDetail/index'
-
-const DetailHeading = props => (
-<div className="index__heading fade-in-list">
-  <div className="t--row fade-in">{props.city}</div>
-  <div className="t--row fade-in">{props.country}</div>
-  <div className="t--row fade-in">{props.zipcode}</div>
-</div>
-)
+import Helpers from '../../lib/helpers'
 
 const Index = (props) => {
-  const [items, setItems] = useState([])
-  const [detail, setDetail] = useState({})
+  const [vendors, setVendors] = useState([])
   const [filter, setFilter] = useState('')
   const [ itemCursor, setItemCursor ] = useState(0)
-  const { product: {title, id} } = props
 
-  const handleSearchChange = (event) => {
-    setFilter(event.target.value)
-  }
-
-  const itemDivs = items.map(({name, email}, i) => (
+  const vendorThumbNails = vendors
+  .filter(e => e.name.match(new RegExp(filter, 'i')) )
+  .map(({name, email, id}, i) => (
     <ThumbCard 
-      key={i}
+      key={id}
       title={name}
       selected={itemCursor == i}
       onClick={() => { setItemCursor(i) }}
@@ -33,38 +21,21 @@ const Index = (props) => {
   ))
 
   useEffect(() => {
-    props.getProductUsers({productId: props.product.id})
+    props.fetchVendors().then(setVendors)
   }, [])
 
   useEffect(() => {
-    try {
-      if(filter.length)
-        setItems(props.product.users.filter(user => user.name.toLowerCase().includes(filter)))
-      else
-        setItems(props.product.users || [])
-    } catch(e) {}
-  }, [filter, props.product.users])
+    const keyHandler = Helpers.createKeyHandler({
+      target: document.body,
+      [40]: () => setItemCursor(( itemCursor + 1 + vendors.length ) % vendors.length),
+      [38]: () => setItemCursor(( itemCursor - 1 + vendors.length) % vendors.length)
+    })
 
-
-  useEffect(() => {
-    const handleKeys = e => {
-      if(e.target != document.body) return
-      switch(e.which) {
-        case 40:
-          setItemCursor(( itemCursor + 1 + items.length ) % items.length)
-          e.preventDefault()
-          break
-
-        case 38:
-          setItemCursor(( itemCursor - 1  + items.length) % items.length)
-          e.preventDefault()
-          break
-      }
-    }
-
-    window.addEventListener('keydown', handleKeys )
-    return () => window.removeEventListener('keydown', handleKeys)
+    window.addEventListener('keydown', keyHandler )
+    return () => window.removeEventListener('keydown', keyHandler)
   })
+
+  const vendorProducts = vendors[itemCursor] ? <IndexDetail id={vendors[itemCursor].id} categoryId={props.id} /> : null
 
   return(
     <div className='grid-12 col-gap-10 row-gap-10 container--100' >
@@ -75,22 +46,23 @@ const Index = (props) => {
             className='s__input'
             placeholder='search'
             value={filter}
-            onChange={ handleSearchChange }
+            onChange={ e => setFilter(e.target.value) }
           />
           <i className='fas fa-search'></i>
         </div>
       </div>
-      <div className="col-9">
-        <DetailHeading {...items[itemCursor]}/>
-      </div>
 
+      <div className="col-9"></div>
       <div className="col-3" style={{borderBottom: '1px solid #e2e4ef'}}></div>
       <div className="col-9" style={{borderBottom: '1px solid #e2e4ef'}}></div>
 
       <div className='col-3'>
-        { itemDivs }
+        { vendorThumbNails }
       </div>
-      { items[itemCursor] && <IndexDetail id={items[itemCursor].id} product_id={id} />}
+
+      <div className="col-9">
+        { vendorProducts }
+      </div>
 
     </div>
   )

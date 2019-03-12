@@ -4,42 +4,25 @@ import { cartAddProductAction } from '../../../models/ShoppingCart'
 import gql from 'graphql-tag'
 import Pure from './pure'
 
-export const GET_USER_DETAIL = gql`
-  query User($id: ID, $product_id: ID) {
+export const GET_VENDOR_DETAIL = gql`
+  query User($id: ID, $categoryId: ID) {
     users(query: {id: $id}) {
       id
       name,
       email,
-      password,
-      auth_token,
-      phone,
-      country,
-      city,
-      street,
-      street_2,
-      street_number,
-      zipcode,
-      description,
-      products {
-        name
-      }
-      userProducts(query: {product_id: $product_id}) {
+      products(query: {categoryId: $categoryId}) {
         id
-        user_id
+        userId
         name
         price
-        image
       }
     }
   }
 `
 
-// const mapStateToProps = state => ({
-//   userProducts: state
-// })
 const mapDispatchToProps = dispatch => ({
-  getUserDetails: variables => sendQuery({
-    query: GET_USER_DETAIL,
+  getVendorDetails: variables => sendQuery({
+    query: GET_VENDOR_DETAIL,
     variables
   }).then(res => res.data.users[0]),
   addProductItem: payload => dispatch(cartAddProductAction(payload))

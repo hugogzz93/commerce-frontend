@@ -4,10 +4,10 @@ import logger from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
 
 import { authReducer, authRootSaga } from './models/Authentication'
-import { userReducer, userRootSaga } from './models/User'
-import { productsReducer, productsRootSaga } from './models/Products'
-import { userProductReducer, userProductRootSaga } from './models/UserProduct'
 import { cartReducer, cartRootSaga } from './models/ShoppingCart'
+import { userReducer, userRootSaga } from './models/User'
+// import { productsReducer, productsRootSaga } from './models/Products'
+// import { userProductReducer, userProductRootSaga } from './models/UserProduct'
 
 const sagaMiddleware = createSagaMiddleware()
 
@@ -15,18 +15,18 @@ const middleware = applyMiddleware(logger, sagaMiddleware)
 
 const store = createStore(combineReducers({
   authentication: authReducer,
-  user: userReducer,
-  products: productsReducer,
   shoppingCart: cartReducer,
-  userProducts: userProductReducer,
+  user: userReducer,
+  // products: productsReducer,
+  // userProducts: userProductReducer,
 }), middleware)
 
 const rootSagas = [
   authRootSaga,
-  userRootSaga,
-  productsRootSaga,
-  userProductRootSaga,
   cartRootSaga,
+  userRootSaga,
+  // productsRootSaga,
+  // userProductRootSaga,
 ]
 
 rootSagas.forEach(sagaMiddleware.run)

@@ -1,29 +1,27 @@
 import React, { useState, useEffect, useReducer } from 'react';
 import SearchBar from './SearchBar';
-import SearchOption from './SearchOption';
 import Index from '../Index/index';
+import Helpers from '../../lib/helpers'
 
 function Search(props) {
-  const searchOptions = props.searchOptions;
   const [searchInput, setSearchInput] = useState('')
   const [selectedOption, setSelected] = useState(null)
   const [optionCursor, setOptionCursor] = useState(0)
+  const [categories, setCategories] = useState([])
 
 
-  const handleOnClick = (key, name) => {
-    setSelected(key)
+  const handleOnClick = ({id, name}) => {
+    setSelected(id)
     setSearchInput(name)
   }
 
-  const searchRows = props.searchOptions
-    .filter(product => product.name.toLowerCase().includes(searchInput.toLowerCase()))
+  const searchRows = categories
+    .filter(category => category.name.toLowerCase().includes(searchInput.toLowerCase()))
     .map(({name, id}, i) => (
       <div 
-        class="search__option card card--clickable fade-in"
-        onClick={() => {
-          setSelected(id)
-          setSearchInput(name)
-        }}
+        className={`card card--clickable fade-in ${optionCursor == i ? 'card--highlight' : ''}`}
+        style={{minHeight: '10rem'}}
+        onClick={() => handleOnClick({id, name})}
         key={id}>
           <div className="t--size-h5">
             {name}
@@ -31,38 +29,27 @@ function Search(props) {
       </div>
     ))
 
-
   useEffect(() => {
-    if(selectedOption) return
-    const handleKeys = e => {
-      if(e.target != document.body) return
-      switch(e.which) {
-        case 40:
-          setOptionCursor(( optionCursor + 1 + searchOptions.length ) % searchOptions.length)
-          break
-
-        case 38:
-          setOptionCursor(( optionCursor - 1  + searchOptions.length) % searchOptions.length)
-          break
-
-        case 13:
-          const {id, name} = searchOptions[optionCursor]
-          handleOnClick(id, name)
-      }
-    }
-
-    window.addEventListener('keydown', handleKeys )
-    return () => window.removeEventListener('keydown', handleKeys)
-  }, [optionCursor, searchOptions])
-
-  useEffect(() => {
-    props.getProducts()
+    props.fetchCategories().then(setCategories)
   }, [])
 
   useEffect(() => {
-    if(selectedOption) return
     setOptionCursor(0)
-  }, [searchInput, selectedOption])
+  }, [searchInput])
+
+  useEffect(() => {
+    if(selectedOption) return
+
+    const keyHandler = Helpers.createKeyHandler({
+      target: document.body,
+      [40]: () => setOptionCursor(( optionCursor + 1 + categories.length ) % categories.length),
+      [38]: () => setOptionCursor(( optionCursor - 1  + categories.length) % categories.length),
+      [13]: () => handleOnClick(categories[optionCursor])
+    })
+
+    window.addEventListener('keydown', keyHandler )
+    return () => window.removeEventListener('keydown', keyHandler)
+  }, [optionCursor, categories])
 
 
   const searchBarDiv = (
@@ -78,7 +65,7 @@ function Search(props) {
   let slide = null
   if(selectedOption)
     slide =  (
-      <Index productId={searchOptions.find(e => e.id == selectedOption).id}/>
+      <Index id={categories.find(e => e.id == selectedOption).id}/>
     )
   else
     slide =  (
@@ -88,8 +75,8 @@ function Search(props) {
     )
 
   return (
-    <div class={selectedOption ? 'index-shown' : ''}>
-      <div class="container--80 flex--col flex--centered">
+    <div className={selectedOption ? 'index-shown' : ''}>
+      <div className="container--80 flex--col flex--centered">
         {searchBarDiv}
         {slide}
       </div>

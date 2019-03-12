@@ -3,11 +3,12 @@ import gql from 'graphql-tag';
 import Pure from './pure'
 import { GET_PRODUCTS } from '../../constants/schema'
 import { queryProductsAction } from '../../models/Products'
+import { sendQuery } from '../../lib/api'
 import '../../style/search.sass'
 
 const query = gql`
-  query GetProducts($name: String) {
-    products(query: {name: $name}) {
+  {
+    categories {
       id
       name
     }
@@ -15,12 +16,11 @@ const query = gql`
 `
 
 const mapDispatchToProps = dispatch => ({
-  getProducts: variables => dispatch(queryProductsAction({query, variables})),
+  fetchCategories: variables => sendQuery({query, variables})
+                                  .then(res => res.data.categories)
 })
 
-const mapStateToProps = ( {products} ) => ({
-  searchOptions: Object.keys(products).map(key => products[key]) || []
-})
+const mapStateToProps = () => ({ })
 
 export default connect(
   mapStateToProps,

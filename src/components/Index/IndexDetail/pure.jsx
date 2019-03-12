@@ -7,14 +7,17 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import '../../../style/overwrites/carousel.sass'
 
 const IndexDetail = (props) => {
-  const [user, setUser] = useState({id: props.id, userProducts: []})
+  const [vendor, setVendor] = useState({id: props.id, products: []})
 
   useEffect(() => {
-    props.getUserDetails({id: props.id, product_id: props.product_id}).then(setUser)
+    props.getVendorDetails({
+      id: props.id,
+      categoryId: props.categoryId
+    }).then(setVendor)
   }, [props])
 
 
-  const userProducts = user.userProducts.map((up, i) => {
+  const productDivs = vendor.products.map((up, i) => {
     return (
       <HoverContainer key={up.id}
         detail={
@@ -24,7 +27,7 @@ const IndexDetail = (props) => {
         }
       >
         <HoverImageCard 
-          src={`http://localhost:3002/download?filename=${up.image}&id=${user.id}`}
+          src={`http://localhost:3002/download?filename=${up.image}&id=${vendor.id}`}
           title={up.name}
           paragraphs={[up.price, 'Lorem Ipsum', 'Dolor sit amet']}
         />
@@ -34,29 +37,27 @@ const IndexDetail = (props) => {
 
 
   return(
-      <div className="col-9">
-        <Carousel showThumbs={false}
-                  showIndicators={false}
-                  showStatus={false}
-                  showArrowns={false}
-                  useKeyboardArrows={true}
-                  transitionTime={150}
-                >
-                    <div className="masonic masonic--col-2">
-                      { userProducts }
+      <Carousel showThumbs={false}
+                showIndicators={false}
+                showStatus={false}
+                showArrowns={false}
+                useKeyboardArrows={true}
+                transitionTime={150}
+              >
+                  <div className="masonic masonic--col-2">
+                    { productDivs }
+                  </div>
+                  <div>
+                    <div className="card card--theme-red">
+                      <p>{vendor.name}</p>
+                      <p>{vendor.email}</p>
+                      <p>{vendor.phone}</p>
+                      <br />
+                      <p className="p--small">{vendor.country} / {vendor.city}</p>
+                      <p className="p--small">{vendor.street} / {vendor.street_2} / {vendor.street_number}</p>
                     </div>
-                    <div>
-                      <div className="card card--theme-red">
-                        <p>{user.name}</p>
-                        <p>{user.email}</p>
-                        <p>{user.phone}</p>
-                        <br />
-                        <p className="p--small">{user.country} / {user.city}</p>
-                        <p className="p--small">{user.street} / {user.street_2} / {user.street_number}</p>
-                      </div>
-                    </div>
-        </Carousel>
-      </div>
+                  </div>
+      </Carousel>
   )
 }
 

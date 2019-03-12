@@ -26,14 +26,14 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.props.checkLoggedIn()
+    // this.props.checkLoggedIn()
   }
 
   render() {
     return (
       <Router>
         <div className='app_wrapper'>
-          <NavBar/>
+          {/* <NavBar/> */}
           <div className="content">
             <Route render={({location}) => (
               <TransitionGroup>

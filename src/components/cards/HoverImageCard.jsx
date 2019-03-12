@@ -5,16 +5,14 @@ const HoverImageCard = props => {
   
   const active = props.active
   const optionsDiv = props.options && (
-    <div className={`image__hover-options ${active ? 'active' : ''}`}>
+    <div>
       {props.options}
     </div>
   )
   return(
-    <div className={ `image__hover-container shadow--spec` }>
+    <div>
       <figure className={`image__hover-card ${active ? 'active' : ''}`} >
-        <div className="image__hover-image">
-          <img src={props.src} alt="" />
-        </div>
+        <img src="https://images.unsplash.com/photo-1552152370-fb05b25ff17d" alt="" />
         <figcaption>
             <h2>{props.title}</h2>
             {props.paragraphs.map((p,i) => (
