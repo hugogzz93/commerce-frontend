@@ -6,15 +6,6 @@ import ShoppingCart from '../ShoppingCart'
 const NavBar = (props) => {
   const [loginModal, setLoginModal] = useState(!props.loggedIn)
   const [cartModal, setCartModal] = useState(false)
-  const [cartDetails, setCartDetails] = useState({})
-  const [cartFetched, setCartFetched] = useState(false)
-
-  useEffect(() => {
-    if(props.shoppingCart.length)
-      props.getUserProducts({ids: props.shoppingCart.map(e => e.id)})
-           .then(res => setCartDetails(Object.assign({}, cartDetails, ...res.data.userProducts.map(e => ({[e.id]: e})) ))  )
-           .then(() => setCartFetched(true))
-  }, [props.shoppingCart])
 
   const toggleLoginModal = () => {
     setLoginModal(!loginModal)
@@ -67,7 +58,10 @@ const NavBar = (props) => {
           </div>
         </div>
         <div className="modal__container">
-          <div className={`modal ${cartModal ? 'active' : ''}`}>
+          <div
+            className={`card card--no-bg shadow--high ${cartModal ? '' : 'shrunk'}`}
+            style={{background: '#fa7354'}}
+          >
             <ShoppingCart />
           </div>
         </div>

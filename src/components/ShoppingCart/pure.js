@@ -4,18 +4,18 @@ import Errors from '../../constants/errors'
 
 const ShoppingCart = props => {
   const updateCartItemQty = (amount, id) => {
-    const item = props.shoppingCart.find(e => e.id == id)
+    const item = props.products.find(e => e.id == id)
     props.updateCartItem({...item, amount})
   }
 
   useEffect(() => {
     props.loadCart()
-  }, [props.shoppingCart.length])
+  }, [props.products.length])
 
-  const subTotal = numeral(props.shoppingCart.reduce((sum, e)  => sum + e.price * e.amount, 0))
+  const subTotal = numeral(props.products.reduce((sum, e)  => sum + e.price * e.amount, 0))
 
   return <div className="grid-1 card card--no-bg">
-        { props.shoppingCart.map(item => {
+        { props.products.map(item => {
           let errorDiv = null
           if(props.error && props.error.data.userProductId == item.id&& Errors.INSUFFICIENT_STOCK == props.error.type ) {
             errorDiv = <span className='t--white'>ERROR: Only {props.error.data.stock} available.</span>
@@ -49,7 +49,7 @@ const ShoppingCart = props => {
             </div>
           )
         })}
-      {subTotal.value() > 0 && (
+      {props.products.length && (
         <div className="grid-1 row-gap-10">
           <div className="flex--row flex--between">
             <div className="t--white">Subtotal</div>

@@ -20,20 +20,19 @@ export const checkoutUnknownFailAction = createAction('CART/CHECKOUT/FAIL')
 const insufficientStockAction = createAction('CART/ERRORS/INSUFFICIENT_STOCK')
 
 
-const GET_USER_PRODUCT_ITEMS = gql`
-  query getUserProductItems($ids: [ID]!) {
-    userProducts(ids: $ids) {
+const FETCH_PRODUCTS = gql`
+  query fetchProducts($ids: [ID!]!) {
+    products(query: {ids: $ids}) {
       id
-      user_id
+      userId
       name
       price
     }
   }
 `
-
 const saveStoreToCookie = function*() {
-  const {shoppingCart: {productItems}} = yield select()
-  yield call(setCartCookie, productItems.map(({id, amount}) => ({id, amount})))
+  const {shoppingCart: {products}} = yield select()
+  yield call(setCartCookie, products.map(({id, amount}) => ({id, amount})))
 }
 
 const loadCartSaga = function*() {
@@ -41,13 +40,13 @@ const loadCartSaga = function*() {
     const cart = yield call(getCartCookie)
     if(!cart || !cart.length) return
     const response = yield call( sendQuery, { 
-      query: GET_USER_PRODUCT_ITEMS,
+      query: FETCH_PRODUCTS,
       variables: {ids: cart.map(e => e.id)}
     })
-    if(!!response.data.userProducts) {
-      const updates = response.data.userProducts
+    if(!!response.data.products) {
+      const updates = response.data.products
       const updatedItems = updates.map(e => ({ ...e, ...cart.find(i => i.id == e.id) }))
-      yield put(updateCartAction( {productItems: updatedItems}))
+      yield put(updateCartAction( {products: updatedItems}))
       yield saveStoreToCookie()
       yield put(setCartLoadingStateAction(true))
     } else {
@@ -60,7 +59,7 @@ const loadCartSaga = function*() {
 const addProductSaga = function*(action) {
   try {
     const state = yield select()
-    yield put(updateCartAction( ({productItems: mergeByKey('id', state.shoppingCart.productItems, [action.payload] ) }) ))
+    yield put(updateCartAction( ({products: mergeByKey('id', state.shoppingCart.products, [action.payload] ) }) ))
     yield saveStoreToCookie()
   } catch(err) {
   }
@@ -68,8 +67,8 @@ const addProductSaga = function*(action) {
 
 const removeProductSaga = function*(action) {
   try {
-    const {shoppingCart: {productItems}} = yield select()
-    yield put(updateCartAction({productItems: productItems.filter(e => e.id != action.payload.id)}))
+    const {shoppingCart: {products}} = yield select()
+    yield put(updateCartAction({products: products.filter(e => e.id != action.payload.id)}))
     yield saveStoreToCookie()
   } catch(err) {
 
@@ -78,10 +77,10 @@ const removeProductSaga = function*(action) {
 
 const updateCartItemSaga = function*(action) {
   try {
-    const {shoppingCart: {productItems}} = yield select()
-    const updatedItem = productItems.find(e => e.id == action.payload.id)
-    const newProductItems = mergeByKey('id', productItems, [{...updatedItem, ...action.payload}])
-    yield put(updateCartAction({productItems: newProductItems}))
+    const {shoppingCart: {products}} = yield select()
+    const updatedItem = products.find(e => e.id == action.payload.id)
+    const newProducts = mergeByKey('id', products, [{...updatedItem, ...action.payload}])
+    yield put(updateCartAction({products: newProducts}))
     yield saveStoreToCookie()
   } catch(err) {
   }
@@ -89,8 +88,8 @@ const updateCartItemSaga = function*(action) {
 
 const checkoutSaga = function *(action) {
   try {
-    const { user, shoppingCart: { productItems }} = yield select()
-    const orderInput = productItems.reduce((obj, item) => ({
+    const { user, shoppingCart: { products }} = yield select()
+    const orderInput = products.reduce((obj, item) => ({
       ...obj,
       [item.user_id]: {
         vendor_id: item.user_id,
@@ -145,18 +144,17 @@ export const cartRootSaga = function*() {
 
 const InitialState = {
   loaded: false,
-  productItems: []
+  products: []
 }
 
 export const cartReducer = createReducer({
   [updateCartItemAction]: (state, payload) => {
-    const updatedItem = state.productItems.find(e => e.id == payload.id)
-    const productItems = mergeByKey('id', state.productItems, [payload])
-    return {...state, productItems}
+    const products = mergeByKey('id', state.products, [payload])
+    return {...state, products}
   },
   [setCartLoadingStateAction]: (state, payload) => ({...state, loaded: payload}),
   [updateCartAction]: (state, payload) => ({...state, ...payload}),
-  [checkoutSuccessAction]: (state) => ({...state, productItems: []}),
+  [checkoutSuccessAction]: (state) => ({...state, products: []}),
   [checkoutAction]: (state) => ({...state, unknown_error: false}),
   [checkoutUnknownFailAction]: (state) => ({...state, unknown_error: true}),
   [insufficientStockAction]: (state, data) => ({...state, error: {type: Errors.INSUFFICIENT_STOCK, data} })
