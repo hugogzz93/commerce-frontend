@@ -27,6 +27,7 @@ const FETCH_PRODUCTS = gql`
       userId
       name
       price
+      stock
     }
   }
 `
@@ -91,38 +92,26 @@ const checkoutSaga = function *(action) {
     const { user, shoppingCart: { products }} = yield select()
     const orderInput = products.reduce((obj, item) => ({
       ...obj,
-      [item.user_id]: {
-        vendor_id: item.user_id,
-        client_id: user.id,
-        orderItems: [
-          ...obj[item.user_id] ? obj[item.user_id].orderItems : [],
-          { user_product_item_id: item.id, amount: parseInt(item.amount) }
+      [item.userId]: {
+        vendorId: item.userId,
+        clientId: user.id,
+        orderItemsAttributes: [
+          ...obj[item.userId] ? obj[item.userId].orderItemsAttributes : [],
+          { productId: item.id, amount: parseInt(item.amount) }
         ]
       }
     }), {})
 
     const orderGroupInput = {
-      client_id: user.id,
       orders: [...Object.keys(orderInput).map(k => orderInput[k])]
     }
     const response = yield call(placeOrder, { orderGroupInput } )
-    if(!!response.data.order.createOrderGroup) {
+    if(!!response.data.order.createGroup.groupId) {
       yield put(checkoutSuccessAction())
       yield saveStoreToCookie()
     }
-    else {
-      yield put(checkoutUnknownFailAction())
-    }
   } catch(err) {
-    try {
-      const error = err.graphQLErrors[0].extensions.exception
-      if('InsufficientStock' == error.type)
-        yield put(insufficientStockAction(error.data))
-      else
-      yield put(checkoutUnknownFailAction(err))
-    } catch {
-      yield put(checkoutUnknownFailAction(err))
-    }
+    yield put(checkoutUnknownFailAction(err))
   }
 }
 

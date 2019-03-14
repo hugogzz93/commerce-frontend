@@ -17,9 +17,8 @@ const ShoppingCart = props => {
   return <div className="grid-1 card card--no-bg">
         { props.products.map(item => {
           let errorDiv = null
-          if(props.error && props.error.data.userProductId == item.id&& Errors.INSUFFICIENT_STOCK == props.error.type ) {
-            errorDiv = <span className='t--white'>ERROR: Only {props.error.data.stock} available.</span>
-          }
+          if(item.stock < item.amount)
+            errorDiv = <span className='t--white'>ERROR: Only {item.stock} available.</span>
           return (
             <div className="grid-1 row-gap-10" key={item.id}>
               <div className="flex--row flex--between">
@@ -43,13 +42,13 @@ const ShoppingCart = props => {
                   }}
                 />
                 <div className="col-1">x</div>
-                <div className="col-1">{item.price}</div>
+                <div className="col-1 t--align-l">{item.price}</div>
               </div>
               {errorDiv}
             </div>
           )
         })}
-      {props.products.length && (
+      {props.products.length > 0 && (
         <div className="grid-1 row-gap-10">
           <div className="flex--row flex--between">
             <div className="t--white">Subtotal</div>

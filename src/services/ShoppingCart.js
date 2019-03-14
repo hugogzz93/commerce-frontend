@@ -14,11 +14,10 @@ export const setCartCookie = cartItems => {
 const PLACE_ORDER = gql`
   mutation placeOrder($orderGroupInput: OrderGroupInput!) {
     order {
-      createOrderGroup(input: $orderGroupInput) {
-        id
+      createGroup(input: $orderGroupInput) {
+        groupId
       }
     }
   }
 `
-
 export const placeOrder = variables => sendMutation({mutation: PLACE_ORDER, variables})
