@@ -7,5 +7,7 @@ export default {
   createKeyHandler: options => e => {
     if(e.target != options.target) return
     options[e.which] && options[e.which](e)
-  }
+  },
+  sortByDate: array => array.slice().sort((a,b) =>
+    new Date(b.createdAt) - new Date(a.createdAt))
 }

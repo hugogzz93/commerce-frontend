@@ -1,40 +1,26 @@
 import { connect } from 'react-redux'
-import { queryUserAction } from '../../../models/User'
+import { sendQuery } from '../../../lib/api'
 import gql from 'graphql-tag'
 import Pure from './pure'
 
-const GET_CREATED_ORDERS = gql`
-  query GetCreatedOrders($user_id: ID!) {
-    users(query: {id: $user_id}) {
-      orders {
-        orderGroups {
+const FETCH_ORDER_GROUPS = gql`
+  query fetchOrderGroups($id: ID!) {
+    users(query: {id: $id}) {
+      orderGroups {
+        id
+        total
+        createdAt
+        status
+        orders {
           id
-          total
-          createdAt
           status
-          orders {
+          orderItems {
             id
-            createdAt
-            total
-            status
-            vendor {
+            amount
+            price
+            product {
               id
               name
-              email
-            }
-            issues {
-              id
-              status
-              newMessages(user_id: $user_id)
-            }
-            orderItems {
-              id
-              amount
-              price
-              userProduct {
-                id
-                name
-              }
             }
           }
         }
@@ -83,27 +69,15 @@ const GET_ATTENDING_ORDERS = gql`
   }
 `
 
-const mapStateToProps = state => {
-
-  const orderGroups = state.user.orders.orderGroups || []
-  const attendingOrders = state.user.orders.ordersAsVendor || []
-  return {
-    user_id: state.user.id,
-    orderGroups,
-    attendingOrders,
-    allOrders: [...orderGroups.reduce((all, og) => [...all, ...og.orders], []), ...attendingOrders]
-  }
-}
-const mapDispatchToProps = dispatch => ({
-  getCreatedOrders: variables => dispatch(queryUserAction({
-    query: GET_CREATED_ORDERS,
-    variables
-  })),
-  getAttendingOrders: variables => dispatch(queryUserAction({
-    query: GET_ATTENDING_ORDERS,
-    variables
-  })),
+const mapStateToProps = state => ({
+  fetchOrderGroups: () => sendQuery({
+    query: FETCH_ORDER_GROUPS,
+    variables: {id: state.user.id}
+  }).then(res => res.data.users[0].orderGroups),
+  userId: state.user.id,
 })
+
+const mapDispatchToProps = () => ({})
 
 export default connect(
   mapStateToProps,

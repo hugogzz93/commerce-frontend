@@ -11,15 +11,14 @@ const OrderGroup = props => {
   const orderGroup = props.orderGroup
   const orderItems = orderGroup.orders
                           .reduce((items, order) => [...items, ...order.orderItems.map(o => ({...o, status: order.status}))], [])
-  const newMessages = orderGroup.orders.some(o => o.issues.some(i => i.newMessages))
 
   return(
     <AccordionCard
       header={
-        <div class="grid-4">
-          <span className='col-1 t--align-l'>{new Date(parseInt(orderGroup.createdAt)).toDateString()}</span>
+        <div className="grid-4">
+          <span className='col-1 t--align-l'>{new Date(orderGroup.createdAt).toDateString()}</span>
           <span className='col-1 t--align-c accordion--hide-on-active'>{numeral( orderGroup.total ).format('0,0')} MXN</span>
-          <span className='col-1 t--align-c accordion--hide-on-active'>{orderItems.length} Items {newMessages && <i class="far fa-envelope"></i> }</span>
+          <span className='col-1 t--align-c accordion--hide-on-active'>{orderItems.length} Items</span>
           <span className='col-1 t--align-r accordion--hide-on-active'>{Helpers.translateStatus(orderGroup.status)}</span>
         </div>
       }
@@ -30,7 +29,7 @@ const OrderGroup = props => {
       }
     >
       <div className="grid-1 row-gap-15">
-        { orderItems.map(({userProduct: {name}, id, status, price, amount}) => (
+        { orderItems.map(({product: {name}, id, status, price, amount}) => (
           <div className='grid-3' key={id}>
             <span className='col-1'>{name}</span>
             <span className="col-1 t--align-c">{Helpers.translateStatus(status)}</span>

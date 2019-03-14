@@ -15,7 +15,7 @@ const PLACE_ORDER = gql`
   mutation placeOrder($orderGroupInput: OrderGroupInput!) {
     order {
       createGroup(input: $orderGroupInput) {
-        groupId
+        id
       }
     }
   }
