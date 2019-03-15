@@ -29,43 +29,31 @@ const FETCH_ORDER_GROUPS = gql`
   }
 `
 
-const GET_ATTENDING_ORDERS = gql`
-  query GetAttendingOrders($user_id: ID!) {
-    users(query: {id: $user_id}) {
-      orders {
-        ordersAsVendor {
+const FETCH_ORDERS_AS_VENDOR = gql`
+  query fetchOrdersAsVendor($id: ID!) {
+    users(query: {id: $id}) {
+      ordersAsVendor {
+        id
+        total
+        status
+        createdAt
+        orderItems {
           id
-          status
-          total
-          createdAt
-          client {
+          amount
+          price
+          product {
             id
             name
-            email
-            phone
-            city
-            country
-            street
-            street_2
-            zipcode
-          }
-          issues {
-            id
-            status
-            newMessages(user_id: $user_id)
-          }
-          orderItems {
-            id
-            amount
-            price
-            userProduct {
-              id
-              name
-            }
           }
         }
+        client {
+          name
+          email
+        }
+
       }
     }
+
   }
 `
 
@@ -74,6 +62,10 @@ const mapStateToProps = state => ({
     query: FETCH_ORDER_GROUPS,
     variables: {id: state.user.id}
   }).then(res => res.data.users[0].orderGroups),
+  fetchOrdersAsVendor: () => sendQuery({
+    query: FETCH_ORDERS_AS_VENDOR,
+    variables: {id: state.user.id},
+  }).then(res => res.data.users[0].ordersAsVendor),
   userId: state.user.id,
 })
 

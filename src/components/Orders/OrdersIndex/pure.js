@@ -16,13 +16,19 @@ const OrderIndex = props => {
   const attendingOrdersLocation = '/user/orders/attending'
   const [statusFilter, setStatusFilter] = useState('')
   const [orderGroups, setOrderGroups] = useState([])
+  const [ordersAsVendor, setOrdersAsVendor] = useState([])
 
   useEffect(() => {
     if(!props.userId) return
-    if(window.location.href.match('created'))
+    if(window.location.href.match(createdOrdersLocation))
       props.fetchOrderGroups()
         .then(Helpers.sortByDate)
         .then(setOrderGroups)
+    if(window.location.href.match(attendingOrdersLocation))
+      props.fetchOrdersAsVendor()
+        .then(Helpers.sortByDate)
+        .then(setOrdersAsVendor)
+
   }, [props.userId])
 
 
@@ -35,13 +41,13 @@ const OrderIndex = props => {
     </div>
   ))
 
-  // const attendingOrdersDivs = props.attendingOrders
-  // .filter( o => statusFilter.length ? o.status == statusFilter : true )
-  // .map(order => (
-  //   <div key={order.id}>
-  //     <Order order={order}/>
-  //   </div>
-  // ))
+  const attendingOrdersDivs = ordersAsVendor
+  .filter( o => statusFilter.length ? o.status == statusFilter : true )
+  .map(order => (
+    <div key={order.id}>
+      <Order order={order}/>
+    </div>
+  ))
 
   const noOrdersCard = (
     <div className="card">
@@ -77,19 +83,19 @@ const OrderIndex = props => {
                 </Route>
                 <Route exact={true} path='/user/orders/attending' component={ () =>
                   <div className="container--70 grid-1 row-gap-10">
-                    {/* <div> */}
-                    {/*   <select className="order__status-select" */}
-                    {/*     value={statusFilter}  */}
-                    {/*     onChange={e => setStatusFilter(e.target.value)} */}
-                    {/*   > */}
-                    {/*     <option value="no_filter">No Filter</option> */}
-                    {/*     <option value="in_progress">In Progress</option> */}
-                    {/*     <option value="in_transit">In Transit</option> */}
-                    {/*     <option value="delivered">Delivered</option> */}
-                    {/*     <option value="canceled">Canceled</option> */}
-                    {/*   </select> */}
-                    {/* </div> */}
-                    {/* {props.attendingOrders.length ? attendingOrdersDivs : noOrdersCard } */}
+                    <div>
+                      <select className="order__status-select"
+                        value={statusFilter} 
+                        onChange={e => setStatusFilter(e.target.value == 'no_filter' ? null : e.target.value)}
+                      >
+                        <option value="no_filter">No Filter</option>
+                        <option value="in_progress">In Progress</option>
+                        <option value="in_transit">In Transit</option>
+                        <option value="delivered">Delivered</option>
+                        <option value="canceled">Canceled</option>
+                      </select>
+                    </div>
+                    {ordersAsVendor.length ? attendingOrdersDivs : noOrdersCard }
                   </div>
                 }>
                 </Route>

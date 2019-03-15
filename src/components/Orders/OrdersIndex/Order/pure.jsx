@@ -9,9 +9,7 @@ import gql from 'graphql-tag'
 const Order= props => {
   const order = props.order
   const [currentSlide, setSlide] = useState(0)
-  const [showStatusForm, setStatusVisibility] = useState(false)
   const [status, setStatus] = useState(order.status)
-  const newMessages = order.issues.some(e => e.newMessages)
 
   return(
       <CarouselWrapper showThumbs={false}
@@ -21,13 +19,13 @@ const Order= props => {
                 selectedItem={currentSlide}>
         <AccordionCard
           header={
-            <div class="grid-4">
-              <span className='col-1 t--align-l'>{new Date(parseInt(order.createdAt)).toDateString()}</span>
+            <div className="grid-4">
+              <span className='col-1 t--align-l'>{new Date(order.createdAt).toDateString()}</span>
               <span className='col-1 t--align-c accordion--hide-on-active'>{numeral( order.total ).format('0,0')} MXN</span>
-              <span className='col-1 t--align-c accordion--hide-on-active'>{order.orderItems.length} Items {newMessages &&  <i class="far fa-envelope"></i>}</span>
+              <span className='col-1 t--align-c accordion--hide-on-active'>{order.orderItems.length} Items</span>
               <div className="col-1 t--align-r">
                 <select value={status}
-                  onChange={e => props.updateStatus( e.target.value).then(r => setStatus( r.data.order.updateOrder.status ))}
+                  onChange={e => props.updateStatus( e.target.value ).then(setStatus)}
                   onClick={e => e.stopPropagation()}
                 >
                   <option value="in_progress">In Progress</option>
@@ -39,14 +37,14 @@ const Order= props => {
             </div>
           }
           footer={
-            <div class="flex--row flex--between flex--align-center">
+            <div className="flex--row flex--between flex--align-center">
               <div className="button btn--small" onClick={() => setSlide(1)}> Client </div>
               {numeral(order.total).format('0,0')}
             </div>
           }
         >
           <div className="grid-1 row-gap-15">
-            { order.orderItems.map(({userProduct: {name}, id, status, price, amount}) => (
+            { order.orderItems.map(({product: {name}, id, status, price, amount}) => (
               <div className='grid-3' key={id}>
                 <span className='col-1'>{name}</span>
                 <span className="col-1 t--align-c">{status}</span>
@@ -64,7 +62,7 @@ const Order= props => {
           <div>
             <p>{order.client.name}</p>
             <p>{order.client.email}</p>
-            <p>{order.client.phone}</p>
+            <p>555-555-5555</p>
             <br />
             <p className="p--small">{order.client.country} / {order.client.city}</p>
             <p className="p--small">{order.client.street} / {order.client.street_2} / {order.client.street_number}</p>
