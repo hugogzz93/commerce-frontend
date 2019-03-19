@@ -77,6 +77,5 @@ const preProcess = (payload) => ({
 
 export const userReducer = createReducer({
   [updateUserStoreAction]: (state, payload) => ({...state, ...preProcess(payload)}),
-  [setLoginDetail]: (state, {auth_token, ...payload}) => ({...state, ...preProcess(payload)}),
   [queryUserFailAction]: (state, error) => ({...state, error })
 }, InitialState)

@@ -2,15 +2,21 @@ import React, { useState, useEffect } from 'react'
 import mergeByKey from 'array-merge-by-key'
 import debounce from '../../lib/debounce'
 
+  const noProductsCard = (
+    <div className="card">
+      No Products
+    </div>
+  )
+
 const Inventory = props => {
-  const [ userProducts, setUserProducts ] = useState([])
+  const [ products, setProducts ] = useState([])
   const [ filter, setFilter ] = useState('')
   const [ debouncedRegistry, setDebounced] = useState({})
 
   useEffect(() => {
     if(!props.user_id) return
-    props.getUserProducts({id: props.user_id})
-          .then( items => setUserProducts(items))
+    props.fetchProducts({id: props.user_id})
+          .then(setProducts)
   }, [props.user_id])
 
   const registerDebounced = (id, fn) => {
@@ -21,27 +27,27 @@ const Inventory = props => {
   }
 
   const updateItemStock = ({id, stock}) => {
-    const updatedItem = {...userProducts.find(e => e.id == id), stock}
-    setUserProducts(mergeByKey('id', userProducts, [updatedItem]))
+    const updatedItem = {...products.find(e => e.id == id), stock}
+    setProducts(mergeByKey('id', products, [updatedItem]))
   }
 
-  const userProductDivs = userProducts
-  .filter(e => e.name.toLowerCase().includes(filter.toLowerCase()))
-  .map(uProd => {
-    const updateItems = registerDebounced(uProd.id, (value, originalValue, id) => 
-          props.updateStock({stock: parseInt(value), id})
+  const productDivs = products
+  .filter(e => e.name.match(new RegExp(filter, 'i')))
+  .map(product => {
+    const updateItems = registerDebounced(product.id, (value, originalValue, id) =>
+          props.updateStock({input: {stock: parseInt(value)}, id})
                 .catch(() => updateItemStock({id, stock: originalValue}))
     ) 
 
     const onInputChange = e => {
-      const originalValue = uProd.stock
+      const originalValue = product.stock
       const newValue = e.target.value
-      updateItemStock({id: uProd.id, stock: newValue})
-      updateItems(newValue, originalValue, uProd.id)
+      updateItemStock({id: product.id, input: {stock: newValue}})
+      updateItems(newValue, originalValue, product.id)
     }
     return (
-      <div key={uProd.id} className="card flex--row flex--between fade-in" style={{padding: '1.5em'}}>
-          <span>{uProd.name}</span>
+      <div key={product.id} className="card flex--row flex--between fade-in" style={{padding: '1.5em'}}>
+          <span>{product.name}</span>
           <div>
             <span>Stock</span>
             <input
@@ -53,8 +59,8 @@ const Inventory = props => {
               }}
               className="in__small-num"
               type="number"
-              data-id={uProd.id}
-              value={uProd.stock}
+              data-id={product.id}
+              value={product.stock}
               onChange={onInputChange}
             />
           </div>
@@ -70,7 +76,7 @@ const Inventory = props => {
         <i className='fas fa-search'></i>
       </div>
       <div>
-        { userProductDivs }
+        { products.length ? productDivs : noProductsCard }
       </div>
     </div>
   )

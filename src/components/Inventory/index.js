@@ -3,23 +3,24 @@ import { sendQuery, sendMutation } from '../../lib/api'
 import gql from 'graphql-tag'
 import Pure from './pure'
 
-const GET_USER_PRODUCTS = gql`
-  query getUserProducts($id: ID!) {
+const FETCH_PRODUCTS = gql`
+  query fetchProducts($id: ID!) {
     users(query: {id: $id}) {
-      userProducts {
+      id
+      products {
         id
-        stock
         name
+        stock
       }
     }
   }
 `
 
-const UPDATE_USER_PRODUCT_STOCK = gql`
-  mutation updateUserProductStock($id: ID!, $stock: Int!) {
-    userProduct(id: $id) {
-      update(input: {stock: $stock}) {
-        id
+
+const UPDATE_PRODUCT = gql`
+  mutation updateProduct($id: ID!, $input: ProductInput!) {
+    product(id: $id) {
+      update(input: $input) {
         stock
       }
     }
@@ -28,22 +29,22 @@ const UPDATE_USER_PRODUCT_STOCK = gql`
 
 const mapStateToProps = state => ({
   user_id: state.user.id,
-  getUserProducts: variables => sendQuery({
+  fetchProducts: variables => sendQuery({
     variables,
-    query: GET_USER_PRODUCTS
+    query: FETCH_PRODUCTS
   }).then(res => {
-    if(res.data.users[0].userProducts)
-      return res.data.users[0].userProducts
+    if(res.data.users[0].products)
+      return res.data.users[0].products
     else
-      throw {message: 'invalid response - inventory/index:getUserProduct'}
+      throw {message: 'invalid response - inventory/index:fetchproducts'}
   }),
 
   updateStock: variables => sendMutation({
     variables,
-    mutation: UPDATE_USER_PRODUCT_STOCK
+    mutation: UPDATE_PRODUCT
   }).then(res => {
     if(res.data.userProduct.update)
-      return res.data.userProduct.update
+      return res.data.product.update
     else
       throw {message: 'invalid response - inventory/index:updateStock'}
   })

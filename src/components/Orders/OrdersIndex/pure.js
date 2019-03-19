@@ -51,7 +51,7 @@ const OrderIndex = props => {
 
   const noOrdersCard = (
     <div className="card">
-      <div className="card--info">No orders</div>
+      No orders
     </div>
   )
 

@@ -106,7 +106,7 @@ const checkoutSaga = function *(action) {
       orders: [...Object.keys(orderInput).map(k => orderInput[k])]
     }
     const response = yield call(placeOrder, { orderGroupInput } )
-    if(!!response.data.order.createGroup.groupId) {
+    if(!!response.data.order.createGroup.id) {
       yield put(checkoutSuccessAction())
       yield saveStoreToCookie()
     }
