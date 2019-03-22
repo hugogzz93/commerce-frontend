@@ -2,7 +2,7 @@ import { connect } from 'react-redux'
 import { queryUserAction, mutateUserAction,
 } from '../../../models/User'
 import { queryProductsAction, createProductAction } from '../../../models/Products'
-import { sendMutation }  from '../../../lib/api'
+import { sendMutation, sendQuery }  from '../../../lib/api'
 import gql from 'graphql-tag'
 import Pure from './pure'
 
@@ -52,31 +52,47 @@ const createCategory = gql`
   }
 `
 
-const mapStateToProps = state => {
-  return {
-    userId: state.user.id,
-    products: Object.keys(state.products).filter(p => !state.user.products.includes(p)).map(key => state.products[key]),
-    userProducts: state.user.products.map(up => state.products[up])
+const FETCH_DATA = gql`
+  query fetchData($userId: ID!) {
+    categories {
+      id
+      name
+      products(query: {userId: $userId }) {
+        id
+        name
+        price
+        image
+      }
+    }
   }
-}
+`
+
+const mapStateToProps = state => ({
+  userId: state.user.id,
+  fetchData: () => sendQuery({
+    variables: {userId: state.user.id},
+    query:FETCH_DATA,
+    // fetchPolicy: 'network-only',
+  }).then(res => ({ categories: res.data.categories }))
+})
 
 const mapDispatchToProps = dispatch => ({
-  getUserProducts: variables => dispatch(queryUserAction({
-    query: getUserProducts,
-    variables
-  })),
-  getProducts: () => dispatch(queryProductsAction({
-    query: getProducts
-  })),
-  addProducts: variables => dispatch(mutateUserAction({
-    variables,
-    mutation: addProducts
-  })),
-  removeProducts: variables => dispatch(mutateUserAction({
-    variables,
-    mutation: removeProducts
-  })),
-  createCategory: name => dispatch(createProductAction({input: {name}}))
+  // getUserProducts: variables => dispatch(queryUserAction({
+  //   query: getUserProducts,
+  //   variables
+  // })),
+  // getProducts: () => dispatch(queryProductsAction({
+  //   query: getProducts
+  // })),
+  // addProducts: variables => dispatch(mutateUserAction({
+  //   variables,
+  //   mutation: addProducts
+  // })),
+  // removeProducts: variables => dispatch(mutateUserAction({
+  //   variables,
+  //   mutation: removeProducts
+  // })),
+  // createCategory: name => dispatch(createProductAction({input: {name}}))
 })
 
 export default connect(

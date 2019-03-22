@@ -12,7 +12,7 @@ const HoverImageCard = props => {
   return(
     <div>
       <figure className={`image__hover-card ${active ? 'active' : ''}`} >
-        <img src="https://images.unsplash.com/photo-1552152370-fb05b25ff17d" alt="" />
+        <img src={props.src} alt="" />
         <figcaption>
             <h2>{props.title}</h2>
             {props.paragraphs.map((p,i) => (

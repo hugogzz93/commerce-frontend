@@ -39,7 +39,6 @@ export const logout = ({auth_token}) => sendMutation({
 
 export const fetchCurrentUser = () => sendQuery({
   query: FETCH_CURRENT_USER,
-  fetchPolicy: 'network-only',
 })
 
 export const setAuthTokenCookie = token => {

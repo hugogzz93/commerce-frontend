@@ -22,7 +22,7 @@ const ProductForm = props => {
 
   if(active)
     return (
-      <div class="grid-5 row-gap-5">
+      <div className="grid-5 row-gap-5">
         <div className="col-5">
           <Input
             label={'Name'}
@@ -45,7 +45,7 @@ const ProductForm = props => {
       </div> 
     )
   else
-    return <div class="card card--clickable" onClick={() => setActive(true)}>Create Category</div>
+    return <div className="card card--clickable" onClick={() => setActive(true)}>Create Category</div>
 }
 
 const mapDispatchToProps = dispatch => ({

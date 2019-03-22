@@ -4,51 +4,49 @@ import UserProductItems from '../UserProductItems'
 import NewProductForm from './productForm'
 
 const UserProducts = props => {
-  const userId = props.userId
   const [searchFilter, setSearchFilter] = useState('')
-  const [selectedProduct, selectProduct] = useState(null)
+  const [selectedCategory, selectCategory] = useState(null)
   const [catFormActive, setCatFormState] = useState(false)
+  const [categories, setCategories] = useState([])
 
   useEffect(() => {
-    props.getUserProducts({userId})
-    props.getProducts()
-  }, [userId])
+    if(!props.userId) return
+    props.fetchData().then(data => {
+      setCategories(data.categories)
+    })
+  }, [props.userId])
 
   useEffect(() => {
-    if(props.userProducts[0] && !selectedProduct) 
-      selectProduct(props.userProducts[0])
-  }, [props.userProducts])
+    if(categories.length && !selectedCategory) 
+      selectCategory(categories[0])
+  }, [categories])
 
-  const createCategory = () => (
-    props.createCategory(searchFilter)
-  )
+  const createCategory = () => {}
+  // const createCategory = () => (
+  //   props.createCategory(searchFilter)
+  // )
 
-  const selectedItemDivs = props.userProducts
+
+  const searchItemDivs = categories
         .filter(p => searchFilter.length && p.name.toLowerCase().includes(searchFilter.toLowerCase()) || !searchFilter.length)
-        .map((product) => (
+        .sort((a,b) => b.products.length - a.products.length)
+        .map(( category, i ) => (
             <ThumbCard 
-              key={product.id}
-              title={product.name}
-              subtitle={product.description}
-              onClick={() => selectProduct(product)}
-              className='fade-in up__search-item card--highlight'
-            />
-        ))
-
-  const searchItemDivs = props.products
-        .filter(p => searchFilter.length && p.name.toLowerCase().includes(searchFilter.toLowerCase()) || !searchFilter.length)
-        .map(( product, i ) => (
-            <ThumbCard 
-              title={product.name}
-              subtitle={product.description}
-              onClick={() => selectProduct(product)}
-              className='fade-in up__search-item'
+              key={category.id}
+              title={category.name}
+              subtitle={(() => {
+                const num = category.products.length
+                if(num == 0)  return ''
+                if(num > 1) return num + ' products'
+                return '1 product'
+              })() }
+              onClick={() => selectCategory(category)}
+              className={`fade-in ${selectedCategory == category ? 'card--highlight' : ''}`}
             />
         ))
 
 
   const colBaseSize = catFormActive ? 12 : 3
-
 
   return(
     <div className="grid-12 container--90 col-gap-10 row-gap-20">
@@ -62,18 +60,20 @@ const UserProducts = props => {
         <i className='fas fa-search'></i>
       </div>
       <div className={`col-${12 - colBaseSize}`}></div>
-      <div className={`flex--col col-${colBaseSize}`}>
-        <div className="">
-          <NewProductForm onActiveChange={setCatFormState}/>
-          <div className="tail" style={{marginBottom: '10px'}}></div>
-          { selectedItemDivs}
-          <div className="tail" style={{marginBottom: '10px'}}></div>
-          { searchItemDivs }
-        </div>
+      <div className={`flex--col col-${colBaseSize}`} style={{
+        overflowY: 'scroll',
+        padding: '1px',
+        maxHeight: '120vh'
+      }}>
+        <NewProductForm onActiveChange={setCatFormState}/>
+        <div className="tail" style={{marginBottom: '10px'}}></div>
+        {/* // { selectedItemDivs} */}
+        <div className="tail" style={{marginBottom: '10px'}}></div>
+        { searchItemDivs }
       </div>
       {!catFormActive && (
         <div className={`col-9 flex__row`}>
-          {selectedProduct && <UserProductItems product={selectedProduct} />} 
+          {selectedCategory && <UserProductItems category={selectedCategory} />}
         </div>
       )}
     </div>

@@ -18,15 +18,10 @@ const GET_USER_PRODUCT_ITEMS = gql`
 `
 
 const mapStateToProps = state => ({
-  user_id: state.user.id,
-  userProductItems: state.user.userProducts || []
+  userId: state.user.id,
 })
 
 const mapDispatchToProps = dispatch => ({
-  getUserProductItems: variables => dispatch(queryUserAction({
-     query: GET_USER_PRODUCT_ITEMS,
-     variables
-   }))
 })
 
 export default connect(

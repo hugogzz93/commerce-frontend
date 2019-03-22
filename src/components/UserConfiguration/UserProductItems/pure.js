@@ -4,46 +4,47 @@ import ImageCard from '../../cards/ImageCard'
 import HoverImageCard from '../../cards/HoverImageCard'
 import HoverContainer from '../../cards/HoverContainer'
 
-const UserProductItems = ({product, user_id, ...props}) => {
-  const [userProductForEdit, setUserProductForEdit] = useState(null)
+const UserProductItems = ({category, userId, ...props}) => {
+  const [productForEdit, setProductForEdit] = useState(null)
 
-  useEffect(() => {
-    props.getUserProductItems({user_id, product_id: product.id})
-  }, [user_id, product])
-
-  const userProductItemDivs = props.userProductItems.map(( up, i ) => (
-    <div className={``} key={up.id}>
+  const productDivs = category.products.map(( product, i ) => (
+    <div key={product.id}>
       <HoverContainer 
         detail={
           <React.Fragment>
             <div className="button" onClick={(e) => {e.stopPropagation(); console.log('deleted')}}>Delete</div>
             <div className="button" onClick={ () => {
-              setUserProductForEdit(up)
-              const y = document.querySelector('.up__item-form').getBoundingClientRect().top
+              setProductForEdit(product)
+              const y = document.querySelector('#product-form').getBoundingClientRect().top
               window.scroll({top: y, behavior: 'smooth'})
             } }>Edit</div>
           </React.Fragment>
         }
       >
-        <HoverImageCard 
-          src={`http://localhost:3002/download?filename=${up.image}&id=${user_id}`}
-          title={up.name}
-          paragraphs={[up.price, 'Lorem Ipsum', 'Dolor sit amet']}
+        <HoverImageCard
+          // src={`http://localhost:3002/download?filename=${product.image}&id=${userId}`}
+          src={product.image}
+          title={product.name}
+          paragraphs={[product.price, 'Lorem Ipsum', 'Dolor sit amet']}
         />
       </HoverContainer>
     </div>
   ))
 
   return (
-    <div className="card fade-in" key={product.id}>
-      <div className="t--strong">{product.name}</div>
-      <UserProductItemForm
-        product_id={product.id}
-        userProduct={userProductForEdit}
-        user_id={user_id}
-      />
-      <div className="fade-in masonic masonic--col-2">
-        { userProductItemDivs }
+    <div>
+      <div className="card fade-in grid-1 row-gap-15">
+        <div className="t--strong">{category.name}</div>
+        <UserProductItemForm
+          categoryId={category.id}
+          category={productForEdit}
+          userId={userId}
+        />
+      </div>
+      <div className="card fade-in">
+        { category.products.length ?
+        <div className="fade-in masonic masonic--col-2"> { productDivs } </div> : 
+        <div className="card card--no-bg">No Products</div> }
       </div>
     </div>
   )

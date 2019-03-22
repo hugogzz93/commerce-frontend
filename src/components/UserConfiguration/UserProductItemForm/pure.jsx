@@ -5,23 +5,23 @@ import TextArea from '../../Inputs/TextArea'
 import FileManager from '../../../lib/FileManager'
 
 const UserProductItemForm = props => {
-  const userProduct = props.userProduct || {}
-  const [name, setName] = useState(userProduct.name || '')
-  const [price, setPrice] = useState(userProduct.price || 0)
-  const [desc, setDesc] = useState(userProduct.description || 0)
+  const product = props.product || {}
+  const [name, setName] = useState(product.name || '')
+  const [price, setPrice] = useState(product.price || 0)
+  const [desc, setDesc] = useState(product.description || 0)
   const [file, setFile] = useState(null)
-  const [mutation, submitMsg] = props.userProduct ? [ props.updateProductItem, 'Update' ] : [props.createProductItem, 'Create']
+  const [mutation, submitMsg] = props.product ? [ props.updateProduct, 'Update' ] : [props.createProduct, 'Create']
   useEffect(() => {
-    setName(userProduct.name)
-    setPrice(userProduct.price)
-    setDesc(userProduct.description)
-  }, [props.userProduct])
+    setName(product.name)
+    setPrice(product.price)
+    setDesc(product.description)
+  }, [props.product])
 
   return(
-    <div className="grid-12 col-gap-15" key={userProduct.id}>
+    <div id="product-form" className="grid-12 col-gap-15" key={product.id}>
       <div className="col-5">
         <ImageInput 
-          {...{file, setFile, image: userProduct.image ? FileManager.getFileUrl({fileName: userProduct.image, user_id: userProduct.user_id}) : null}}
+          {...{file, setFile, image: product.image ? FileManager.getFileUrl({fileName: product.image, user_id: product.user_id}) : null}}
           />
       </div>
         <div className="col-7 row-gap-10 grid-1">
@@ -47,12 +47,14 @@ const UserProductItemForm = props => {
           />
         </div>
         <div className="button" onClick={e => mutation({
-          user_id: props.user_id,
-          product_id: props.product_id,
-          price: parseFloat(price),
-          name: name,
-          image: file,
-          ...props.userProduct ? {id: props.userProduct.id} : null
+          input: {
+            userId: props.user_id,
+            categoryId: props.categoryId,
+            price: parseFloat(price),
+            name: name,
+            image: file,
+            ...props.product ? {id: props.product.id} : null
+          }
         })}>{submitMsg}</div>
     </div>
   )

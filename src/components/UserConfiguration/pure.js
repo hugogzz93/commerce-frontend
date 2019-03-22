@@ -30,7 +30,7 @@ const UserConfiguration = props => {
                 transitionTime={150}
                 controlSetter={setCarouselControls}
       >
-        <FormSlide/>
+        {/* <FormSlide/> */}
         <UserProducts/>
       </CarouselWrapper>
     </div>
