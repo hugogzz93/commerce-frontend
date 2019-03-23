@@ -73,26 +73,10 @@ const mapStateToProps = state => ({
     variables: {userId: state.user.id},
     query:FETCH_DATA,
     // fetchPolicy: 'network-only',
-  }).then(res => ({ categories: res.data.categories }))
+  }).then(res => res.data.categories)
 })
 
 const mapDispatchToProps = dispatch => ({
-  // getUserProducts: variables => dispatch(queryUserAction({
-  //   query: getUserProducts,
-  //   variables
-  // })),
-  // getProducts: () => dispatch(queryProductsAction({
-  //   query: getProducts
-  // })),
-  // addProducts: variables => dispatch(mutateUserAction({
-  //   variables,
-  //   mutation: addProducts
-  // })),
-  // removeProducts: variables => dispatch(mutateUserAction({
-  //   variables,
-  //   mutation: removeProducts
-  // })),
-  // createCategory: name => dispatch(createProductAction({input: {name}}))
 })
 
 export default connect(
