@@ -67,13 +67,13 @@ const FETCH_DATA = gql`
   }
 `
 
+
 const mapStateToProps = state => ({
   userId: state.user.id,
   fetchData: () => sendQuery({
     variables: {userId: state.user.id},
     query:FETCH_DATA,
-    // fetchPolicy: 'network-only',
-  }).then(res => res.data.categories)
+  }).then(res => res.data.categories),
 })
 
 const mapDispatchToProps = dispatch => ({

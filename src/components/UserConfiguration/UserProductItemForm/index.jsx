@@ -2,6 +2,7 @@ import { connect } from 'react-redux'
 import Pure from './pure'
 import { sendMutation } from '../../../lib/api'
 import gql from 'graphql-tag'
+import RPC from '../../../lib/RPC.js'
 
 const CREATE_PRODUCT = gql`
   mutation createProduct($input: ProductInput!) {
@@ -14,7 +15,19 @@ const CREATE_PRODUCT = gql`
       }
     }
   }
+`
 
+const UPDATE_PRODUCT = gql`
+  mutation updateProduct($id: ID!, $input: ProductInput!) {
+    product(id: $id) {
+      update(input: $input) {
+        id
+        name
+        price
+        image
+      }
+    }
+  }
 `
 
 const mapStateToProps = state => ({
@@ -22,14 +35,16 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  createProduct: variables => sendMutation({
+  createProduct: variables => RPC.sendMutation({
     variables,
-    mutation: CREATE_PRODUCT
-  }).then(res => res.data.product.create)
-    .catch(err => {
-      debugger
-    }),
-  updateProduct: () => {}
+    mutation: CREATE_PRODUCT,
+    normalizer: res => res.data.product.create
+  }),
+  updateProduct: variables => RPC.sendMutation({
+    variables,
+    mutation: UPDATE_PRODUCT,
+    normalizer: res => res.data.product.update
+  })
 })
 
 export default connect(

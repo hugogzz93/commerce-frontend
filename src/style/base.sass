@@ -113,3 +113,17 @@ img.thumb-nail
   @media (max-width: $break-small)
     height: 3rem
 
+.progress-bar
+  background: repeating-linear-gradient(to right, #EE7752 0%, #E73C7E 25%, #23A6D5 50%, #23D5AB 75%, #EE7752 100%)
+  background-size: 200% auto
+  background-position: 0 100%
+  animation: progress__bar-animation 2s infinite
+  animation-fill-mode: forwards
+  animation-timing-function: linear
+  height: 5px
+  
+@keyframes progress__bar-animation
+  0%   
+    background-position: 0 0
+  100%
+    background-position: -200% 0

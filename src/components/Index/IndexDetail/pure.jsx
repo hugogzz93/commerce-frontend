@@ -27,7 +27,7 @@ const IndexDetail = (props) => {
         }
       >
         <HoverImageCard 
-          src={`http://localhost:3002/download?filename=${up.image}&id=${vendor.id}`}
+          src={up.image}
           title={up.name}
           paragraphs={[up.price, 'Lorem Ipsum', 'Dolor sit amet']}
         />

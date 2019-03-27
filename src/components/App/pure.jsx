@@ -14,9 +14,12 @@ import OrderIndex from '../Orders/OrdersIndex/index'
 import Inventory from '../Inventory'
 
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import 'izitoast/dist/css/iziToast.min.css'
 import '../../style/overwrites/carousel.sass'
 import '../../style/chat.sass'
 import '../../style/inputs.sass'
+
+window.$DEBUG = true
 
 
 class App extends Component {

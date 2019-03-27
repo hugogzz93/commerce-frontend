@@ -4,24 +4,44 @@ import { useProductContext } from '../UserProducts/pure'
 import ImageCard from '../../cards/ImageCard'
 import HoverImageCard from '../../cards/HoverImageCard'
 import HoverContainer from '../../cards/HoverContainer'
+import iziToast from 'izitoast'
+import RPC from '../../../lib/RPC.js'
 
 const UserProductItems = ({categoryId, userId, ...props}) => {
   const [{categories}, dispatch] = useProductContext()
   const [productForEdit, setProductForEdit] = useState(null)
 
   const category = categories.find(e => e.id == categoryId)
+  const scrollToForm = () => {
+    const y = document.querySelector('#product-form').getBoundingClientRect().top
+    window.scroll({top: y, behavior: 'smooth'})
+  }
 
+  const deleteProduct = product => {
+
+    props.deleteProduct({id: product.id})
+         .then(RPC.handleResponseStatus({ 
+           successMsg: 'Product Deleted',
+           successFn: () => {
+            dispatch({
+              type: 'deleteProduct',
+              payload: {
+                categoryId,
+                productId: product.id
+              }
+            })
+           }
+         }))
+  }
 
   return (
     <div>
-      <div className="card fade-in grid-1 row-gap-15">
-        <div className="t--strong">{category.name}</div>
-        <UserProductItemForm
-          categoryId={category.id}
-          category={productForEdit}
-          userId={userId}
-        />
-      </div>
+      <UserProductItemForm
+        category={category}
+        product={productForEdit}
+        userId={userId}
+        onSubmit={() => setProductForEdit(null)}
+      />
       <div className="card fade-in">
         { category.products.length ?
         <div className="fade-in masonic masonic--col-2">
@@ -30,11 +50,13 @@ const UserProductItems = ({categoryId, userId, ...props}) => {
               <HoverContainer 
                 detail={
                   <React.Fragment>
-                    <div className="button" onClick={(e) => {e.stopPropagation(); console.log('deleted')}}>Delete</div>
+                    <div className="button" onClick={(e) => {
+                      e.stopPropagation();
+                      deleteProduct(product) 
+                    }}>Delete</div>
                     <div className="button" onClick={ () => {
                       setProductForEdit(product)
-                      const y = document.querySelector('#product-form').getBoundingClientRect().top
-                      window.scroll({top: y, behavior: 'smooth'})
+                      scrollToForm()
                     } }>Edit</div>
                   </React.Fragment>
                 }

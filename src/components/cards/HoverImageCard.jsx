@@ -11,7 +11,7 @@ const HoverImageCard = props => {
   )
   return(
     <div>
-      <figure className={`image__hover-card ${active ? 'active' : ''}`} >
+      <figure className={`image__hover-card shadow--1 ${active ? 'active' : ''}`} >
         <img src={props.src} alt="" />
         <figcaption>
             <h2>{props.title}</h2>

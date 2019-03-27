@@ -2,76 +2,104 @@ import React, {useState, useEffect} from 'react'
 import ImageInput from '../../cards/ImageInput'
 import Input from '../../Inputs/TextInput'
 import TextArea from '../../Inputs/TextArea'
-import FileManager from '../../../lib/FileManager'
 import { useProductContext } from '../UserProducts/pure'
+import Spinner from '../../Spinner.jsx'
+import RPC from '../../../lib/RPC.js'
 
 const UserProductItemForm = props => {
   const [state, dispatch] = useProductContext()
-  const product = props.product || {}
-  const [name, setName] = useState(product.name || '')
-  const [price, setPrice] = useState(product.price || 0)
-  const [desc, setDesc] = useState(product.description || 0)
+  const [name, setName] = useState(null)
+  const [price, setPrice] = useState(null)
+  const [desc, setDesc] = useState(null)
+  const [image, setImage] = useState(null)
   const [file, setFile] = useState(null)
-  const [mutation, submitMsg] = props.product ? [ props.updateProduct, 'Update' ] : [props.createProduct, 'Create']
-  useEffect(() => {
-    setName(product.name)
-    setPrice(product.price)
-    setDesc(product.description)
-  }, [props.product])
+  const [formDisabled, setDisabledForm] = useState(false)
+  const formIsUpdating = !!props.product
 
-  const onSubmit = e => {
+  useEffect(() => updateFields(props.product || {}), [props])
 
-    const actionType = props.product ? 'updateProduct' : 'addProduct'
+  const updateFields = product => {
+    setName(product.name || null)
+    setPrice(product.price || null)
+    setDesc(product.description || null)
+    setImage(product.image || null)
+    setFile(null)
+  }
 
-    mutation({
-      input: {
+  const onSubmit = () => {
+    setDisabledForm(false)
+    updateFields({})
+    props.onSubmit()
+  }
+
+  const submit = e => {
+    setDisabledForm(true)
+
+    const variables = {
+    input: {
         userId: props.user_id,
-        categoryId: props.categoryId,
-        price: parseFloat(price),
-        name: name,
-        image: file,
-        ...props.product ? {id: props.product.id} : null
-      }}
-    ).then(product => dispatch({
-      type: actionType,
-      payload: {
-        categoryId: props.categoryId,
-        product: product
+        categoryId: props.category.id,
+        ...price ? {price: parseFloat(price)} : null,
+        ...name ? {name} : null,
+        ...file ? {image: file} : null,
       }
+    }
+
+    const actionType = formIsUpdating ? 'updateProduct' : 'addProduct'
+    const mutation = formIsUpdating ? props.updateProduct : props.createProduct
+    if(formIsUpdating) variables.id = props.product.id
+
+    mutation(variables).then(RPC.handleResponseStatus({
+        ensure: onSubmit,
+        successFn: product => {
+          dispatch({
+            type: actionType,
+            payload: {
+              categoryId: props.category.id,
+              product: product
+            }
+          })
+        }
     }))
   }
 
 
   return(
-    <div id="product-form" className="grid-12 col-gap-15" key={product.id}>
-      <div className="col-5">
-        <ImageInput 
-          {...{file, setFile, image: product.image ? FileManager.getFileUrl({fileName: product.image, user_id: product.user_id}) : null}}
-          />
-      </div>
-        <div className="col-7 row-gap-10 grid-1">
-          <Input
-              label={'Name'}
-              value={name}
-              name={name}
-              onChange={e => setName(e.target.value)}
-          />
-          <Input
-              label={'Price'}
-              value={price}
-              price={price}
-              onChange={e => setPrice(e.target.value)}
-              type={'number'}
-          />
-          <TextArea
-              label={'Description'}
-              value={desc}
-              price={price}
-              onChange={e => setDesc(e.target.value)}
-              minHeight='7em'
-          />
+    <div className="card fade-in card--no-padding">
+      <div id="product-form" className="grid-12 col-gap-15 card--no-bg" >
+      <div className="t--strong col-12">{props.category.name}</div>
+        <div className="col-5">
+          <ImageInput 
+            {...{ file, setFile, image }}
+            />
         </div>
-        <div className="button" onClick={onSubmit}>{submitMsg}</div>
+          <div className="col-7 row-gap-10 grid-1">
+            <Input
+                label={'Name'}
+                value={name}
+                name={name}
+                onChange={e => setName(e.target.value)}
+            />
+            <Input
+                label={'Price'}
+                value={price}
+                price={price}
+                onChange={e => setPrice(e.target.value)}
+                type={'number'}
+            />
+            <TextArea
+                label={'Description'}
+                value={desc}
+                price={price}
+                onChange={e => setDesc(e.target.value)}
+                minHeight='7em'
+            />
+          </div>
+          <div className="button" disabled={formDisabled} onClick={submit}>{formIsUpdating ? 'Update' : 'Create'}</div>
+          { formIsUpdating && <div className="button btn--danger" disabled={formDisabled} onClick={onSubmit}>Cancel</div> }
+          
+      </div>
+      {formDisabled && <div className="progress-bar"></div>}
     </div>
   )
 }

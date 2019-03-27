@@ -4,9 +4,7 @@ import '../../style/cards/imageInput.sass'
 const ImageInput = props => {
   const [image, setImage] = useState(props.image)
 
-  useEffect(() => {
-    if(props.image) setImage(props.image)
-  }, [props.image])
+  useEffect(() => { setImage(props.image) }, [props.image])
 
   const changeImage = ({target: { files: [file]}})  => {
     const reader = new FileReader()

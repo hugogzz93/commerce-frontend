@@ -15,6 +15,7 @@ export const GET_VENDOR_DETAIL = gql`
         userId
         name
         price
+        image
       }
     }
   }

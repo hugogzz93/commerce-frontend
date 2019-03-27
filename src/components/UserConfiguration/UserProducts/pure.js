@@ -19,9 +19,9 @@ const reducer = (state, action) => {
       }
     case 'updateProduct': {
         let updatedCategory = {...state.categories.find(e => e.id == action.payload.categoryId)}
-        let updatedProduct = {...updatedCategory.find(e => e.id == action.payload.product.id)}
+        let updatedProduct = {...updatedCategory.products.find(e => e.id == action.payload.product.id)}
         updatedProduct = {...updatedProduct, ...action.payload.product}
-        updatedCategory = {...updatedCategory, products: mergeByKey('id', updatedCategory.products, updatedProduct)}
+        updatedCategory = {...updatedCategory, products: mergeByKey('id', updatedCategory.products, [ updatedProduct ])}
         return {
         ...state,
           categories: mergeByKey('id', state.categories, [ updatedCategory ])
@@ -33,6 +33,18 @@ const reducer = (state, action) => {
       return {
         ...state,
         categories: mergeByKey('id', state.categories, [{...updatedCategory, products}])
+      }
+    }
+    case 'deleteProduct': {
+      return {
+        ...state,
+        categories: state.categories.map(cat => {
+          if(cat.id == action.payload.categoryId)
+            return {
+              ...cat,
+              products: cat.products.filter(p => p.id != action.payload.productId)
+            }
+        })
       }
     }
     default:
