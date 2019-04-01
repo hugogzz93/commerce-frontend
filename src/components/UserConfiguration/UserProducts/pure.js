@@ -92,7 +92,7 @@ const Products = props => {
         .sort((a,b) => b.products.length - a.products.length)
         .map(( category, i ) => (
             <ThumbCard 
-              key={category.id}
+              key={i}
               title={category.name}
               subtitle={(() => {
                 const num = category.products.length
