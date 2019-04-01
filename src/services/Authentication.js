@@ -1,7 +1,7 @@
-import cookie from 'cookie'
-import { sendMutation, sendQuery } from '../lib/api'
-import docCookies from '../lib/docCookies'
-import gql from 'graphql-tag'
+import cookie from "cookie";
+import { sendMutation, sendQuery } from "../lib/api";
+import docCookies from "../lib/docCookies";
+import gql from "graphql-tag";
 
 const FETCH_CURRENT_USER = gql`
   {
@@ -11,7 +11,7 @@ const FETCH_CURRENT_USER = gql`
       email
     }
   }
-`
+`;
 
 const LOGIN_MUTATION = gql`
   mutation signIn($email: String!, $password: String!) {
@@ -19,33 +19,42 @@ const LOGIN_MUTATION = gql`
       authToken
     }
   }
-`
+`;
 
 const LOGOUT_MUTATION = gql`
   mutation signOut {
-   error
+    error
   }
-`
+`;
 
-export const login = ({email, password}) => sendMutation({
+export const login = ({ email, password }) =>
+  sendMutation({
     mutation: LOGIN_MUTATION,
-    variables: {email, password}
-})
+    variables: { email, password }
+  });
 
-export const logout = ({auth_token}) => sendMutation({
-  mutation: LOGOUT_MUTATION,
-  variables: { auth_token }
-})
+export const logout = ({ auth_token }) =>
+  sendMutation({
+    mutation: LOGOUT_MUTATION,
+    variables: { auth_token }
+  });
 
-export const fetchCurrentUser = () => sendQuery({
-  query: FETCH_CURRENT_USER,
-})
+export const fetchCurrentUser = () =>
+  sendQuery({
+    query: FETCH_CURRENT_USER
+  });
 
 export const setAuthTokenCookie = token => {
-  let today = new Date()
-  let expires = new Date()
-  expires.setTime(today.getTime() + 3600000 * 24 * 14) //14 days from now
-  docCookies.setItem('auth_token', token, expires.toGMTString(), '/', 'localhost');
-}
+  let today = new Date();
+  let expires = new Date();
+  expires.setTime(today.getTime() + 3600000 * 24 * 14); //14 days from now
+  docCookies.setItem(
+    "auth_token",
+    token,
+    expires.toGMTString(),
+    "/",
+    "localhost"
+  );
+};
 
-export const getAuthToken = () => ( docCookies.getItem('auth_token'))
+export const getAuthToken = () => docCookies.getItem("auth_token");

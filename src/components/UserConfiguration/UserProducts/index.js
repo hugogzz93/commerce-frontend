@@ -1,20 +1,22 @@
-import { connect } from 'react-redux'
-import { queryUserAction, mutateUserAction,
-} from '../../../models/User'
-import { queryProductsAction, createProductAction } from '../../../models/Products'
-import { sendMutation, sendQuery }  from '../../../lib/api'
-import gql from 'graphql-tag'
-import Pure from './pure'
+import { connect } from "react-redux";
+import { queryUserAction, mutateUserAction } from "../../../models/User";
+import {
+  queryProductsAction,
+  createProductAction
+} from "../../../models/Products";
+import { sendMutation, sendQuery } from "../../../lib/api";
+import gql from "graphql-tag";
+import Pure from "./pure";
 
 const getUserProducts = gql`
   query GetUserProducts($userId: ID) {
-    users(query: {id: $userId}) {
+    users(query: { id: $userId }) {
       products {
         id
       }
     }
   }
-`
+`;
 const getProducts = gql`
   {
     products {
@@ -23,7 +25,7 @@ const getProducts = gql`
       description
     }
   }
-`
+`;
 
 const addProducts = gql`
   mutation addProduct($userId: ID!, $productIds: [ID]!) {
@@ -31,7 +33,7 @@ const addProducts = gql`
       addProducts(ids: $productIds)
     }
   }
-`
+`;
 
 const removeProducts = gql`
   mutation removeProduct($userId: ID!, $productIds: [ID]!) {
@@ -39,25 +41,25 @@ const removeProducts = gql`
       removeProducts(ids: $productIds)
     }
   }
-`
+`;
 
 const createCategory = gql`
   mutation createCategory($name: String!) {
     product {
-      create(input: {name: $name}) {
+      create(input: { name: $name }) {
         id
         name
       }
     }
   }
-`
+`;
 
 const FETCH_DATA = gql`
   query fetchData($userId: ID!) {
     categories {
       id
       name
-      products(query: {userId: $userId }) {
+      products(query: { userId: $userId }) {
         id
         name
         price
@@ -65,21 +67,20 @@ const FETCH_DATA = gql`
       }
     }
   }
-`
-
+`;
 
 const mapStateToProps = state => ({
   userId: state.user.id,
-  fetchData: () => sendQuery({
-    variables: {userId: state.user.id},
-    query:FETCH_DATA,
-  }).then(res => res.data.categories),
-})
+  fetchData: () =>
+    sendQuery({
+      variables: { userId: state.user.id },
+      query: FETCH_DATA
+    }).then(res => res.data.categories)
+});
 
-const mapDispatchToProps = dispatch => ({
-})
+const mapDispatchToProps = dispatch => ({});
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Pure)
+)(Pure);

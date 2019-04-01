@@ -1,39 +1,39 @@
-import { connect } from 'react-redux'
-import Pure from './pure'
-import io from 'socket.io-client'
-import { CHAT_URL } from '../../constants/config'
-import { sendQuery, sendMutation } from '../../lib/api'
-import gql from 'graphql-tag'
+import { connect } from "react-redux";
+import Pure from "./pure";
+import io from "socket.io-client";
+import { CHAT_URL } from "../../constants/config";
+import { sendQuery, sendMutation } from "../../lib/api";
+import gql from "graphql-tag";
 
 const GET_ORDER = gql`
- query getOrder($id: ID) {
-  orders(ids: [$id]) {
-    id
-    vendor {
-      name
+  query getOrder($id: ID) {
+    orders(ids: [$id]) {
       id
-      email
-    }
-    client {
-      name
-      id
-      email
-    }
-    issues {
-      createdAt
-      id
-      status
-      messages {
+      vendor {
+        name
         id
-        body
-        author {
+        email
+      }
+      client {
+        name
+        id
+        email
+      }
+      issues {
+        createdAt
+        id
+        status
+        messages {
           id
+          body
+          author {
+            id
+          }
         }
       }
     }
   }
- }
-`
+`;
 
 const GET_MESSAGES = gql`
   query getMessages($issue_id: ID!) {
@@ -49,7 +49,7 @@ const GET_MESSAGES = gql`
       }
     }
   }
-`
+`;
 
 const OPEN_ISSUE = gql`
   mutation openIssue($order_id: ID!, $issueInput: IssueInput!) {
@@ -69,7 +69,7 @@ const OPEN_ISSUE = gql`
       }
     }
   }
-`
+`;
 
 const CLOSE_ISSUE = gql`
   mutation CloseIssue($id: ID!) {
@@ -80,35 +80,37 @@ const CLOSE_ISSUE = gql`
       }
     }
   }
-`
-
-
+`;
 
 const mapStateToDefault = state => ({
   user: state.user,
   socket: io(CHAT_URL)
-})
+});
 
-const mapDispatchToDefault = ( dispatch, props ) => ({
-  getMessages: variables => sendQuery({
-    variables,
-    query: GET_MESSAGES
-  }),
-  openIssue: variables => sendMutation({
-    variables,
-    mutation: OPEN_ISSUE
-  }),
-  closeIssue: variables => sendMutation({
-    variables,
-    mutation: CLOSE_ISSUE
-  }).then(res => res.data.issue.close.status),
-  getOrder: variables => sendQuery({
-    variables,
-    query: GET_ORDER
-  }),
-})
+const mapDispatchToDefault = (dispatch, props) => ({
+  getMessages: variables =>
+    sendQuery({
+      variables,
+      query: GET_MESSAGES
+    }),
+  openIssue: variables =>
+    sendMutation({
+      variables,
+      mutation: OPEN_ISSUE
+    }),
+  closeIssue: variables =>
+    sendMutation({
+      variables,
+      mutation: CLOSE_ISSUE
+    }).then(res => res.data.issue.close.status),
+  getOrder: variables =>
+    sendQuery({
+      variables,
+      query: GET_ORDER
+    })
+});
 
 export default connect(
   mapStateToDefault,
   mapDispatchToDefault
-)(Pure)
+)(Pure);

@@ -1,3 +1,3 @@
-import { sendQuery } from  '../lib/api'
+import { sendQuery } from "../lib/api";
 
-export const queryUserProducts = query => sendQuery(query)
+export const queryUserProducts = query => sendQuery(query);

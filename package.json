@@ -53,6 +53,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "babel-plugin-react-html-attrs": "^2.1.0"
+    "babel-plugin-react-html-attrs": "^2.1.0",
+    "prettier": "1.16.4"
   }
 }
