@@ -27,5 +27,16 @@ const PLACE_ORDER = gql`
     }
   }
 `;
+
+const SETUP_PAYMENT = gql`
+  mutation setupPayment($input: PaymentInput!) {
+    payment {
+      setup(input: $input)
+    }
+  }
+`;
 export const placeOrder = variables =>
   sendMutation({ mutation: PLACE_ORDER, variables });
+
+export const setupPayment = variables =>
+  sendMutation({ mutation: SETUP_PAYMENT, variables });

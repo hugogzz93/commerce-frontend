@@ -6,7 +6,8 @@ import gql from "graphql-tag";
 import {
   getCartCookie,
   setCartCookie,
-  placeOrder
+  placeOrder,
+  setupPayment
 } from "../services/ShoppingCart";
 import { logoutAction } from "./Authentication";
 import Errors from "../constants/errors";
@@ -21,6 +22,12 @@ export const setCartLoadingStateAction = createAction("CART/LOADING/TOGGLE");
 export const checkoutAction = createAction("CART/CHECKOUT");
 export const checkoutSuccessAction = createAction("CART/CHECKOUT/SUCCESS");
 export const checkoutUnknownFailAction = createAction("CART/CHECKOUT/FAIL");
+export const paymentUpdateAction = createAction("PAYMENT/UPDATE");
+
+export const PAYMENT = {
+  success: "success"
+};
+
 const insufficientStockAction = createAction("CART/ERRORS/INSUFFICIENT_STOCK");
 
 const FETCH_PRODUCTS = gql`
@@ -131,9 +138,14 @@ const checkoutSaga = function*(action) {
       orders: [...Object.keys(orderInput).map(k => orderInput[k])]
     };
     const response = yield call(placeOrder, { orderGroupInput });
-    if (!!response.data.order.createGroup.id) {
-      yield put(checkoutSuccessAction());
-      yield saveStoreToCookie();
+    if (!response.data.order.createGroup.id)
+      yield put(checkoutUnknownFailAction());
+    const paymentResponse = yield call(setupPayment, {
+      input: { orderGroupId: response.data.order.createGroup.id }
+    });
+    if (!!paymentResponse.data.payment.setup) {
+      const url = paymentResponse.data.payment.setup;
+      window.location = url;
     }
   } catch (err) {
     yield put(checkoutUnknownFailAction(err));
@@ -146,6 +158,15 @@ const logoutSaga = function*(action) {
   } catch (err) {}
 };
 
+const paymentSaga = function*(action) {
+  try {
+    if (action.status == PAYMENT.success) yield put(checkoutSuccessAction());
+    else yield put(checkoutUnknownFailAction());
+
+    yield saveStoreToCookie();
+  } catch (err) {}
+};
+
 export const cartRootSaga = function*() {
   yield takeLatest(loadCartAction, loadCartSaga);
   yield takeLatest(cartAddProductAction, addProductSaga);
@@ -153,6 +174,7 @@ export const cartRootSaga = function*() {
   yield takeLatest(updateCartItemAction, updateCartItemSaga);
   yield takeLatest(checkoutAction, checkoutSaga);
   yield takeLatest(logoutAction, logoutSaga);
+  yield takeLatest(paymentUpdateAction, paymentSaga);
 };
 
 const InitialState = {

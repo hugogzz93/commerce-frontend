@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {  BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom'
+import { connect } from "react-redux";
 import {
   CSSTransition,
   TransitionGroup
@@ -12,6 +13,7 @@ import NavBar from '../NavBar/index'
 import UserConfiguration from '../../components/UserConfiguration/index'
 import OrderIndex from '../Orders/OrdersIndex/index'
 import Inventory from '../Inventory'
+import { paymentUpdateAction, PAYMENT } from '../../models/ShoppingCart'
 
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import 'izitoast/dist/css/iziToast.min.css'
@@ -20,6 +22,11 @@ import '../../style/chat.sass'
 import '../../style/inputs.sass'
 
 window.$DEBUG = true
+
+const Checkout = connect(null, dispatch => dispatch)(({match: { status }}, ...props) => {
+  props.dispatch(paymentUpdateAction({status}))
+  return <div>Checkout {status}</div>
+})
 
 
 class App extends Component {
@@ -49,6 +56,7 @@ class App extends Component {
                     <Route path='/users/edit' component={ UserConfiguration }/>
                     <Route path='/user/orders' component={ OrderIndex } />
                     <Route path='/user/inventory' component={ Inventory } />
+                    <Route path='checkout/:status' components={ Checkout } />
                   </Switch>
                 </CSSTransition>
             </TransitionGroup>
