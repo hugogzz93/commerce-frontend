@@ -5,24 +5,28 @@ import TextArea from "../Inputs/TextArea";
 import { formReducer, reducerTypes } from "../../lib/formReducer.js";
 import gql from "graphql-tag";
 import { Mutation, Query } from "react-apollo";
+import { AddressFragments } from "../../constants/fragments";
 
 const UPDATE_ADDRESS = gql`
   mutation updateAddress($id: ID!, $input: AddressInput!) {
     address(id: $id) {
       update(input: $input) {
-        id
-        country
-        fullName
-        street1
-        street2
-        city
-        zip
-        phone
-        securityCode
-        instructions
+        ...fields
       }
     }
   }
+  ${AddressFragments.fields}
+`;
+
+const CREATE_ADDRESS = gql`
+  mutation createAddress($input: AddressInput!) {
+    address {
+      create(input: $input) {
+        ...fields
+      }
+    }
+  }
+  ${AddressFragments.fields}
 `;
 
 const AddressCard = props => {
