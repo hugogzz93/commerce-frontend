@@ -53,7 +53,7 @@ const Order= props => {
             ))}
           </div>
         </AccordionCard>
-        <div className="card card--no-padding">
+        <div className="card no--padding">
           <div>
             <div className="button btn--small" onClick={() => setSlide(0)} style={{float: 'left'}}>
               Return

@@ -65,7 +65,7 @@ const UserProductItemForm = props => {
 
 
   return(
-    <div className="card fade-in card--no-padding">
+    <div className="card fade-in no--padding">
       <div id="product-form" className="grid-12 col-gap-15 card--no-bg" >
       <div className="t--strong col-12">{props.category.name}</div>
         <div className="col-5">
