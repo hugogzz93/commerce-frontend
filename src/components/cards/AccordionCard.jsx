@@ -4,7 +4,7 @@ import '../../style/cards/accordion.sass'
 const AccordionCard = props => {
   const [active, setActive] = useState(false)
   return(
-    <div className={`card card--no-padding accordion ${active ? 'active' : ''}`}>
+    <div className={`card no--padding accordion ${active ? 'active' : ''}`}>
       <div className="accordion__title accordion__section" onClick={() => setActive(!active)}>
         {props.header}
       </div>
