@@ -6,6 +6,7 @@ import { formReducer, reducerTypes } from "../../lib/formReducer.js";
 import gql from "graphql-tag";
 import { Mutation, Query } from "react-apollo";
 import { AddressFragments } from "../../constants/fragments";
+import iziToast from "izitoast";
 
 const UPDATE_ADDRESS = gql`
   mutation updateAddress($id: ID!, $input: AddressInput!) {
@@ -29,39 +30,122 @@ const CREATE_ADDRESS = gql`
   ${AddressFragments.fields}
 `;
 
+const DELETE_ADDRESS = gql`
+  mutation deleteAddress($id: ID!) {
+    address(id: $id) {
+      destroy
+    }
+  }
+`;
+
+const FETCH_ADRESSES = gql`
+  query fetchAddresses($userId: ID!) {
+    users(query: { id: $userId }) {
+      addresses {
+        ...fields
+      }
+    }
+  }
+  ${AddressFragments.fields}
+`;
+
+const TYPES = {
+  CREATION: 0,
+  UPDATE: 2
+};
+
 const AddressCard = props => {
-  const [formState, dispatch] = useReducer(formReducer, {});
+  const [formState, dispatch] = useReducer(formReducer, {
+    address: props.address || {}
+  });
   const updatefield = payload =>
     dispatch({ type: reducerTypes.UPDATE, payload });
 
   useEffect(
-    () => dispatch({ type: reducerTypes.INIT, payload: props.address }),
+    () => dispatch({ type: reducerTypes.INIT, payload: props.address || {} }),
     [props.address]
+  );
+
+  const type =
+    formState.address && formState.address.id ? TYPES.UPDATE : TYPES.CREATION;
+  const mutation = type == TYPES.UPDATE ? UPDATE_ADDRESS : CREATE_ADDRESS;
+
+  const delBtn = (
+    <Mutation
+      mutation={DELETE_ADDRESS}
+      update={(cache, { data: { address } }) => {
+        const deletedId = address.destroy;
+        const data = cache.readQuery({
+          query: FETCH_ADRESSES,
+          variables: { userId: props.userId }
+        });
+        const addresses = data.users[0].addresses.filter(
+          a => a.id != deletedId
+        );
+        const updatedUser = { ...data.users[0], addresses };
+        cache.writeQuery({
+          query: FETCH_ADRESSES,
+          variables: { userId: props.userId },
+          data: {
+            users: data.users.map(u =>
+              u.id == updatedUser.id ? updatedUser : u
+            )
+          }
+        });
+      }}
+    >
+      {(delAddress, { data, loading, error }) => (
+        <div
+          className="button btn--danger"
+          onClick={() =>
+            delAddress({ variables: { id: formState.address.id } })
+          }
+        >
+          Delete
+        </div>
+      )}
+    </Mutation>
   );
 
   return (
     <Mutation
-      mutation={UPDATE_ADDRESS}
-      onComplete={data =>
-        dispatch({ type: reducerTypes.INIT, payload: data.address })
-      }
+      mutation={mutation}
+      update={(cache, { data: { address } }) => {
+        const newAddress = address.create;
+        const data = cache.readQuery({
+          query: FETCH_ADRESSES,
+          variables: { userId: props.userId }
+        });
+        const updatedUser = {
+          ...data.users[0],
+          addresses: data.users[0].addresses.concat(newAddress)
+        };
+        cache.writeQuery({
+          data: {
+            users: [...data.users.filter(u => u.id != updatedUser.id)].concat(
+              updatedUser
+            )
+          },
+          query: FETCH_ADRESSES,
+          variables: { userId: props.userId }
+        });
+      }}
+      onCompleted={data => {
+        dispatch({ type: reducerTypes.INIT, payload: data.address });
+        iziToast.success({
+          title: ` Address ${props.address ? "Updated" : "Saved"}`
+        });
+        if(props.onCompleted) props.onCompleted()
+      }}
+      onError={() => iziToast.error({ title: "Error" })}
     >
-      {(updateAddress, { data, loading, error, called }) => {
-        if (loading) return <div className="card">Loading</div>;
-        if (error) return <div className="card">Error</div>;
+      {(mutate, { data, loading, error, called }) => {
         return (
           <div className="card grid-1 row-gap-10">
-            <div className="card card--no-bg">
-              <div className="flex--col">
-                {formState.getChangedFields &&
-                  formState
-                    .getChangedFields()
-                    .map((c, i) => <p key={c.key}>{c.key}</p>)}
-              </div>
-            </div>
+            {loading && <div className="progress-bar" />}
             <Input
               label={"Country"}
-              value={formState["country"]}
+              value={formState.address["country"]}
               name={"country"}
               onChange={({ target: { name, value } }) => {
                 updatefield({ field: name, value });
@@ -69,7 +153,7 @@ const AddressCard = props => {
             />
             <Input
               label={"Street"}
-              value={formState["street1"]}
+              value={formState.address["street1"]}
               name={"street1"}
               onChange={({ target: { name, value } }) => {
                 updatefield({ field: name, value });
@@ -77,7 +161,7 @@ const AddressCard = props => {
             />
             <Input
               label={"Street 2"}
-              value={formState["street2"]}
+              value={formState.address["street2"]}
               name={"street2"}
               onChange={({ target: { name, value } }) => {
                 updatefield({ field: name, value });
@@ -85,7 +169,7 @@ const AddressCard = props => {
             />
             <Input
               label={"City"}
-              value={formState["city"]}
+              value={formState.address["city"]}
               name={"city"}
               onChange={({ target: { name, value } }) => {
                 updatefield({ field: name, value });
@@ -93,7 +177,7 @@ const AddressCard = props => {
             />
             <Input
               label={"Zip"}
-              value={formState["zip"]}
+              value={formState.address["zip"]}
               name={"zip"}
               onChange={({ target: { name, value } }) => {
                 updatefield({ field: name, value });
@@ -101,7 +185,7 @@ const AddressCard = props => {
             />
             <Input
               label={"Phone"}
-              value={formState["phone"]}
+              value={formState.address["phone"]}
               name={"phone"}
               onChange={({ target: { name, value } }) => {
                 updatefield({ field: name, value });
@@ -109,7 +193,7 @@ const AddressCard = props => {
             />
             <TextArea
               label={"Instructions"}
-              value={formState["instructions"]}
+              value={formState.address["instructions"]}
               name={"instructions"}
               onChange={({ target: { name, value } }) => {
                 updatefield({ field: name, value });
@@ -119,17 +203,22 @@ const AddressCard = props => {
               className="button"
               onClick={e => {
                 e.preventDefault();
-                const changes = formState.getChangedFields();
-                const input = {};
-                changes.forEach(c => (input[c.key] = c.value));
-                updateAddress({
+                const updates = formState.getUpdatedFields();
+                let input = { userId: props.userId };
+                if (props.address)
+                  updates.forEach(c => (input[c.key] = c.value));
+                else input = { ...input, ...formState.address };
+                mutate({
                   variables: {
-                    input,
-                    id: props.address.id
+                    ...(type == TYPES.UPDATE ? { id: props.address.id } : {}),
+                    input
                   }
                 });
               }}
-            />
+            >
+              {type == TYPES.CREATION ? "Create" : "Update"}
+            </div>
+            {type == TYPES.UPDATE && delBtn}
           </div>
         );
       }}

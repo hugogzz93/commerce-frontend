@@ -7,11 +7,11 @@ const reducerTypes = {
 const formReducer = ( state, {type, payload}) => {
   const stateHelper = {
     initialState: {},
-    getChangedFields() {
+    getUpdatedFields() {
       let changes = []
       for(let key in this.initialState)
-        if(this.initialState[key] != this[key]) {
-          changes.push({key, value: this[key]});
+        if(this.initialState[key] != this.address[key]) {
+          changes.push({key, value: this.address[key]});
         }
       return changes;
     }
@@ -19,11 +19,11 @@ const formReducer = ( state, {type, payload}) => {
 
   switch(type) {
     case reducerTypes.INIT:
-      return { ...{...stateHelper, initialState: payload}, ...payload}
+      return { ...{...stateHelper, initialState: payload}, address: payload}
     case reducerTypes.SET:
-      return payload
+      return {...state, address: payload}
     case reducerTypes.UPDATE:
-      return { ...state, [ payload.field ]: payload.value}
+      return { ...state, address: {...state.address, [payload.field]: payload.value }}
   }
 }
 
