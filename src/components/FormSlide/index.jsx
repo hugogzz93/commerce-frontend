@@ -1,6 +1,21 @@
 import { connect } from 'react-redux'
 import { mutateUserAction } from '../../models/User'
 import Pure from './pure'
+import gql from 'graphql-tag';
+import { Mutation } from 'react-apollo'
+
+
+const UPDATE_USER = gql`
+  mutation UpdateUser($id: ID!, $input: UserInputType!) {
+    user(id: $id) {
+      update(input: $input) {
+        name
+        email
+        password
+      }
+    }
+  }
+`
 
 const fieldValidator = (state, {field, value}) => {
   switch(field) {
@@ -46,7 +61,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  // submitUpdates: variables => dispatch(mutateUserAction({ mutation, variables})),
+  submitUpdates: variables => dispatch(mutateUserAction({ mutation: UPDATE_USER, variables})),
   formReducer: formReducer
 })
 

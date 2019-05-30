@@ -135,7 +135,7 @@ const AddressCard = props => {
         iziToast.success({
           title: ` Address ${props.address ? "Updated" : "Saved"}`
         });
-        if(props.onCompleted) props.onCompleted()
+        if (props.onCompleted) props.onCompleted();
       }}
       onError={() => iziToast.error({ title: "Error" })}
     >
