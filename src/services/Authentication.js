@@ -41,7 +41,8 @@ export const logout = ({ auth_token }) =>
 
 export const fetchCurrentUser = () =>
   sendQuery({
-    query: FETCH_CURRENT_USER
+    query: FETCH_CURRENT_USER,
+    fetchPolicy: 'network-only'
   });
 
 export const setAuthTokenCookie = token => {

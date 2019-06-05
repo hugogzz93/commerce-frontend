@@ -9,7 +9,10 @@ export default (props) => {
     <div>{props.email}</div>
     : (
       <React.Fragment>
-        <form className="grid-1 row-gap-15">
+        <form className="grid-1 row-gap-15" onSubmit={e => {
+          e.preventDefault();
+          props.login(email, password)
+        }}>
           <Input
             label='email'
             value={email}
@@ -21,11 +24,9 @@ export default (props) => {
             value={password}
             onChange={e => setPassword(e.target.value)} />
           { props.login_failed && <span>* Wrong username or password</span> }
-          <div 
-            className="button btn--orng-white" 
-            onClick={() => props.login(email, password)}>
+          <button className="button btn--orng-white" type="submit">
               Sign In
-          </div>
+          </button>
         </form>
       </React.Fragment>
     )
