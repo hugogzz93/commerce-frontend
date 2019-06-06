@@ -46,7 +46,7 @@ const UserProductItems = ({ categoryId, userId, ...props }) => {
       <div className="card fade-in">
         {category.products.length ? (
           <div className="fade-in masonic masonic--col-2">
-            {category.products.map((product, i) => (
+            {category.products.map(product => (
               <div key={product.id}>
                 <HoverContainer
                   detail={
