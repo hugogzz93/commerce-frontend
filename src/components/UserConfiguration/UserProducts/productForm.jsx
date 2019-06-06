@@ -35,10 +35,10 @@ const ProductForm = props => {
             }
           }
         ) => {
-          const {categories} = cache.readQuery({ query: GET_CATEGORIES });
+          const { categories } = cache.readQuery({ query: GET_CATEGORIES });
           cache.writeQuery({
             query: GET_CATEGORIES,
-            data: {categories: [create, ...categories]}
+            data: { categories: [create, ...categories] }
           });
         }}
       >
@@ -57,7 +57,7 @@ const ProductForm = props => {
                 <Input
                   label={"Name"}
                   value={name}
-                  name={'name'}
+                  name={"name"}
                   onChange={e => setName(e.target.value)}
                 />
               </div>
@@ -65,7 +65,7 @@ const ProductForm = props => {
                 <TextArea
                   label={"Description"}
                   value={description}
-                  name={'description'}
+                  name={"description"}
                   onChange={e => setDescription(e.target.value)}
                 />
               </div>

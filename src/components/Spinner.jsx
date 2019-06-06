@@ -1,8 +1,8 @@
-import React from 'react'
-import '../style/spinner.sass'
+import React from "react";
+import "../style/spinner.sass";
 
 export default () => (
   <div className="spinner">
-    <div className="smallspinner"></div>
+    <div className="smallspinner" />
   </div>
-)
+);
