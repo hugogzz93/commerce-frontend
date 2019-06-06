@@ -6,6 +6,7 @@ import NewProductForm from "./productForm";
 import mergeByKey from "array-merge-by-key";
 import { Query } from "react-apollo";
 import { GET_CATEGORIES } from "../../../constants/queries.js";
+import SearchInput from '../../Inputs/SearchInput.jsx';
 
 const initialState = {
   categories: []
@@ -96,11 +97,6 @@ const Products = props => {
       selectCategory(state.categories[0].id);
   }, [state.categories]);
 
-  const createCategory = () => {};
-  // const createCategory = () => (
-  //   props.createCategory(searchFilter)
-  // )
-
   const categories = state.categories
     .filter(
       p =>
@@ -130,16 +126,11 @@ const Products = props => {
 
   return (
     <div className="grid-12 container--90 col-gap-10 row-gap-20">
-      <div className={`s__content flex--col col-${colBaseSize}`}>
-        <input
-          className="s__input"
-          autoComplete="false"
-          type="text"
-          value={searchFilter}
-          onChange={e => setSearchFilter(e.target.value)}
-        />
-        <i className="fas fa-search" />
-      </div>
+      <SearchInput
+        value={searchFilter}
+        onChange={e => setSearchFilter(e.target.value)}
+        col={colBaseSize}
+      />
       <div className={`col-${12 - colBaseSize}`} />
       <div
         className={`flex--col col-${colBaseSize}`}
