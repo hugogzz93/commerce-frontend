@@ -12,7 +12,7 @@ const UPDATE_ADDRESS = gql`
   mutation updateAddress($id: ID!, $input: AddressInput!) {
     address(id: $id) {
       update(input: $input) {
-        ...fields
+        ...addressFields
       }
     }
   }
@@ -23,7 +23,7 @@ const CREATE_ADDRESS = gql`
   mutation createAddress($input: AddressInput!) {
     address {
       create(input: $input) {
-        ...fields
+        ...addressFields
       }
     }
   }
@@ -42,7 +42,7 @@ const FETCH_ADRESSES = gql`
   query fetchAddresses($userId: ID!) {
     users(query: { id: $userId }) {
       addresses {
-        ...fields
+        ...addressFields
       }
     }
   }

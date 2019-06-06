@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
-const AddressFragments = {
+export const AddressFragments = {
   fields: gql`
-    fragment fields on Address {
+    fragment addressFields on Address {
       id
       country
       fullName
@@ -14,6 +14,13 @@ const AddressFragments = {
       securityCode
       instructions
     }
-`
-};
-export { AddressFragments }
+`};
+
+export const CategoryFragments = {
+  fields: gql`
+    fragment categoryFields on Category {
+      id
+      name
+      description
+    }
+`};

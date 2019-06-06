@@ -4,6 +4,8 @@ import ThumbCard from "../../cards/ThumbCard";
 import UserProductItems from "../UserProductItems";
 import NewProductForm from "./productForm";
 import mergeByKey from "array-merge-by-key";
+import { Query } from "react-apollo";
+import { GET_CATEGORIES } from "../../../constants/queries.js";
 
 const initialState = {
   categories: []
@@ -99,7 +101,7 @@ const Products = props => {
   //   props.createCategory(searchFilter)
   // )
 
-  const searchItemDivs = state.categories
+  const categories = state.categories
     .filter(
       p =>
         (searchFilter.length &&
@@ -151,7 +153,32 @@ const Products = props => {
         <div className="tail" style={{ marginBottom: "10px" }} />
         {/* // { selectedItemDivs} */}
         <div className="tail" style={{ marginBottom: "10px" }} />
-        {searchItemDivs}
+        <Query query={GET_CATEGORIES}>
+          {({ loading, error, data }) => {
+            if (loading) return <div>Loading</div>;
+            if (error) return <div>Error</div>;
+            if (data.categories)
+              return data.categories
+                .filter(e => e.name.match(new RegExp(searchFilter, "i")))
+                .sort((a, b) => b.products.length - a.products.length)
+                .map(category => (
+                  <ThumbCard
+                    key={category.id}
+                    title={category.name}
+                    subtitle={(() => {
+                      const num = category.products.length;
+                      if (num == 0) return "";
+                      if (num > 1) return num + " products";
+                      return "1 product";
+                    })()}
+                    onClick={() => selectCategory(category.id)}
+                    className={`fade-in ${
+                      selectedCategory == category ? "card--highlight" : ""
+                    }`}
+                  />
+                ));
+          }}
+        </Query>
       </div>
       {!catFormActive && (
         <div className={`col-9 flex__row`}>
