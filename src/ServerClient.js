@@ -6,9 +6,12 @@ import { setContext } from "apollo-link-context";
 import { ApolloLink } from "apollo-link";
 import { getAuthToken } from "./services/Authentication";
 import { createUploadLink } from "apollo-upload-client";
+import apolloLogger from 'apollo-link-logger';
+import cacheLogger from 'apollo-cache-logger'
 
 const client = new ApolloClient({
   link: ApolloLink.from([
+    apolloLogger,
     setContext((_, { headers }) => {
       const token = getAuthToken();
       console.log(token);
@@ -34,5 +37,6 @@ const client = new ApolloClient({
     })
   ]),
   cache: new InMemoryCache()
+  // cache: new cacheLogger(new InMemoryCache(), {logger: msg => console.log('cache: \n', msg)})
 });
 export default client;
