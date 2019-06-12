@@ -4,13 +4,13 @@ import docCookies from "../lib/docCookies";
 import gql from "graphql-tag";
 
 const FETCH_CURRENT_USER = gql`
-  {
-    currentUser {
-      id
-      name
-      email
-    }
+query fetchCurrentUser {
+  currentUser {
+    id
+    name
+    email
   }
+}
 `;
 
 const LOGIN_MUTATION = gql`

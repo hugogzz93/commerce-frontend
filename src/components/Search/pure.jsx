@@ -43,7 +43,7 @@ function Search(props) {
     if (selectedOption) return;
 
     const keyHandler = Helpers.createKeyHandler({
-      target: document.body,
+      targets: [document.body, document.querySelector("#search")],
       [40]: () =>
         setOptionCursor(
           (optionCursor + 1 + categories.length) % categories.length
@@ -75,7 +75,7 @@ function Search(props) {
   else slide = <div className="container--90">{searchRows}</div>;
 
   return (
-    <div className={selectedOption ? "index-shown" : ""}>
+    <div id="#search" className={selectedOption ? "index-shown" : ""}>
       <div className="container--80 flex--col flex--centered">
         {searchBarDiv}
         {slide}

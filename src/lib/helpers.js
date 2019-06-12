@@ -8,7 +8,7 @@ export default {
       .join(" ");
   },
   createKeyHandler: options => e => {
-    if (e.target != options.target) return;
+    if(!options.targets.some(i => i === e.target)) return
     options[e.which] && options[e.which](e);
   },
   sortByDate: array =>

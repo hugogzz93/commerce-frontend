@@ -6,7 +6,7 @@ import { sendQuery } from "../../lib/api";
 import "../../style/search.sass";
 
 const query = gql`
-  {
+  query FetchCategories {
     categories {
       id
       name

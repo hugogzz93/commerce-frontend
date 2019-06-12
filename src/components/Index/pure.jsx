@@ -28,7 +28,7 @@ const Index = props => {
 
   useEffect(() => {
     const keyHandler = Helpers.createKeyHandler({
-      target: document.body,
+      targets: [document.body],
       [40]: () =>
         setItemCursor((itemCursor + 1 + vendors.length) % vendors.length),
       [38]: () =>

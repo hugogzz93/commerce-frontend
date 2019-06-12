@@ -20,11 +20,13 @@ export default props => {
           label="email"
           value={email}
           onChange={e => setEmail(e.target.value)}
+          autoComplete="username"
         />
         <Input
           label="password"
           type="password"
           value={password}
+          autoComplete="current-password"
           onChange={e => setPassword(e.target.value)}
         />
         {props.login_failed && <span>* Wrong username or password</span>}
