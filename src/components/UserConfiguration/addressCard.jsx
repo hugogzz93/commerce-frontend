@@ -130,6 +130,14 @@ const AddressCard = props => {
               }}
             />
             <Input
+              label={"City"}
+              value={formState.address["city"]}
+              name={"city"}
+              onChange={({ target: { name, value } }) => {
+                updatefield({ field: name, value });
+              }}
+            />
+            <Input
               label={"Street"}
               value={formState.address["street1"]}
               name={"street1"}
@@ -141,14 +149,6 @@ const AddressCard = props => {
               label={"Street 2"}
               value={formState.address["street2"]}
               name={"street2"}
-              onChange={({ target: { name, value } }) => {
-                updatefield({ field: name, value });
-              }}
-            />
-            <Input
-              label={"City"}
-              value={formState.address["city"]}
-              name={"city"}
               onChange={({ target: { name, value } }) => {
                 updatefield({ field: name, value });
               }}
@@ -177,27 +177,11 @@ const AddressCard = props => {
                 updatefield({ field: name, value });
               }}
             />
-            <div
-              className="button"
-              onClick={e => {
-                e.preventDefault();
-                const updates = formState.getUpdatedFields();
-                let input = { userId: props.userId };
-                if (props.address)
-                  updates.forEach(c => (input[c.key] = c.value));
-                else input = { ...input, ...formState.address };
-                mutate({
-                  variables: {
-                    ...(type == TYPES.UPDATE ? { id: props.address.id } : {}),
-                    input
-                  }
-                });
-              }}
-            >
+            <button className="button" type="submit">
               {type == TYPES.CREATION ? "Create" : "Update"}
-            </div>
+            </button>
             {type == TYPES.UPDATE && delBtn}
-          </div>
+          </form>
         );
       }}
     </Mutation>

@@ -11,19 +11,8 @@ import gql from "graphql-tag";
 import { Mutation, Query } from "react-apollo";
 import Spinner from "../Spinner.jsx";
 import AddressCard from "./addressCard.jsx";
-import { AddressFragments } from "../../constants/fragments";
 import "../../style/user_configuration.css";
-
-const FETCH_ADRESSES = gql`
-  query fetchAddresses($userId: ID!) {
-    users(query: { id: $userId }) {
-      addresses {
-        ...fields
-      }
-    }
-  }
-  ${AddressFragments.fields}
-`;
+import { FETCH_ADDRESSES } from "../../constants/queries.js";
 
 const CreateAddressButton = props => {
   return (

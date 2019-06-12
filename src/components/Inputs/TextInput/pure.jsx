@@ -14,6 +14,7 @@ const Input = props => {
         placeholder=" "
         name={props.name}
         onChange={props.onChange}
+        autoComplete={props.autoComplete}
       />
       <label htmlFor={props.name}>{props.label}</label>
       {props.errors && (

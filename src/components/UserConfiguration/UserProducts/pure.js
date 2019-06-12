@@ -6,7 +6,7 @@ import NewProductForm from "./productForm";
 import mergeByKey from "array-merge-by-key";
 import { Query } from "react-apollo";
 import { GET_CATEGORIES } from "../../../constants/queries.js";
-import SearchInput from '../../Inputs/SearchInput.jsx';
+import SearchInput from "../../Inputs/SearchInput.jsx";
 
 const initialState = {
   categories: []
