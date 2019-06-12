@@ -40,10 +40,8 @@ export const UPDATE_USER = gql`
 
 export const FETCH_ADDRESSES = gql`
   query fetchAddresses($userId: ID!) {
-    users(query: { id: $userId }) {
-      addresses {
-        ...addressFields
-      }
+    addresses(query: {userId: $userId}) {
+      ...addressFields
     }
   }
   ${Fragments.AddressFragments.fields}

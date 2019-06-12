@@ -92,11 +92,11 @@ const CreateAddressButton = props => {
 const UserAddresses = props => {
   const [creating, setCreating] = useState(false);
   return (
-    <Query query={FETCH_ADRESSES} variables={{ userId: props.userId }}>
-      {({ loading, error, data, refetch }) => {
+    <Query query={FETCH_ADDRESSES} variables={{ userId: props.userId }}>
+      {({ loading, error, data }) => {
         if (loading) return <Spinner />;
         if (error) return <div>Error</div>;
-        const cards = data.users[0].addresses.map(a => (
+        const cards = data.addresses.map(a => (
           <div className="col-4" key={a.id}>
             <AddressCard address={a} userId={props.userId} />
           </div>

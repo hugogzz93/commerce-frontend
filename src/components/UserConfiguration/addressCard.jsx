@@ -6,48 +6,13 @@ import { formReducer, reducerTypes } from "../../lib/formReducer.js";
 import gql from "graphql-tag";
 import { Mutation, Query } from "react-apollo";
 import { AddressFragments } from "../../constants/fragments";
+import {
+  FETCH_ADDRESSES,
+  UPDATE_ADDRESS,
+  CREATE_ADDRESS,
+  DELETE_ADDRESS
+} from "../../constants/queries.js";
 import iziToast from "izitoast";
-
-const UPDATE_ADDRESS = gql`
-  mutation updateAddress($id: ID!, $input: AddressInput!) {
-    address(id: $id) {
-      update(input: $input) {
-        ...addressFields
-      }
-    }
-  }
-  ${AddressFragments.fields}
-`;
-
-const CREATE_ADDRESS = gql`
-  mutation createAddress($input: AddressInput!) {
-    address {
-      create(input: $input) {
-        ...addressFields
-      }
-    }
-  }
-  ${AddressFragments.fields}
-`;
-
-const DELETE_ADDRESS = gql`
-  mutation deleteAddress($id: ID!) {
-    address(id: $id) {
-      destroy
-    }
-  }
-`;
-
-const FETCH_ADRESSES = gql`
-  query fetchAddresses($userId: ID!) {
-    users(query: { id: $userId }) {
-      addresses {
-        ...addressFields
-      }
-    }
-  }
-  ${AddressFragments.fields}
-`;
 
 const TYPES = {
   CREATION: 0,
@@ -76,21 +41,14 @@ const AddressCard = props => {
       update={(cache, { data: { address } }) => {
         const deletedId = address.destroy;
         const data = cache.readQuery({
-          query: FETCH_ADRESSES,
+          query: FETCH_ADDRESSES,
           variables: { userId: props.userId }
         });
-        const addresses = data.users[0].addresses.filter(
-          a => a.id != deletedId
-        );
-        const updatedUser = { ...data.users[0], addresses };
+        const addresses = data.addresses.filter( a => a.id != deletedId);
         cache.writeQuery({
-          query: FETCH_ADRESSES,
+          query: FETCH_ADDRESSES,
           variables: { userId: props.userId },
-          data: {
-            users: data.users.map(u =>
-              u.id == updatedUser.id ? updatedUser : u
-            )
-          }
+          data: { addresses }
         });
       }}
     >
@@ -111,38 +69,58 @@ const AddressCard = props => {
     <Mutation
       mutation={mutation}
       update={(cache, { data: { address } }) => {
-        const newAddress = address.create;
+        const newAddress =
+          type == TYPES.CREATION ? address.create : address.update;
+
         const data = cache.readQuery({
-          query: FETCH_ADRESSES,
+          query: FETCH_ADDRESSES,
           variables: { userId: props.userId }
         });
-        const updatedUser = {
-          ...data.users[0],
-          addresses: data.users[0].addresses.concat(newAddress)
-        };
+
+        const addresses = [ ...data.addresses.filter(a => a.id != newAddress.id), newAddress]
         cache.writeQuery({
-          data: {
-            users: [...data.users.filter(u => u.id != updatedUser.id)].concat(
-              updatedUser
-            )
-          },
-          query: FETCH_ADRESSES,
+          data: { addresses },
+          query: FETCH_ADDRESSES,
           variables: { userId: props.userId }
         });
       }}
       onCompleted={data => {
-        dispatch({ type: reducerTypes.INIT, payload: data.address });
+        if (props.onCompleted) props.onCompleted();
+        if (type == TYPES.CREATION) return;
+        dispatch({ type: reducerTypes.INIT, payload: data.address.update });
         iziToast.success({
           title: ` Address ${props.address ? "Updated" : "Saved"}`
         });
-        if (props.onCompleted) props.onCompleted();
       }}
       onError={() => iziToast.error({ title: "Error" })}
     >
       {(mutate, { data, loading, error, called }) => {
         return (
-          <div className="card grid-1 row-gap-10">
+          <form
+            className="card grid-1 row-gap-10"
+            onSubmit={e => {
+              e.preventDefault();
+              const updates = formState.getUpdatedFields();
+              let input = { userId: props.userId };
+              if (props.address) updates.forEach(c => (input[c.key] = c.value));
+              else input = { ...input, ...formState.address };
+              mutate({
+                variables: {
+                  ...(type == TYPES.UPDATE ? { id: props.address.id } : {}),
+                  input
+                }
+              });
+            }}
+          >
             {loading && <div className="progress-bar" />}
+            <Input
+              label={"Name"}
+              value={formState.address["fullName"]}
+              name={"fullName"}
+              onChange={({ target: { name, value } }) => {
+                updatefield({ field: name, value });
+              }}
+            />
             <Input
               label={"Country"}
               value={formState.address["country"]}
