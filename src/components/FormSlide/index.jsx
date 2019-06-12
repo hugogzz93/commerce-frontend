@@ -3,18 +3,7 @@ import { mutateUserAction } from "../../models/User";
 import Pure from "./pure";
 import gql from "graphql-tag";
 import { Mutation } from "react-apollo";
-
-const UPDATE_USER = gql`
-  mutation UpdateUser($id: ID!, $input: UserInputType!) {
-    user(id: $id) {
-      update(input: $input) {
-        name
-        email
-        password
-      }
-    }
-  }
-`;
+import { UPDATE_USER } from "../../constants/queries.js";
 
 const fieldValidator = (state, { field, value }) => {
   switch (field) {
@@ -35,8 +24,8 @@ const formReducer = (state, { type, payload }) => {
       const field_error = fieldValidator(state, payload);
       return {
         ...state,
-        [payload.field]: payload.value,
-        [`${payload.field}_error`]: field_error
+        fields: { ...state.fields, [payload.field]: payload.value },
+        errors: { ...state.errors, [payload.field]: field_error }
       };
   }
 };
@@ -44,18 +33,21 @@ const formReducer = (state, { type, payload }) => {
 const mapStateToProps = state => ({
   id: state.user.id,
   initialFormState: {
-    name: state.user.name,
-    email: state.user.email,
-    password: "",
-    password_confirmation: "",
-    phone: state.user.phone,
-    country: state.user.country,
-    city: state.user.city,
-    street: state.user.street,
-    street_2: state.user.street_2,
-    street_number: state.user.street_number,
-    zipcode: state.user.zipcode,
-    description: state.user.description
+    fields: {
+      name: state.user.name,
+      email: state.user.email,
+      password: "",
+      password_confirmation: "",
+      phone: state.user.phone,
+      country: state.user.country,
+      city: state.user.city,
+      street: state.user.street,
+      street_2: state.user.street_2,
+      street_number: state.user.street_number,
+      zipcode: state.user.zipcode,
+      description: state.user.description
+    },
+    errors: {}
   }
 });
 
