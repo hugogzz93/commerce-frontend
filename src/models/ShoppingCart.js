@@ -119,7 +119,7 @@ const checkoutSaga = function*(action) {
       user,
       shoppingCart: { products }
     } = yield select();
-    const orderInput = products.reduce(
+    let orderInput = products.reduce(
       (obj, item) => ({
         ...obj,
         [item.userId]: {
@@ -133,9 +133,9 @@ const checkoutSaga = function*(action) {
       }),
       {}
     );
-
     const orderGroupInput = {
-      orders: [...Object.keys(orderInput).map(k => orderInput[k])]
+      orders: [...Object.keys(orderInput).map(k => orderInput[k])],
+      address: action.payload.address.id
     };
     const response = yield call(placeOrder, { orderGroupInput });
     if (!response.data.order.createGroup.id)
