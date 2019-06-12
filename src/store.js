@@ -9,7 +9,8 @@ import { userReducer, userRootSaga } from "./models/User";
 
 const sagaMiddleware = createSagaMiddleware();
 
-const middleware = applyMiddleware(logger, sagaMiddleware);
+const middleware = applyMiddleware(sagaMiddleware);
+// const middleware = applyMiddleware(logger, sagaMiddleware);
 
 const store = createStore(
   combineReducers({
