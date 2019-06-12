@@ -24,3 +24,12 @@ export const CategoryFragments = {
       description
     }
 `};
+
+export const UserFragments = {
+  fields: gql`
+    fragment userFields on User {
+      id
+      email
+      name
+    }
+`};
