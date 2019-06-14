@@ -11,7 +11,7 @@ import {
 } from "../services/ShoppingCart";
 import { logoutAction } from "./Authentication";
 import Errors from "../constants/errors";
-import iziToast from 'izitoast';
+import iziToast from "izitoast";
 
 export const cartAddProductAction = createAction("CART/PRODUCT/ADD");
 export const cartRemoveProductAction = createAction("CART/PRODUCT/REMOVE");
@@ -174,9 +174,9 @@ const paymentSaga = function*(action) {
 };
 
 const checkoutSuccessSaga = function*(action) {
-  iziToast.success({title: 'Order Accepted'})
+  iziToast.success({ title: "Order Accepted" });
   yield saveStoreToCookie();
-}
+};
 
 export const cartRootSaga = function*() {
   yield takeLatest(loadCartAction, loadCartSaga);

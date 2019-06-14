@@ -6,8 +6,8 @@ import { setContext } from "apollo-link-context";
 import { ApolloLink } from "apollo-link";
 import { getAuthToken } from "./services/Authentication";
 import { createUploadLink } from "apollo-upload-client";
-import apolloLogger from 'apollo-link-logger';
-import cacheLogger from 'apollo-cache-logger'
+import apolloLogger from "apollo-link-logger";
+import cacheLogger from "apollo-cache-logger";
 
 const client = new ApolloClient({
   link: ApolloLink.from([

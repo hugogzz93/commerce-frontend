@@ -44,7 +44,7 @@ const AddressCard = props => {
           query: FETCH_ADDRESSES,
           variables: { userId: props.userId }
         });
-        const addresses = data.addresses.filter( a => a.id != deletedId);
+        const addresses = data.addresses.filter(a => a.id != deletedId);
         cache.writeQuery({
           query: FETCH_ADDRESSES,
           variables: { userId: props.userId },
@@ -77,7 +77,10 @@ const AddressCard = props => {
           variables: { userId: props.userId }
         });
 
-        const addresses = [ ...data.addresses.filter(a => a.id != newAddress.id), newAddress]
+        const addresses = [
+          ...data.addresses.filter(a => a.id != newAddress.id),
+          newAddress
+        ];
         cache.writeQuery({
           data: { addresses },
           query: FETCH_ADDRESSES,

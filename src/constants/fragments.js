@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import gql from "graphql-tag";
 
 export const AddressFragments = {
   fields: gql`
@@ -14,7 +14,8 @@ export const AddressFragments = {
       securityCode
       instructions
     }
-`};
+  `
+};
 
 export const CategoryFragments = {
   fields: gql`
@@ -23,7 +24,8 @@ export const CategoryFragments = {
       name
       description
     }
-`};
+  `
+};
 
 export const UserFragments = {
   fields: gql`
@@ -32,4 +34,5 @@ export const UserFragments = {
       email
       name
     }
-`};
+  `
+};

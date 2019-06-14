@@ -31,21 +31,21 @@
 /* } */
 
 @-webkit-keyframes dash {
- 0% {
-   stroke-dashoffset: 1000;
- }
- 100% {
-   stroke-dashoffset: 0;
- }
+  0% {
+    stroke-dashoffset: 1000;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
 }
 
 @keyframes dash {
- 0% {
-   stroke-dashoffset: 1000;
- }
- 100% {
-   stroke-dashoffset: 0;
- }
+  0% {
+    stroke-dashoffset: 1000;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
 }
 
 @-webkit-keyframes spin {
@@ -68,8 +68,9 @@
 
 @-webkit-keyframes text {
   0% {
-    opacity: 0; }
+    opacity: 0;
+  }
   100% {
     opacity: 1;
   }
-} 
+}

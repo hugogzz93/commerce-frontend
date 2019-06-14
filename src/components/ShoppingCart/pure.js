@@ -8,14 +8,18 @@ import { sendQuery } from "../../lib/api.js";
 
 const ShoppingCart = props => {
   const [address, setAddress] = useState(null);
-  const [canCheckout, setCanCheckout] = useState(false)
+  const [canCheckout, setCanCheckout] = useState(false);
   const updateCartItemQty = (amount, id) => {
     const item = props.products.find(e => e.id == id);
     props.updateCartItem({ ...item, amount });
   };
 
-  useEffect(() => { props.loadCart(); }, [props.products.length]); 
-  useEffect(() => { if(address) setCanCheckout(true) }, [address]);
+  useEffect(() => {
+    props.loadCart();
+  }, [props.products.length]);
+  useEffect(() => {
+    if (address) setCanCheckout(true);
+  }, [address]);
 
   const subTotal = numeral(
     props.products.reduce((sum, e) => sum + e.price * e.amount, 0)
@@ -77,10 +81,7 @@ const ShoppingCart = props => {
             * An error ocurred, please try again later.
           </span>
         )}
-        <Query
-          query={FETCH_ADDRESSES}
-          variables={{ userId: props.userId }}
-        >
+        <Query query={FETCH_ADDRESSES} variables={{ userId: props.userId }}>
           {({ data, loading, error }) => {
             if (loading) return <div>Loading</div>;
             if (error) return <div>Error</div>;
@@ -103,7 +104,7 @@ const ShoppingCart = props => {
                   <div
                     className="button btn--orng-white"
                     disabled={canCheckout ? false : true}
-                    onClick={() => props.checkout(({address}))}
+                    onClick={() => props.checkout({ address })}
                   >
                     CHECKOUT
                   </div>

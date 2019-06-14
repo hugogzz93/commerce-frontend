@@ -33,7 +33,7 @@ function Search(props) {
 
   useEffect(() => {
     props.fetchCategories().then(setCategories);
-    document.querySelector('#search__bar').focus()
+    document.querySelector("#search__bar").focus();
   }, []);
 
   useEffect(() => {

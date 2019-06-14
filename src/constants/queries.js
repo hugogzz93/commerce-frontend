@@ -1,5 +1,5 @@
-import gql from 'graphql-tag'
-import * as Fragments from './fragments.js'
+import gql from "graphql-tag";
+import * as Fragments from "./fragments.js";
 
 export const CREATE_CATEGORY = gql`
   mutation createCategory($input: CategoryInput!) {
@@ -13,7 +13,7 @@ export const CREATE_CATEGORY = gql`
     }
   }
   ${Fragments.CategoryFragments.fields}
-`
+`;
 export const GET_CATEGORIES = gql`
   query getCategories {
     categories {
@@ -24,7 +24,7 @@ export const GET_CATEGORIES = gql`
     }
   }
   ${Fragments.CategoryFragments.fields}
-`
+`;
 
 export const UPDATE_USER = gql`
   mutation updateUser($id: ID!, $input: UserInput!) {
@@ -35,12 +35,11 @@ export const UPDATE_USER = gql`
     }
   }
   ${Fragments.UserFragments.fields}
-`
-
+`;
 
 export const FETCH_ADDRESSES = gql`
   query fetchAddresses($userId: ID!) {
-    addresses(query: {userId: $userId}) {
+    addresses(query: { userId: $userId }) {
       ...addressFields
     }
   }
@@ -58,7 +57,6 @@ export const UPDATE_ADDRESS = gql`
   ${Fragments.AddressFragments.fields}
 `;
 
-
 export const CREATE_ADDRESS = gql`
   mutation createAddress($input: AddressInput!) {
     address {
@@ -69,7 +67,6 @@ export const CREATE_ADDRESS = gql`
   }
   ${Fragments.AddressFragments.fields}
 `;
-
 
 export const DELETE_ADDRESS = gql`
   mutation deleteAddress($id: ID!) {
@@ -82,11 +79,10 @@ export const DELETE_ADDRESS = gql`
 export const MAKE_DD_ADDRESS = gql`
   mutation makeDdAddress($id: ID!) {
     address(id: $id) {
-      update(input: {isDefaultDeliveryAddress: true}) {
+      update(input: { isDefaultDeliveryAddress: true }) {
         ...addressFields
       }
     }
   }
   ${Fragments.AddressFragments.fields}
-`
-
+`;

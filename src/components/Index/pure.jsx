@@ -8,22 +8,21 @@ const Index = props => {
   const [filter, setFilter] = useState("");
   const [itemCursor, setItemCursor] = useState(0);
 
-
   let vendorThumbNails = vendors
     .filter(e => e.name.match(new RegExp(filter, "i")))
-    .sort((a,b) => parseInt(a.id) - parseInt(b.id))
-console.log(vendorThumbNails.map(e => e.id))
-vendorThumbNails = vendorThumbNails.map(({ name, email, id }, i) => (
-      <ThumbCard
-        key={id}
-        title={name}
-        selected={itemCursor == i}
-        onClick={() => {
-          setItemCursor(i);
-        }}
-        className={"fade-in" + (itemCursor == i ? " card--highlight" : "")}
-      />
-    ));
+    .sort((a, b) => parseInt(a.id) - parseInt(b.id));
+  console.log(vendorThumbNails.map(e => e.id));
+  vendorThumbNails = vendorThumbNails.map(({ name, email, id }, i) => (
+    <ThumbCard
+      key={id}
+      title={name}
+      selected={itemCursor == i}
+      onClick={() => {
+        setItemCursor(i);
+      }}
+      className={"fade-in" + (itemCursor == i ? " card--highlight" : "")}
+    />
+  ));
 
   useEffect(() => {
     props.fetchVendors().then(setVendors);
@@ -64,11 +63,16 @@ vendorThumbNails = vendorThumbNails.map(({ name, email, id }, i) => (
       <div className="col-3" style={{ borderBottom: "1px solid #e2e4ef" }} />
       <div className="col-9" style={{ borderBottom: "1px solid #e2e4ef" }} />
 
-      <div className="col-3" style={{
-        padding: '2px',
-        overflowY: 'scroll',
-        maxHeight: '90vh'
-      }}>{vendorThumbNails}</div>
+      <div
+        className="col-3"
+        style={{
+          padding: "2px",
+          overflowY: "scroll",
+          maxHeight: "90vh"
+        }}
+      >
+        {vendorThumbNails}
+      </div>
 
       <div className="col-9">{vendorProducts}</div>
     </div>

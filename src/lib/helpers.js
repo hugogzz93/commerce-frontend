@@ -8,7 +8,7 @@ export default {
       .join(" ");
   },
   createKeyHandler: options => e => {
-    if(!options.targets.some(i => i === e.target)) return
+    if (!options.targets.some(i => i === e.target)) return;
     e.preventDefault();
     options[e.which] && options[e.which](e);
   },

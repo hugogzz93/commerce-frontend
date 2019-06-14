@@ -4,13 +4,13 @@ import docCookies from "../lib/docCookies";
 import gql from "graphql-tag";
 
 const FETCH_CURRENT_USER = gql`
-query fetchCurrentUser {
-  currentUser {
-    id
-    name
-    email
+  query fetchCurrentUser {
+    currentUser {
+      id
+      name
+      email
+    }
   }
-}
 `;
 
 const LOGIN_MUTATION = gql`
@@ -42,7 +42,7 @@ export const logout = ({ auth_token }) =>
 export const fetchCurrentUser = () =>
   sendQuery({
     query: FETCH_CURRENT_USER,
-    fetchPolicy: 'network-only'
+    fetchPolicy: "network-only"
   });
 
 export const setAuthTokenCookie = token => {

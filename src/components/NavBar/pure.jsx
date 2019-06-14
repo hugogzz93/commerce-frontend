@@ -73,7 +73,10 @@ const NavBar = props => {
           <Login active={loginModal} />
         </div>
         <div className="nav--right">
-          <i className="fas fa-user" onClick={e => setLoginModal(!loginModal)} />
+          <i
+            className="fas fa-user"
+            onClick={e => setLoginModal(!loginModal)}
+          />
         </div>
       </div>
     );
