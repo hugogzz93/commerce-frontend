@@ -11,6 +11,7 @@ import {
 } from "../services/ShoppingCart";
 import { logoutAction } from "./Authentication";
 import Errors from "../constants/errors";
+import iziToast from 'izitoast';
 
 export const cartAddProductAction = createAction("CART/PRODUCT/ADD");
 export const cartRemoveProductAction = createAction("CART/PRODUCT/REMOVE");
@@ -134,19 +135,24 @@ const checkoutSaga = function*(action) {
       {}
     );
     const orderGroupInput = {
-      orders: [...Object.keys(orderInput).map(k => orderInput[k])],
-      address: action.payload.address.id
+      orders: [
+        ...Object.keys(orderInput).map(k => ({
+          ...orderInput[k],
+          addressId: action.payload.address.id
+        }))
+      ]
     };
     const response = yield call(placeOrder, { orderGroupInput });
     if (!response.data.order.createGroup.id)
       yield put(checkoutUnknownFailAction());
-    const paymentResponse = yield call(setupPayment, {
-      input: { orderGroupId: response.data.order.createGroup.id }
-    });
-    if (!!paymentResponse.data.payment.setup) {
-      const url = paymentResponse.data.payment.setup;
-      window.location = url;
-    }
+    yield put(checkoutSuccessAction());
+    // const paymentResponse = yield call(setupPayment, {
+    //   input: { orderGroupId: response.data.order.createGroup.id }
+    // });
+    // if (!!paymentResponse.data.payment.setup) {
+    //   const url = paymentResponse.data.payment.setup;
+    //   window.location = url;
+    // }
   } catch (err) {
     yield put(checkoutUnknownFailAction(err));
   }
@@ -167,12 +173,18 @@ const paymentSaga = function*(action) {
   } catch (err) {}
 };
 
+const checkoutSuccessSaga = function*(action) {
+  iziToast.success({title: 'Order Accepted'})
+  yield saveStoreToCookie();
+}
+
 export const cartRootSaga = function*() {
   yield takeLatest(loadCartAction, loadCartSaga);
   yield takeLatest(cartAddProductAction, addProductSaga);
   yield takeLatest(cartRemoveProductAction, removeProductSaga);
   yield takeLatest(updateCartItemAction, updateCartItemSaga);
   yield takeLatest(checkoutAction, checkoutSaga);
+  yield takeLatest(checkoutSuccessAction, checkoutSuccessSaga);
   yield takeLatest(logoutAction, logoutSaga);
   yield takeLatest(paymentUpdateAction, paymentSaga);
 };

@@ -58,6 +58,7 @@ const IndexDetail = props => {
       <div className="masonic masonic--col-2">{productDivs}</div>
       <div>
         <div className="card card--theme-red">
+          <p>{vendor.id}</p>
           <p>{vendor.name}</p>
           <p>{vendor.email}</p>
           <p>{vendor.phone}</p>

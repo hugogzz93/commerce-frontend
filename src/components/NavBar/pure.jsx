@@ -7,14 +7,6 @@ const NavBar = props => {
   const [loginModal, setLoginModal] = useState(!props.loggedIn);
   const [cartModal, setCartModal] = useState(false);
 
-  const toggleLoginModal = () => {
-    setLoginModal(!loginModal);
-  };
-
-  const toggleShoppingCart = () => {
-    setCartModal(!cartModal);
-  };
-
   const updateCartItemQty = (amount, id) => {
     const item = props.shoppingCart.find(e => e.id == id);
     props.updateCartItem({ ...item, amount });
@@ -38,9 +30,9 @@ const NavBar = props => {
         </div>
         <div className="flex--row flex--between">
           <i
-            className="fas fa-shopping-cart icon--button"
+            className="clickable fas fa-shopping-cart icon--button"
             style={{ marginRight: "1em" }}
-            onClick={e => toggleShoppingCart()}
+            onClick={e => setCartModal(!cartModal)}
           />
           <div className="nav__ddown" onClick={handleDropdown}>
             <div className="nav__ddown-title">{props.email}</div>
@@ -81,7 +73,7 @@ const NavBar = props => {
           <Login active={loginModal} />
         </div>
         <div className="nav--right">
-          <i className="fas fa-user" onClick={toggleLoginModal} />
+          <i className="fas fa-user" onClick={e => setLoginModal(!loginModal)} />
         </div>
       </div>
     );

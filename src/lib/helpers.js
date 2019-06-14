@@ -9,6 +9,7 @@ export default {
   },
   createKeyHandler: options => e => {
     if(!options.targets.some(i => i === e.target)) return
+    e.preventDefault();
     options[e.which] && options[e.which](e);
   },
   sortByDate: array =>

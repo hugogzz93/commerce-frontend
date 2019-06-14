@@ -8,9 +8,12 @@ const Index = props => {
   const [filter, setFilter] = useState("");
   const [itemCursor, setItemCursor] = useState(0);
 
-  const vendorThumbNails = vendors
+
+  let vendorThumbNails = vendors
     .filter(e => e.name.match(new RegExp(filter, "i")))
-    .map(({ name, email, id }, i) => (
+    .sort((a,b) => parseInt(a.id) - parseInt(b.id))
+console.log(vendorThumbNails.map(e => e.id))
+vendorThumbNails = vendorThumbNails.map(({ name, email, id }, i) => (
       <ThumbCard
         key={id}
         title={name}
@@ -61,7 +64,11 @@ const Index = props => {
       <div className="col-3" style={{ borderBottom: "1px solid #e2e4ef" }} />
       <div className="col-9" style={{ borderBottom: "1px solid #e2e4ef" }} />
 
-      <div className="col-3">{vendorThumbNails}</div>
+      <div className="col-3" style={{
+        padding: '2px',
+        overflowY: 'scroll',
+        maxHeight: '90vh'
+      }}>{vendorThumbNails}</div>
 
       <div className="col-9">{vendorProducts}</div>
     </div>

@@ -11,6 +11,9 @@ const query = gql`
         id
         name
         email
+        products {
+          id
+        }
       }
     }
   }

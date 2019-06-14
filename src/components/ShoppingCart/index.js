@@ -8,6 +8,7 @@ import {
 import Pure from "./pure";
 
 const mapStateToProps = state => ({
+  userId: state.user.id,
   products: state.shoppingCart.products,
   loaded: state.shoppingCart.loaded,
   unknown_error: state.shoppingCart.unknown_error,
@@ -18,7 +19,7 @@ const mapDispatchToProps = dispatch => ({
   loadCart: () => dispatch(loadCartAction()),
   updateCartItem: payload => dispatch(updateCartItemAction(payload)),
   removeItemFromCart: payload => dispatch(cartRemoveProductAction(payload)),
-  checkout: () => dispatch(checkoutAction())
+  checkout: variables => dispatch(checkoutAction(variables))
 });
 
 export default connect(
