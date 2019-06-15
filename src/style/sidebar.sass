@@ -1,0 +1,41 @@
+@import 'variables'
+$sidebar-main: #F5F5F5
+
+#sidebar
+  background:  $sidebar-main
+  transition: all $tempo
+  height: 100vh
+  overflow-y: scroll
+  min-width: 0
+  .show-on-hover
+    transition: all $tempo
+    opacity: 0
+    max-width: 10vw
+
+  &:hover
+    min-width: 15vw
+    .show-on-hover
+      opacity: 1
+      max-width: 0
+      
+#sidebar a
+  transition: all $tempo
+  border: 1px solid transparent
+  margin: 0
+  &:hover
+    color: $blue3
+
+  .show-on-hover
+    width: 0
+  span, i
+    margin: 0 10px
+  
+  
+// @keyframes fade-out-anim
+//   from 
+//     opacity: 1
+//
+//   to
+//     opacity: 
+
+

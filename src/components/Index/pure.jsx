@@ -8,21 +8,20 @@ const Index = props => {
   const [filter, setFilter] = useState("");
   const [itemCursor, setItemCursor] = useState(0);
 
-  let vendorThumbNails = vendors
+  const vendorThumbNails = vendors
     .filter(e => e.name.match(new RegExp(filter, "i")))
-    .sort((a, b) => parseInt(a.id) - parseInt(b.id));
-  console.log(vendorThumbNails.map(e => e.id));
-  vendorThumbNails = vendorThumbNails.map(({ name, email, id }, i) => (
-    <ThumbCard
-      key={id}
-      title={name}
-      selected={itemCursor == i}
-      onClick={() => {
-        setItemCursor(i);
-      }}
-      className={"fade-in" + (itemCursor == i ? " card--highlight" : "")}
-    />
-  ));
+    .sort((a, b) => parseInt(a.id) - parseInt(b.id))
+    .map(({ name, email, id }, i) => (
+      <ThumbCard
+        key={id}
+        title={name}
+        selected={itemCursor == i}
+        onClick={() => {
+          setItemCursor(i);
+        }}
+        className={"fade-in" + (itemCursor == i ? " card--highlight" : "")}
+      />
+    ));
 
   useEffect(() => {
     props.fetchVendors().then(setVendors);

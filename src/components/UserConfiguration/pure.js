@@ -91,7 +91,7 @@ const UserAddresses = props => {
           </div>
         ));
         return (
-          <div className="grid-12 col-gap-20 row-gap-10">
+          <div className="grid-12 col-gap-20 row-gap-10 container--90">
             <div className="col-4">
               {creating ? (
                 <AddressCard
@@ -121,30 +121,14 @@ const UserConfiguration = props => {
       </grid-12>
     );
   return (
-    <div className="grid-12">
-      <div className="col-2 flex--col">
-        <Link to="/users/edit/profile">
-          <div className="card--no-bg no--margin clickable">Profile</div>
-        </Link>
-        <Link to="/users/edit/products">
-          <div className="card--no-bg no--margin clickable">Products</div>
-        </Link>
-        <Link to="/users/edit/addresses">
-          <div className="card--no-bg no--margin clickable">Addresses</div>
-        </Link>
-      </div>
-
-      <div className="col-10">
-        <Switch>
-          <Route path="/users/edit/profile" component={FormSlide} />
-          <Route path="/users/edit/products" component={UserProducts} />
-          <Route
-            path="/users/edit/addresses"
-            component={() => <UserAddresses userId={props.userId} />}
-          />
-        </Switch>
-      </div>
-    </div>
+    <Switch>
+      <Route path="/users/edit/profile" component={FormSlide} />
+      <Route path="/users/edit/products" component={UserProducts} />
+      <Route
+        path="/users/edit/addresses"
+        component={() => <UserAddresses userId={props.userId} />}
+      />
+    </Switch>
   );
 };
 export default UserConfiguration;

@@ -44,7 +44,11 @@ function Search(props) {
     if (selectedOption) return;
 
     const keyHandler = Helpers.createKeyHandler({
-      targets: [document.body, document.querySelector("#search")],
+      targets: [
+        document.body,
+        document.querySelector("#search"),
+        document.querySelector("#search__bar")
+      ],
       [40]: () =>
         setOptionCursor(
           (optionCursor + 1 + categories.length) % categories.length

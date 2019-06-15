@@ -57,7 +57,7 @@ const OrderIndex = props => {
                   exact={true}
                   path="/user/orders/created"
                   component={() => (
-                    <div className="container--70 grid-1 row-gap-10">
+                    <div className="container--90 grid-1 row-gap-10">
                       <div>
                         <select
                           className="order__status-select"
@@ -84,7 +84,7 @@ const OrderIndex = props => {
                   exact={true}
                   path="/user/orders/attending"
                   component={() => (
-                    <div className="container--70 grid-1 row-gap-10">
+                    <div className="container--90 grid-1 row-gap-10">
                       <div>
                         <select
                           className="order__status-select"
