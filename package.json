@@ -20,7 +20,7 @@
     "font-awesome": "^4.7.0",
     "graphql-tag": "^2.10.0",
     "izitoast": "^1.4.0",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.19",
     "minio": "^7.0.4",
     "moment": "^2.24.0",
     "node-sass": "^4.10.0",
