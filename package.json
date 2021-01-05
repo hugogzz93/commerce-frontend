@@ -16,7 +16,7 @@
     "apollo-upload-client": "^10.0.0",
     "array-merge-by-key": "^1.0.1",
     "autosize": "^4.0.2",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "font-awesome": "^4.7.0",
     "graphql-tag": "^2.10.0",
     "izitoast": "^1.4.0",
