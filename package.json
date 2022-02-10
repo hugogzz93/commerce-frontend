@@ -23,7 +23,7 @@
     "lodash": "^4.17.11",
     "minio": "^7.0.4",
     "moment": "^2.24.0",
-    "node-sass": "^4.10.0",
+    "node-sass": "^7.0.0",
     "numeral": "^2.0.6",
     "react": "^16.7.0-alpha.2",
     "react-apollo": "^2.5.6",
